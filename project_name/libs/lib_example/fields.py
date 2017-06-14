@@ -19,8 +19,8 @@ class EmbeddedMultiCharField(Field):
 
         return value.split("|")
 
-    def get_prep_value(self, values):
-        if not values or values == "":
+    def get_prep_value(self, value):
+        if not value or value == "":
             return None
 
-        return '|'.join([value.strip() for value in values])
+        return '|'.join([a_value.strip() for a_value in value])

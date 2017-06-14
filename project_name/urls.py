@@ -8,6 +8,8 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-urlpatterns = [url(r'^admin/', include(admin.site.urls)),
-               url(r'', include('project_name.apps.app_example.urls', namespace="app_example"))] + static(
-    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns = [  # pylint: disable=invalid-name
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'', include('project_name.apps.app_example.urls', namespace="app_example"))
+]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
