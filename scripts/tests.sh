@@ -3,6 +3,6 @@ set -e
 DIR=$(dirname "$0")
 cd ${DIR}/..
 
-echo "Running tests with py.test and coverage"
-py.test --cov
+echo "Running py.test with pep8, pylint and coverage"
+py.test --cov --pep8 --pylint
 echo "pytest OK :)"
