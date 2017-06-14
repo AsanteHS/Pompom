@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
+set -e
+DIR=$(dirname "$0")
+cd ${DIR}/..
 
-PYTHON_COMMAND=${PYTHON_SCRIPT:-python3}
-
-$PYTHON_COMMAND manage.py test --stop --with-coverage --cover-branches  --cover-inclusive --cover-package=project_name --settings=conf.settings.testing --exclude=settings --exclude=migrations
+echo "Running tests with py.test and coverage"
+py.test --cov
+echo "pytest OK :)"
