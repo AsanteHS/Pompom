@@ -15,7 +15,7 @@ persistent=no
 load-plugins=
 
 # Do not use spaces after a comma
-ignore = settings,migrations,admin_utils,tests,admin.py
+ignore = settings,migrations
 [MESSAGES CONTROL]
 
 # Enable the message, report, category or checker with the given id(s). You can
