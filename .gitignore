@@ -10,6 +10,7 @@ junit.xml
 nosetests.xml
 coverage.xml
 .directory
+.cache/
 
 #Media
 project_name/media/*
