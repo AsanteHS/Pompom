@@ -2,5 +2,5 @@
 from django.http import HttpResponse
 
 
-def hello_world(request, name):
+def hello_world(request, name):  # pylint: disable=unused-argument
     return HttpResponse("Hello, World: {name}".format(name=name))

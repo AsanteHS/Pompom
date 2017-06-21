@@ -52,18 +52,9 @@ migration_test:
   script:
     - $PYTHON_SCRIPT manage.py migrate --settings=$DJANGO_SETTINGS_MODULE
 
-django_tests:
+tests:
   <<: *test_definition
   script: sh scripts/tests.sh
-
-pylint:
-  <<: *test_definition
-  script: sh scripts/pylint.sh
-
-pep8:
-  image: gitlab.devartis.com:4567/devops/image-utils:pep8
-  stage: test
-  script: sh scripts/pep8.sh
 
 jscpd:
   image: gitlab.devartis.com:4567/devops/image-utils:jscpd
