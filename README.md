@@ -29,9 +29,14 @@
 
 * `./manage.py runserver`
 
+## Run tests
+
+* `py.test`
+
 ## Run Lint/Style/CPD
 
-* Instalar `nodejs` y correr `npm install`
+Instalar `nodejs` y correr `npm install`
+
 * pylint: `sh scripts/python_lint.sh`
 * cpd: `sh scripts/jscpd.sh`
 * eslint: `sh scripts/eslint.sh`
