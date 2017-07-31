@@ -141,6 +141,7 @@ VENDOR_APPS = (
 )
 
 APPS = (
+    'pompom.apps.pompom',
     'pompom.apps.app_example',
     'pompom.libs.lib_example',
 )
