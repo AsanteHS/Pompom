@@ -1,4 +1,4 @@
-# project_name contribution guide
+# pompom contribution guide
 
 ## Submitting code
 

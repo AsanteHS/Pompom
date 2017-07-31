@@ -1,6 +1,6 @@
 # coding=utf-8
 import pytest
-from project_name.apps.app_example.models import Document
+from pompom.apps.app_example.models import Document
 
 
 @pytest.mark.django_db

@@ -13,7 +13,7 @@ coverage.xml
 .cache/
 
 #Media
-project_name/media/*
+pompom/media/*
 
 #Autoenv files
 .autoenv.zsh

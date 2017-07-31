@@ -1,7 +1,7 @@
 languages:
   - python
 files:
-  - "project_name/**/*.py"
+  - "pompom/**/*.py"
 exclude:
   - "**/migrations/*"
   - "*/**/tests/**/*"

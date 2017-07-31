@@ -10,6 +10,6 @@ admin.autodiscover()
 
 urlpatterns = [  # pylint: disable=invalid-name
     url(r'^admin/', include(admin.site.urls)),
-    url(r'', include('project_name.apps.app_example.urls', namespace="app_example"))
+    url(r'', include('pompom.apps.app_example.urls', namespace="app_example"))
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

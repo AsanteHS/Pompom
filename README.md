@@ -1,4 +1,4 @@
-# project_name
+# pompom
 
 [![build status](//gitlab.devartis.com/samples/django-sample/badges/master/build.svg)](http://gitlab.devartis.com/samples/django-sample/commits/master)
 
@@ -20,7 +20,7 @@
 
 ## Local setUp
 
-* `mkvirtualenv project_name` or `workon project_name`
+* `mkvirtualenv pompom` or `workon pompom`
 * `pip install -r requirements/local.txt`
 * `export DJANGO_SETTINGS_MODULE=conf.settings.local`
 * `./manage.py migrate`
@@ -50,7 +50,7 @@ Instalar `nodejs` y correr `npm install`
 
 * config virtualenv created before as the virtualenv of the project (settings -> python interpreter)
 * enable django support: settings -> django 
-  * django project root: /home/diego/dev/projects/python/project_name
+  * django project root: /home/diego/dev/projects/python/pompom
   * settings: conf/settings/local.py
   * manage script: manage.py
 * mark directory Templates as "Templates folder" (right-click over directory in the "Project view")
@@ -61,11 +61,11 @@ Instalar `nodejs` y correr `npm install`
 
 After forking the project you might want to rename both yout project's URL and the URL of the git repo. To do this you need to go to the project settings and on the *Rename repository* section rename both fields.
 
-### Replacing project_name from all files
+### Replacing pompom from all files
 
 just change NEW_NAME in the expression below
 
-    find -type f -name "*.*" -not -path "./.git/*" -exec sed -i 's/project_name/NEW_NAME/g' {} \; && mv project_name NEW_NAME
+    find -type f -name "*.*" -not -path "./.git/*" -exec sed -i 's/pompom/NEW_NAME/g' {} \; && mv pompom NEW_NAME
 
 ### Remove fork relation
 
@@ -91,6 +91,6 @@ Attention: Only do this if your wiki is empty. Otherwise you'll need to manually
     1. `cd /some/random/folder`
     1. `git clone git clone git@gitlab.devartis.com:samples/software-development-project-template.wiki.git`
 1. Add to the cloned repo, your project's wiki repo URL as a new remote
-    1. `git remote add project_name git@gitlab.devartis.com:group_name/project_name.wiki.git`
+    1. `git remote add pompom git@gitlab.devartis.com:group_name/pompom.wiki.git`
 1. Push the bse wiki repo to your project's wiki repo
-    1. `git push project_name master`
+    1. `git push pompom master`
