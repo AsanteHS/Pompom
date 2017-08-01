@@ -37,9 +37,8 @@
           <span style="color: #41a317;">lllllll</span>
         </div>
 
-        <div id="qr-code">
-          <img src="{% static "images/QR-Code.png" %}">
-        </div>
+        <div id="qr-code"></div>
+
       </div>
 
       <div class="col-md-9">
@@ -166,3 +165,13 @@
   </div>
 
 {% endblock content %}
+
+{% block js %}
+  <script type="text/javascript" src="{% static "js/qrcode-js/qrcode.min.js" %}"></script>
+  <script type="text/javascript">
+      new QRCode(
+          document.getElementById("qr-code"),
+          "{{ request.get_host }}{% url "pompom:observe_card" %}"
+      );
+  </script>
+{% endblock js %}
