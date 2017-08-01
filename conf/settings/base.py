@@ -103,9 +103,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            str(APPS_DIR.path('templates')),
+            str(APPS_DIR.path('pompom/templates')),
         ],
-        'APP_DIRS': False,
+        # 'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
@@ -143,7 +143,7 @@ VENDOR_APPS = (
 )
 
 APPS = (
-    'pompom.apps.pompom',
+    'pompom.apps.huddle_board',
     'pompom.apps.app_example',
     'pompom.libs.lib_example',
 )

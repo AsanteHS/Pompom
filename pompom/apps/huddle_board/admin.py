@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from pompom.apps.pompom.models import Card, CardSection, Observation, Answer
+from pompom.apps.huddle_board.models import Card, CardSection, Observation, Answer
 
 admin.site.register(Card)
 admin.site.register(CardSection)

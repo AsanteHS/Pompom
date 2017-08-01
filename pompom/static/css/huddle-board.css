@@ -1,0 +1,217 @@
+﻿/*!
+ * Start Bootstrap - Shop Homepage (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+body {
+background:white;
+}
+
+.slide-image {
+    width: 100%;
+}
+
+.carousel-holder {
+    margin-bottom: 30px;
+}
+
+.carousel-control,
+.item {
+    border-radius: 4px;
+}
+
+.caption {
+    height: 130px;
+    overflow: hidden;
+}
+
+.caption h4 {
+    white-space: nowrap;
+}
+
+.thumbnail img {
+    width: 100%;
+}
+
+.ratings {
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #d17581;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+    color: #333;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+/*
+You can add your own CSS here.
+
+Click the help icon above to learn more.
+*/
+
+/* TITLE BAR */
+
+.title-bar h1, .title-bar h2 {
+	text-align:center;
+	line-height:1em;
+	-webkit-margin-before: 0.4em;
+    -webkit-margin-after: 0.1em;
+    }
+
+.title-bar h1 {
+	Font-size:40px;
+}
+
+/* CARDS */
+
+#card, #card-success, #card-fallout {
+border: black 2px solid;
+padding: 0;
+border-radius:20px;
+height: 390px;
+overflow: hidden;
+max-width:304px;
+}
+
+#card h1, #card-success h1, #card-fallout h1 {
+border-bottom: black 2px solid;
+text-align:center;
+color:white;
+padding: 5px;
+border-radius:17px 17px 0 0;
+-webkit-margin-before: 0!important;
+-webkit-margin-after: 0!important;
+}
+
+#card-success h1 {
+background: green;
+}
+
+#card-fallout h1 {
+background: red;
+}
+
+/* Card Scrolling Accordion */
+
+#card-accordion {
+height: 700px;
+overflow-y: scroll;
+padding: 20px;
+}
+
+.et_pb_accordion.et_pb_accordion .et_pb_toggle {
+border-radius: 18px;
+}
+
+/* Deck List */
+
+.card-deck p {
+line-height:18px;
+}
+
+#mobile-card h1 {
+border-bottom: black 2px solid;
+text-align:center;
+color:white;
+padding: 5px;
+margin:0px!important;
+}
+
+#mobile-card p {
+padding: 5px;
+}
+
+#mobile-card h1, #card h1 {
+background: grey;
+}
+
+#content {
+padding: 5px;
+}
+
+#assist img {
+height: 390px;
+width: 304px;
+border-radius: 18px;
+margin: 20px 0 0 0;
+}
+
+
+/* TIPS OR MESSAGES OF THE DAY */
+
+#tips h3 {
+background:gray;
+border-radius: 18px 18px 0 0;
+padding: 10px;
+color: white;
+	-webkit-margin-before: 0!important;
+    -webkit-margin-after: 0!important;
+
+}
+
+#tips  {
+border: 2px black solid;
+border-radius: 20px;
+min-height: 250px;
+margin: 20px 0 20px 0;
+}
+
+#tips p {
+padding: 15px;
+min-height: 100px;
+}
+
+
+/* TABLES */
+
+#table {
+border: 2px solid black;
+border-radius: 20px;
+min-height: 100px;
+}
+
+td:nth-child(odd) {
+    background-color: gray;
+color: white;
+}
+
+/* QR CODE */
+
+#qr-code img {
+height:200px;
+float: right;
+}
+
+
+/* BAR COUNTER */
+
+#bar-counter {
+	padding: 20px 0 20px 0;
+}
+#bar-counter span {
+font-family: 'BoldKiller';
+letter-spacing:0px;
+padding: 0px 0px 0px 0px;
+line-height:0px;
+font-size: 20px;
+margin: 0 0 5px 0;
+}
+
+#bar-counter h6 {
+padding:0px;
+font-size:15px;
+line-height:0.5;
+}
+
+/* FIGHTING THE SET CSS */
+

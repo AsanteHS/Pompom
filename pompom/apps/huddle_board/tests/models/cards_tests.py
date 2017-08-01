@@ -1,7 +1,7 @@
 import pytest
 from django.test import TestCase
 
-from pompom.apps.pompom.models import Card
+from pompom.apps.huddle_board.models import Card
 
 
 @pytest.mark.django_db
