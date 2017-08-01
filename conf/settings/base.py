@@ -187,3 +187,17 @@ LOGGING = {
 
 # EMAILS
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        "allowedContent": {
+            "$1": {
+                # "elements": '*',
+                "attributes": True,
+                "styles": True,
+                "classes": True
+            }
+        },
+        "disallowedContent": '*[on*]',
+    },
+}
