@@ -171,7 +171,7 @@
   <script type="text/javascript">
       new QRCode(
           document.getElementById("qr-code"),
-          "{{ request.get_host }}{% url "pompom:observe_card" %}"
+          "{{ request.get_host }}{% url "pompom:perform_observation" %}"
       );
   </script>
 {% endblock js %}

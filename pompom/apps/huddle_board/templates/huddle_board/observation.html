@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}Observation{% endblock extra_title %}
+
+{% block content %}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Panel heading</div>
+    <div class="panel-body">
+
+      <div id="content form-group">
+
+        Interview 2 RNs and 2 patients or their families and ask about purposeful rounding
+        <br><br>
+        <em>Purposeful (hourly) rounding is a time to make a connection and involve the patient in a way to ensure quality, safety, and satisfaction.</em>
+        <br><br>
+        <strong> Ask the patient and family</strong>
+        <p style="padding-left: 30px;">a. Has the staff talked to you about Purposeful rounding?</p>
+        <p style="padding-left: 30px;">b. What questions are we asking?</p>
+        <p style="padding-left: 30px;">c. How often do you expect rounding?</p>
+        <p style="padding-left: 30px;">d. What about at night when sleeping</p>
+
+        <div class="btn-group" data-toggle="buttons">
+          <label data-value="no" class="control-label btn btn-default" for="button_0">
+            <input id="button_0" name="opinion" value="false" type="radio"/>
+            <span style="color: #ff0000;"><strong>✘</strong></span>
+          </label>
+          <label data-value="yes" class="control-label btn btn-default" for="button_1">
+            <input id="button_0" name="opinion" value="true" type="radio"/>
+            <span style="color: #339966;"><strong>✓</strong></span>
+          </label>
+          <label data-value="no_idea" class="control-label btn btn-default active" for="button_void">
+            <input id="button_0" name="opinion" value="none" type="radio" checked/>
+            n/a
+          </label>
+        </div>
+
+        <hr />
+        <strong>Ask the staff</strong>
+        <p style="padding-left: 30px;">a. Why are we purposeful rounding?</p>
+        <p style="padding-left: 30px;">b. What are we checking on?</p>
+        <p style="padding-left: 60px;">Pain</p>
+        <p style="padding-left: 60px;">Potty</p>
+        <p style="padding-left: 60px;">Position</p>
+        <p style="padding-left: 60px;">Purposeful</p>
+        <hr />
+        <strong>Verify hourly charting completed in Epic</strong>
+        <p style="padding-left: 30px;">Always try to include scheduled tasks in the rounding process</p>
+
+        <button type="submit" class="btn btn-default">Submit</button>
+      </div>
+
+    </div>
+
+  </div>
+
+{% endblock content %}
