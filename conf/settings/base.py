@@ -144,8 +144,6 @@ VENDOR_APPS = (
 
 APPS = (
     'pompom.apps.huddle_board',
-    'pompom.apps.app_example',
-    'pompom.libs.lib_example',
 )
 
 INSTALLED_APPS = DJANGO_BASE_APPS + VENDOR_APPS + APPS
