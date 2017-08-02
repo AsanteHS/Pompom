@@ -14,6 +14,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 # Parse database configuration from $DATABASE_URL
+DATABASES = {}
 DATABASES['default'] = dj_database_url.config()
 
 #MEDIA_ROOT = os.environ['MEDIA_ROOT']
