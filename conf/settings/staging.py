@@ -1,5 +1,6 @@
 #! coding: utf-8
 import os
+import dj_database_url
 # noinspection PyUnresolvedReferences
 from .base import *
 
@@ -7,24 +8,16 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Admin name', 'admin_name@devartis.com'),
+    ('Fernando Aramendi', 'fernando@devartis.com'),
 )
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': os.environ['DATABASE_HOST'],
-        'NAME': os.environ['DATABASE_NAME'],
-        'USER': os.environ['DATABASE_USER'],
-        'PASSWORD': os.environ['DATABASE_PASSWORD'],
-    }
-}
+# Parse database configuration from $DATABASE_URL
+DATABASES['default'] = dj_database_url.config()
 
-MEDIA_ROOT = os.environ['MEDIA_ROOT']
-STATIC_ROOT = os.environ['STATIC_ROOT']
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+#MEDIA_ROOT = os.environ['MEDIA_ROOT']
+#STATIC_ROOT = os.environ['STATIC_ROOT']
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -37,9 +30,3 @@ RAVEN_CONFIG = {
 }
 
 INSTALLED_APPS = INSTALLED_APPS + ('raven.contrib.django.raven_compat',)
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ['EMAIL_HOST']
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
-EMAIL_USE_TLS = True
