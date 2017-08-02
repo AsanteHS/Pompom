@@ -12,6 +12,7 @@ class HuddleBoardView(TemplateView):
 class PerformObservationView(FormView):
     template_name = 'huddle_board/observation.html'
     success_url = reverse_lazy('pompom:success')
+    form_class = ObservationForm
 
     def __init__(self):
         super().__init__()
@@ -19,11 +20,10 @@ class PerformObservationView(FormView):
         self.sections = self.card.sections.all()
         self.gradable_sections = self.sections.filter(is_gradable=True)
 
-    def get_form(self, form_class=None):
-        return ObservationForm(sections=self.gradable_sections, **self.get_form_kwargs())
+    def get_form_kwargs(self):
+        return {**super().get_form_kwargs(), 'sections': self.gradable_sections}
 
     def get_context_data(self, **kwargs):
-        kwargs['form'] = self.get_form()
         return super().get_context_data(card=self.card, sections=self.sections, **kwargs)
 
     def form_valid(self, form):

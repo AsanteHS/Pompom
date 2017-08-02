@@ -27,7 +27,7 @@ class CardAdmin(admin.ModelAdmin):
 class AnswerInline(admin.TabularInline):
     model = Answer
     fields = ('card_section', 'grade', )
-    extra = 1
+    extra = 0
 
 
 @admin.register(Observation)
