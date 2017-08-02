@@ -63,7 +63,8 @@
 
                 Interview 2 RNs and 2 patients or their families and ask about purposeful rounding
                 <br><br>
-                <em>Purposeful (hourly) rounding is a time to make a connection and involve the patient in a way to ensure quality, safety, and satisfaction.</em>
+                <em>Purposeful (hourly) rounding is a time to make a connection and involve the patient in a way to
+                  ensure quality, safety, and satisfaction.</em>
                 <br><br>
                 <strong> Ask the patient and family</strong>
                 <p style="padding-left: 30px;">a. Has the staff talked to you about Purposeful rounding?</p>
@@ -106,8 +107,10 @@
                 <p style="padding-left: 30px;">e. Addressed questions and concerns</p>
                 <p style="padding-left: 30px;">f. Reinforce the purposeful rounding process</p>
                 <span style="color: #339966;"><strong>✓ An hour prior to shift change</strong></span>
-                <p style="padding-left: 30px;">1. Do purposeful rounding to address needs and inform pt the unit is getting ready for handoff.</p>
-                <p style="padding-left: 30px;">2. Charge nurses will attempt to minimize the number of nurses the oncoming nurse will need to get handoff from.</p>
+                <p style="padding-left: 30px;">1. Do purposeful rounding to address needs and inform pt the unit is getting
+                  ready for handoff.</p>
+                <p style="padding-left: 30px;">2. Charge nurses will attempt to minimize the number of nurses the oncoming nurse
+                  will need to get handoff from.</p>
 
               </div>
             </div>
@@ -135,7 +138,8 @@
                 <p style="padding-left: 30px;">5. After touching patient surroundings</p>
                 <p style="padding-left: 60px;">Rub hands together covering all surfaces of hands and fingers until hands are dry</p>
 
-              </div>                    </div>
+              </div>
+            </div>
           </div>
 
           <div class="col-sm-4 col-lg-4 col-md-4">
@@ -171,7 +175,7 @@
   <script type="text/javascript">
       new QRCode(
           document.getElementById("qr-code"),
-          "{{ request.get_host }}{% url "pompom:perform_observation" %}"
+          "{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:perform_observation" %}"
       );
   </script>
 {% endblock js %}
