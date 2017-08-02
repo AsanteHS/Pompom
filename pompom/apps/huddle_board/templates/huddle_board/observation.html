@@ -10,33 +10,35 @@
     <div class="panel-body">
 
       <div id="content form-group">
+        <form action="" method="post">{% csrf_token %}
 
-        {% for section in card.sections.all %}
-          {{ section.contents|safe }}
+          {% for section in sections %}
+            {{ section.contents|safe }}
 
-          {% if section.is_gradable %}
+            {% if section.is_gradable %}
 
-            <div class="btn-group" data-toggle="buttons">
-              <label data-value="no" class="control-label btn btn-default" for="button_0">
-                <input id="button_0" name="opinion" value="false" type="radio"/>
-                <span style="color: #ff0000;"><strong>✘</strong></span>
-              </label>
-              <label data-value="yes" class="control-label btn btn-default" for="button_1">
-                <input id="button_0" name="opinion" value="true" type="radio"/>
-                <span style="color: #339966;"><strong>✓</strong></span>
-              </label>
-              <label data-value="no_idea" class="control-label btn btn-default active" for="button_void">
-                <input id="button_0" name="opinion" value="none" type="radio" checked/>
-                n/a
-              </label>
-            </div>
-          {% endif %}
+              <div class="btn-group" data-toggle="buttons">
+                <label data-value="false" class="control-label btn btn-default" for="button-{{ section.id }}-false">
+                  <input id="button-{{ section.id }}-false" name="observation_{{ section.id }}" value="false" type="radio"/>
+                  <span style="color: #ff0000;"><strong>✘</strong></span>
+                </label>
+                <label data-value="true" class="control-label btn btn-default" for="button-{{ section.id }}-true">
+                  <input id="button-{{ section.id }}-true" name="observation_{{ section.id }}" value="true" type="radio"/>
+                  <span style="color: #339966;"><strong>✓</strong></span>
+                </label>
+                <label data-value="none" class="control-label btn btn-default active" for="button-{{ section.id }}-none">
+                  <input id="button-{{ section.id }}-none" name="observation_{{ section.id }}" value="none" type="radio" checked/>
+                  n/a
+                </label>
+              </div>
+            {% endif %}
 
-          <hr />
+            <hr />
 
-        {% endfor %}
+          {% endfor %}
 
-        <button type="submit" class="btn btn-default">Submit</button>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
       </div>
 
     </div>
