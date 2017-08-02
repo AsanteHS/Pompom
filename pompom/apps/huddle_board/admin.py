@@ -32,4 +32,7 @@ class AnswerInline(admin.TabularInline):
 
 @admin.register(Observation)
 class ObservationAdmin(admin.ModelAdmin):
+    fields = ('created',)
+    readonly_fields = ('created',)
     inlines = (AnswerInline, )
+    list_display = ('id', 'created',)

@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -20,12 +21,15 @@ class CardSection(OrderedModel):
     order_with_respect_to = 'card'
 
     def __str__(self):
-        return str(self.contents)[:40]
+        if not self.contents:
+            return super().__str__()
+        soup = BeautifulSoup(self.contents, "html.parser")
+        title = soup.find().text
+        return title[:50]
 
 
 class Observation(TimeStampedModel):
-    def __str__(self):
-        return str(self.created)
+    pass
 
 
 class Answer(models.Model):
