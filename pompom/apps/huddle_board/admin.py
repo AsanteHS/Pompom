@@ -23,5 +23,13 @@ class CardAdmin(admin.ModelAdmin):
                 urls = inline.get_urls(self) + urls
         return urls
 
-admin.site.register(Observation)
-admin.site.register(Answer)
+
+class AnswerInline(admin.TabularInline):
+    model = Answer
+    fields = ('card_section', 'grade', )
+    extra = 1
+
+
+@admin.register(Observation)
+class ObservationAdmin(admin.ModelAdmin):
+    inlines = (AnswerInline, )
