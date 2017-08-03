@@ -6,11 +6,18 @@ from pompom.apps.huddle_board.models import Card, Observation, Answer, Board
 
 
 class HomeView(RedirectView):
-    url = reverse_lazy('pompom:huddle_board')
+    url = reverse_lazy('pompom:huddle_board', args=[Board.objects.first().id])
 
 
 class HuddleBoardView(TemplateView):
     template_name = 'huddle_board/huddle_board.html'
+
+    def __init__(self):
+        super().__init__()
+        self.board = Board.objects.get(id=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(board=self.board, **kwargs)
 
 
 class MobileMenuView(DetailView):
@@ -20,7 +27,6 @@ class MobileMenuView(DetailView):
 
 class PerformObservationView(FormView):
     template_name = 'huddle_board/observation.html'
-    success_url = reverse_lazy('pompom:success')
     form_class = ObservationForm
 
     def __init__(self):
@@ -28,6 +34,15 @@ class PerformObservationView(FormView):
         self.card = Card.objects.first()
         self.sections = self.card.sections.all()
         self.gradable_sections = self.sections.filter(is_gradable=True)
+        self.board = None
+
+    def get_board(self):
+        if self.board is None:
+            self.board = Board.objects.get(id=self.kwargs['pk'])
+        return self.board
+
+    def get_success_url(self):
+        return reverse_lazy('pompom:mobile_menu', args=[self.get_board().id])
 
     def get_form_kwargs(self):
         return {**super().get_form_kwargs(), 'sections': self.gradable_sections}
@@ -47,7 +62,3 @@ class PerformObservationView(FormView):
                 card_section=section,
                 grade=submission['observation_{}'.format(section.id)],
             )
-
-
-class SuccessView(TemplateView):
-    template_name = 'huddle_board/thanks.html'
