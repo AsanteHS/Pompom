@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django_extensions.db.models import TimeStampedModel
+from django_extensions.db.models import TimeStampedModel, TitleDescriptionModel
 from ordered_model.models import OrderedModel
 
 
@@ -26,6 +26,20 @@ class CardSection(OrderedModel):
         soup = BeautifulSoup(self.contents, "html.parser")
         title = soup.find().text
         return title[:50]
+
+
+class Deck(TitleDescriptionModel):
+    cards = models.ManyToManyField(Card, blank=True, related_name=_('decks'), verbose_name=_('cards'))
+
+    def __str__(self):
+        return self.title
+
+
+class Board(TitleDescriptionModel):
+    deck = models.ForeignKey(Deck, blank=True, null=True, verbose_name=_('deck'))
+
+    def __str__(self):
+        return self.title
 
 
 class Observation(TimeStampedModel):
