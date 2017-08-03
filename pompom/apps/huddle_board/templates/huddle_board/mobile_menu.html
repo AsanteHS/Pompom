@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}Select action{% endblock extra_title %}
+
+{% block content %}
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+      {{ object.title }} Board<br>
+      {{ object.deck }} Deck
+    </div>
+
+    <div class="panel-body">
+      <div id="content">
+        <a class="btn btn-lg btn-primary btn-block" href="#" role="button">
+          Perform an Observation
+        </a>
+        <a class="btn btn-lg btn-primary btn-block" href="#" role="button" disabled>
+          Update Card Notes
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock content %}
