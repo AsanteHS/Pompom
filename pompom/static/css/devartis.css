@@ -1,0 +1,2 @@
+/* equal width for all the buttons */
+div.btn-group[data-toggle=buttons] > label {width:5em;}

@@ -1,2 +1,7 @@
+beautifulsoup4==4.6.0
 Django==1.11.2
+django-ckeditor==5.3.0
 django-environ==0.4.3
+django-extensions==1.8.1
+django-full-url==0.1
+django-ordered-model==1.4.1

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}Observation{% endblock extra_title %}
+
+{% block content %}
+
+  <div class="panel panel-default">
+    <div class="panel-heading">{{ card.title }}</div>
+    <div class="panel-body">
+
+      <div id="content form-group">
+        <form action="" method="post">{% csrf_token %}
+
+          {% for section in sections %}
+            {{ section.contents|safe }}
+
+            {% if section.is_gradable %}
+
+              <div class="btn-group" data-toggle="buttons">
+                <label data-value="false" class="control-label btn btn-default" for="button-{{ section.id }}-false">
+                  <input id="button-{{ section.id }}-false" name="observation_{{ section.id }}" value="False" type="radio"/>
+                  <span style="color: #ff0000;"><strong>✘</strong></span>
+                </label>
+                <label data-value="true" class="control-label btn btn-default" for="button-{{ section.id }}-true">
+                  <input id="button-{{ section.id }}-true" name="observation_{{ section.id }}" value="True" type="radio"/>
+                  <span style="color: #339966;"><strong>✓</strong></span>
+                </label>
+                <label data-value="none" class="control-label btn btn-default active" for="button-{{ section.id }}-none">
+                  <input id="button-{{ section.id }}-none" name="observation_{{ section.id }}" value="None" type="radio" checked/>
+                  n/a
+                </label>
+              </div>
+            {% endif %}
+
+            <hr />
+
+          {% endfor %}
+
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+{% endblock content %}

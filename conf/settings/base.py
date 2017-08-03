@@ -103,9 +103,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            str(APPS_DIR.path('templates')),
+            str(APPS_DIR.path('pompom/templates')),
         ],
-        'APP_DIRS': False,
+        # 'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
@@ -116,7 +116,9 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.request'
+                'django.template.context_processors.request',
+                'full_url.context_processors.UrlParts',
+
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
@@ -138,11 +140,12 @@ DJANGO_BASE_APPS = (
 )
 
 VENDOR_APPS = (
+    'ckeditor',
+    'ordered_model',
 )
 
 APPS = (
-    'pompom.apps.app_example',
-    'pompom.libs.lib_example',
+    'pompom.apps.huddle_board',
 )
 
 INSTALLED_APPS = DJANGO_BASE_APPS + VENDOR_APPS + APPS
@@ -186,3 +189,17 @@ LOGGING = {
 
 # EMAILS
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        "allowedContent": {
+            "$1": {
+                # "elements": '*',
+                "attributes": True,
+                "styles": True,
+                "classes": True
+            }
+        },
+        "disallowedContent": '*[on*]',
+    },
+}
