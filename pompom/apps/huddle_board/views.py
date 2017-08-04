@@ -31,18 +31,32 @@ class PerformObservationView(FormView):
 
     def __init__(self):
         super().__init__()
-        self.card = Card.objects.first()
-        self.sections = self.card.sections.all()
-        self.gradable_sections = self.sections.filter(is_gradable=True)
         self.board = None
+        self.card = None
+        self.sections = None
+        self.gradable_sections = None
+
+    def get(self, request, *args, **kwargs):
+        self.get_board()
+        self.card = self.board.draw_card()
+        self.parse_card()
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.get_board()
+        self.card = Card.objects.get(id=request.POST['card'])
+        self.parse_card()
+        return super().post(request, *args, **kwargs)
 
     def get_board(self):
-        if self.board is None:
-            self.board = Board.objects.get(id=self.kwargs['pk'])
-        return self.board
+        self.board = Board.objects.get(id=self.kwargs['pk'])
+
+    def parse_card(self):
+        self.sections = self.card.sections.all()
+        self.gradable_sections = self.sections.filter(is_gradable=True)
 
     def get_success_url(self):
-        return reverse_lazy('pompom:mobile_menu', args=[self.get_board().id])
+        return reverse_lazy('pompom:mobile_menu', args=[self.board.id])
 
     def get_form_kwargs(self):
         return {**super().get_form_kwargs(), 'sections': self.gradable_sections}

@@ -41,6 +41,7 @@ class ObservationAdmin(admin.ModelAdmin):
 @admin.register(Board)
 class BoardAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'deck')
+    exclude = ('draw_pile', )
 
 
 @admin.register(Deck)
