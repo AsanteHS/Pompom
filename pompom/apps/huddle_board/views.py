@@ -12,12 +12,9 @@ class HomeView(RedirectView):
 class HuddleBoardView(TemplateView):
     template_name = 'huddle_board/huddle_board.html'
 
-    def __init__(self):
-        super().__init__()
-        self.board = Board.objects.get(id=self.kwargs['pk'])
-
     def get_context_data(self, **kwargs):
-        return super().get_context_data(board=self.board, **kwargs)
+        board = Board.objects.get(id=self.kwargs['pk'])
+        return super().get_context_data(board=board, **kwargs)
 
 
 class MobileMenuView(DetailView):
