@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}Select action{% endblock extra_title %}
+
+{% block content %}
+
+  <div class="row">
+
+  <div class="col-sm-4" id="columns-are-backwards"></div>
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+
+        <div class="panel-heading">Select a board</div>
+
+        <div class="panel-body">
+          <div id="content">
+            {% for board in boards %}
+              <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:huddle_board" board.id %}" role="button">
+                {{ board.title }}
+              </a>
+            {% empty %}
+              <p>There are no boards available.</p>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

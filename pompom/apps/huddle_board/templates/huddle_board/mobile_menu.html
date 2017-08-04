@@ -8,15 +8,23 @@
   <div class="panel panel-default">
 
     <div class="panel-heading">
-      {{ object.title }} Board<br>
-      {{ object.deck }} Deck
+      {{ object.title }} Board
+      {% if object.deck %}<br>{{ object.deck }} Deck{% endif %}
     </div>
+
+    {% if not object.deck %}
+      <p class="text-danger">Warning: this board has no associated deck.</p>
+    {% elif not object.deck.cards.count %}
+      <p class="text-danger">Warning: this board's deck is empty.</p>
+    {% endif %}
 
     <div class="panel-body">
       <div id="content">
-        <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:perform_observation" board.id %}" role="button">
-          Perform an Observation
-        </a>
+        {% if object.deck and object.deck.cards.count %}
+          <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:perform_observation" board.id %}" role="button">
+            Perform an Observation
+          </a>
+        {% endif %}
         <a class="btn btn-lg btn-primary btn-block" href="#" role="button" disabled>
           Update Card Notes
         </a>

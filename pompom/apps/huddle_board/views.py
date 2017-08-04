@@ -1,12 +1,16 @@
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView, RedirectView, DetailView
+from django.views.generic import TemplateView, FormView, DetailView
 
 from pompom.apps.huddle_board.forms import ObservationForm
 from pompom.apps.huddle_board.models import Card, Observation, Answer, Board
 
 
-class HomeView(RedirectView):
-    url = reverse_lazy('pompom:huddle_board', args=[Board.objects.first().id])
+class HomeView(TemplateView):
+    template_name = 'huddle_board/home.html'
+
+    def get_context_data(self, **kwargs):
+        boards = Board.objects.all()
+        return super().get_context_data(boards=boards, **kwargs)
 
 
 class HuddleBoardView(TemplateView):
