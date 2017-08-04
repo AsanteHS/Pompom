@@ -37,7 +37,9 @@
           <span style="color: #41a317;">lllllll</span>
         </div>
 
-        <div id="qr-code"></div>
+        <a href="{% url "pompom:mobile_menu" board.id %}">
+          <div id="qr-code"></div>
+        </a>
 
       </div>
 
@@ -175,7 +177,7 @@
   <script type="text/javascript">
       new QRCode(
           document.getElementById("qr-code"),
-          "{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:perform_observation" %}"
+          "{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id %}"
       );
   </script>
 {% endblock js %}

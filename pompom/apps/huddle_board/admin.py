@@ -1,7 +1,7 @@
 from django.contrib import admin
 from ordered_model.admin import OrderedTabularInline
 
-from pompom.apps.huddle_board.models import Card, CardSection, Observation, Answer
+from pompom.apps.huddle_board.models import Card, CardSection, Observation, Answer, Board, Deck
 
 
 class CardSectionInline(OrderedTabularInline):
@@ -36,3 +36,14 @@ class ObservationAdmin(admin.ModelAdmin):
     readonly_fields = ('created',)
     inlines = (AnswerInline, )
     list_display = ('id', 'created',)
+
+
+@admin.register(Board)
+class BoardAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'deck')
+    exclude = ('draw_pile', )
+
+
+@admin.register(Deck)
+class DeckAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description',)
