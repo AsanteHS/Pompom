@@ -4,3 +4,4 @@ gunicorn==19.7.1
 psycopg2==2.7.1
 raven==5.0.0
 dj-database-url==0.4.2
+whitenoise==3.3.0
