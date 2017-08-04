@@ -37,9 +37,28 @@ class Deck(TitleDescriptionModel):
 
 class Board(TitleDescriptionModel):
     deck = models.ForeignKey(Deck, blank=True, null=True, verbose_name=_('deck'))
+    draw_pile = models.ManyToManyField(Card, blank=True, verbose_name=_('draw pile'))
 
     def __str__(self):
         return self.title
+
+    class ShuffleException(Exception):
+        pass
+
+    def draw_card(self):
+        if not self.draw_pile.count():
+            self.reshuffle()
+        drawn_card = self.draw_pile.first()  # TODO: should pick random
+        self.draw_pile.remove(drawn_card)
+        return drawn_card
+
+    def reshuffle(self):
+        if not self.deck:
+            raise self.ShuffleException("Cannot perform shuffle; board has no deck assigned.")
+        cards_in_deck = self.deck.cards.all()
+        if not cards_in_deck:
+            raise self.ShuffleException("Cannot perform shuffle; assigned deck has no cards.")
+        self.draw_pile.set(cards_in_deck)
 
 
 class Observation(TimeStampedModel):
