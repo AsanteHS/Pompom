@@ -1,3 +1,5 @@
+import random
+
 from bs4 import BeautifulSoup
 from ckeditor.fields import RichTextField
 from django.db import models
@@ -46,11 +48,17 @@ class Board(TitleDescriptionModel):
         pass
 
     def draw_card(self):
-        if not self.draw_pile.count():
+        pile_count = self.draw_pile.count()
+        if not pile_count:
             self.reshuffle()
-        drawn_card = self.draw_pile.first()  # TODO: should pick random
+            pile_count = self.draw_pile.count()
+        drawn_card = self.pick_random_card(pile_count)
         self.draw_pile.remove(drawn_card)
         return drawn_card
+
+    def pick_random_card(self, pile_count):
+        random_index = random.randrange(pile_count)
+        return self.draw_pile.all()[random_index]
 
     def reshuffle(self):
         if not self.deck:
