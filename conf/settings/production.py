@@ -38,7 +38,7 @@ RAVEN_CONFIG = {
 
 INSTALLED_APPS += 'raven.contrib.django.raven_compat',
 # static file serving for heroku
-MIDDLEWARE += 'whitenoise.middleware.WhiteNoiseMiddleware'
+MIDDLEWARE += ('whitenoise.middleware.WhiteNoiseMiddleware',)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
