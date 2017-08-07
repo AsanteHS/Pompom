@@ -35,7 +35,7 @@
 
 ## Run Lint/Style/CPD
 
-Instalar `nodejs` y correr `npm install`
+Install `nodejs` and run `npm install`
 
 * pylint: `sh scripts/python_lint.sh`
 * cpd: `sh scripts/jscpd.sh`
@@ -43,8 +43,8 @@ Instalar `nodejs` y correr `npm install`
 
 ## Git hooks
 
-* Bajar binario de [git-hooks](https://github.com/git-hooks/git-hooks/releases) y agregarlo al PATH.
-* Instalar hooks: `git hooks install`
+* Download the binary from [git-hooks](https://github.com/git-hooks/git-hooks/releases) and append it to your PATH.
+* Install hooks: `git hooks install`
 
 ## Pycharm IDE
 
@@ -55,42 +55,36 @@ Instalar `nodejs` y correr `npm install`
   * manage script: manage.py
 * mark directory Templates as "Templates folder" (right-click over directory in the "Project view")
 
-## Project Management
+## Deployment
 
-### Rebranding your project
+### Add a database to the Heroku application
 
-After forking the project you might want to rename both yout project's URL and the URL of the git repo. To do this you need to go to the project settings and on the *Rename repository* section rename both fields.
+* Go to the Resources tab
+* Under the Add-ons section search for `Heroku Postgres`
+* Select a Plan name. Hobby tier might be enough for the application needs, but you should check: https://devcenter.heroku.com/articles/heroku-postgres-plans
 
-### Replacing pompom from all files
+### Add environment variables to your Heroku application
 
-just change NEW_NAME in the expression below
+* Go to the Settings tab
+* In the Config Variables click Reveal
+* If you added the Postgres instance correctly you should see a `DATABASE_URL` entry.
+* Add an entry named `DJANGO_SETTINGS_MODULE` with the value `conf.settings.production`
+* Add an entry named `RAVEN_DSN` with the Sentry logging URL.
 
-    find -type f -name "*.*" -not -path "./.git/*" -exec sed -i 's/pompom/NEW_NAME/g' {} \; && mv pompom NEW_NAME
+### Deployment using Gitlab
 
-### Remove fork relation
+Gitlab already has a configured pipeline to make deployment easy and secure. Once you have tested the application on the staging environment and you are read to deploy, follow these steps:
 
-To be able to use the "New branch" button from an issue, you need to go to project's settings and remove the "Fork relationship" with the sample project. If this is not done, the button will be greyed out and read "New branch unavailable".
+* Create a tag in git. `git tag v0.1.0`
+* Push it to gitlab's remote. `git push --tags`
+* A new pipeline will run in Gitlab, once it succeeds you can manual deploy to production using the Deploy button.
 
-See [this issue](https://gitlab.com/gitlab-org/gitlab-ce/issues/20704)
+### Deployment using Heroku
 
-### Copy milestones, issues and labels
+* Make sure you have successfully deployed and tested the current version to the staging environment.
+* Locally run CI tasks. Including eslint, jscpd, tests and migrations.
+* Create a tag in git. `git tag v0.1.0`
+* Push it to gitlab's remote. `git push --tags`
+* Deploy to heroku using `git push heroku master`
+* Add a superuser to the application in order to access the backend `heroku run python manage.py createsuperuser`
 
-We have a template for software development projects (technology agnostic) that specifies some tasks that we need to do in all the projects and labels to categorize issues.
-
-To copy this structure you have to:
-
-1. Install [gitlab-copy](https://github.com/gotsunami/gitlab-copy#download)
-1. Get a [Gitlab access token](https://gitlab.devartis.com/profile/personal_access_tokens) and put it on [.gitlab-copy.yml](/.gitlab-copy.yml)
-1. Run gitlab-copy: `gitlab-copy -y .gitlab-copy.yml`
-
-### Copy wiki
-
-Attention: Only do this if your wiki is empty. Otherwise you'll need to manually merge the wikis.
-
-1. Clone (if haven't done already) the wiki's git repo from #django-sample/software-development-project-template
-    1. `cd /some/random/folder`
-    1. `git clone git clone git@gitlab.devartis.com:samples/software-development-project-template.wiki.git`
-1. Add to the cloned repo, your project's wiki repo URL as a new remote
-    1. `git remote add pompom git@gitlab.devartis.com:group_name/pompom.wiki.git`
-1. Push the bse wiki repo to your project's wiki repo
-    1. `git push pompom master`
