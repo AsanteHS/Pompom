@@ -17,7 +17,7 @@ class Card(models.Model):
 class CardSection(OrderedModel):
     title = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('title'))
     contents = RichTextField(blank=True, null=True, verbose_name=_('contents'))
-    card = models.ForeignKey(Card, related_name=_('sections'), verbose_name=_('card'))
+    card = models.ForeignKey(Card, related_name='sections', verbose_name=_('card'))
     is_gradable = models.BooleanField(verbose_name=_('is gradable'))
 
     order_with_respect_to = 'card'
@@ -27,7 +27,7 @@ class CardSection(OrderedModel):
 
 
 class Deck(TitleDescriptionModel):
-    cards = models.ManyToManyField(Card, blank=True, related_name=_('decks'), verbose_name=_('cards'))
+    cards = models.ManyToManyField(Card, blank=True, related_name='decks', verbose_name=_('cards'))
 
     def __str__(self):
         return self.title
@@ -64,16 +64,21 @@ class Board(TitleDescriptionModel):
             raise self.ShuffleException("Cannot perform shuffle; assigned deck has no cards.")
         self.draw_pile.set(cards_in_deck)
 
+    def latest_observations(self):
+        amount = 3
+        return self.observations.all()[amount]
+
 
 class Observation(TimeStampedModel):
-    pass
+    board = models.ForeignKey(Board, related_name='observations', verbose_name=_('board'))
+    card = models.ForeignKey(Card, related_name='observations', verbose_name=_('card'))
 
 
 class Answer(models.Model):
     GRADES = ((True, 'Pass'), (False, 'Fallout'), (None, 'N/A'))
 
-    observation = models.ForeignKey(Observation, related_name=_('answers'), verbose_name=_('observation'))
-    card_section = models.ForeignKey(CardSection, related_name=_('answers'), verbose_name=_('card section'))
+    observation = models.ForeignKey(Observation, related_name='answers', verbose_name=_('observation'))
+    card_section = models.ForeignKey(CardSection, related_name='answers', verbose_name=_('card section'))
     grade = models.NullBooleanField(choices=GRADES)
 
     def __str__(self):

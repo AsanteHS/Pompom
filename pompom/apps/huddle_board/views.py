@@ -18,7 +18,8 @@ class HuddleBoardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         board = Board.objects.get(id=self.kwargs['pk'])
-        return super().get_context_data(board=board, **kwargs)
+        observations = board.latest_observations()
+        return super().get_context_data(board=board, observations=observations, **kwargs)
 
 
 class MobileMenuView(DetailView):
@@ -70,7 +71,10 @@ class PerformObservationView(FormView):
         return super().form_valid(form)
 
     def save_observation(self, submission):
-        observation = Observation.objects.create()
+        observation = Observation.objects.create(
+            board=self.board,
+            card=self.card,
+        )
         for section in self.gradable_sections:
             Answer.objects.create(
                 observation=observation,

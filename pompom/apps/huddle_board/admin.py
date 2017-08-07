@@ -12,8 +12,8 @@ class CardSectionInline(OrderedTabularInline):
     extra = 1
     ordering = ('order',)
 
-    def formfield_for_dbfield(self, db_field, **kwargs):
-        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
         if db_field.name == 'title':
             formfield.widget = forms.Textarea(attrs=formfield.widget.attrs)
         return formfield
@@ -39,10 +39,10 @@ class AnswerInline(admin.TabularInline):
 
 @admin.register(Observation)
 class ObservationAdmin(admin.ModelAdmin):
-    fields = ('created',)
+    fields = ('created', 'board', 'card')
     readonly_fields = ('created',)
     inlines = (AnswerInline, )
-    list_display = ('id', 'created',)
+    list_display = ('id', 'created', 'board', 'card')
 
 
 @admin.register(Board)
