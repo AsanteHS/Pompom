@@ -1,6 +1,5 @@
 import random
 
-from bs4 import BeautifulSoup
 from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -16,18 +15,15 @@ class Card(models.Model):
 
 
 class CardSection(OrderedModel):
-    contents = RichTextField(verbose_name=_('contents'))
+    title = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('title'))
+    contents = RichTextField(blank=True, null=True, verbose_name=_('contents'))
     card = models.ForeignKey(Card, related_name=_('sections'), verbose_name=_('card'))
     is_gradable = models.BooleanField(verbose_name=_('is gradable'))
 
     order_with_respect_to = 'card'
 
     def __str__(self):
-        if not self.contents:
-            return super().__str__()
-        soup = BeautifulSoup(self.contents, "html.parser")
-        title = soup.find().text
-        return title[:50]
+        return self.title or "(no title)"
 
 
 class Deck(TitleDescriptionModel):
