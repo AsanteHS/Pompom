@@ -69,9 +69,13 @@
 
                   {% for graded_section in graded_card.graded_sections %}
                     {% if graded_section.section.title %}
-                      <strong class="card-section">{{ graded_section.section.title }}</strong>
-{#                      <span style="color: #339966;"><strong>✓&nbsp;Patient</strong></span>#}
-{#                      <span style="color: #ff0000;"><strong>✘ Alcohol-based rubs or soap and water</strong></span>#}
+                      <strong
+                          {% if graded_section.grade %}class="card-section-success"
+                          {% elif graded_section.grade == False %}class="card-section-fallout"
+                          {% endif %}
+                      ">
+                        {{ graded_section.section.title }}
+                      </strong>
                     {% endif %}
                     {{ graded_section.section.contents|safe }}
                   {% endfor %}
