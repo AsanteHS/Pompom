@@ -69,9 +69,9 @@
 
                   {% for graded_section in graded_card.graded_sections %}
                     {% if graded_section.section.title %}
-                      <strong
-                          {% if graded_section.grade %}class="card-section-success"
-                          {% elif graded_section.grade == False %}class="card-section-fallout"
+                      <strong class="
+                          {% if graded_section.grade %}card-section-success
+                          {% elif graded_section.grade == False %}card-section-fallout
                           {% endif %}
                       ">
                         {{ graded_section.section.title }}
@@ -85,26 +85,18 @@
             </div>
 
           {% endfor %}
-
-          <div class="col-sm-4 col-lg-4 col-md-4">
-            <div id="assist">
-              <img src="{% static "images/placeholder.png" %}" alt="">
-            </div>
-          </div>
-
-          <div class="col-sm-4 col-lg-4 col-md-4">
-            <div id="assist">
-              <img src="{% static "images/placeholder.png" %}" alt="">
-            </div>
-          </div>
-
-          <div class="col-sm-4 col-lg-4 col-md-4">
-            <div id="assist">
-              <img src="{% static "images/placeholder.png" %}" alt="">
-            </div>
-          </div>
-
         </div>
+
+        <div class="row">
+          {% for graded_card in graded_cards %}
+            <div class="col-sm-4 col-lg-4 col-md-4">
+              <div id="assist">
+                <img src="{% static "images/placeholder.png" %}" alt="">
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
 
       </div>
 
