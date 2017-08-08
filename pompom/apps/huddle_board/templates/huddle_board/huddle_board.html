@@ -58,91 +58,29 @@
 
         <div class="row">
 
-          <div class="col-sm-4 col-lg-4 col-md-4">
-            <div id="card">
-              <h1>PURPOSEFUL ROUNDING</h1>
-              <div id="content">
+          {% for graded_card in graded_cards %}
 
-                Interview 2 RNs and 2 patients or their families and ask about purposeful rounding
-                <br><br>
-                <em>Purposeful (hourly) rounding is a time to make a connection and involve the patient in a way to
-                  ensure quality, safety, and satisfaction.</em>
-                <br><br>
-                <strong> Ask the patient and family</strong>
-                <p style="padding-left: 30px;">a. Has the staff talked to you about Purposeful rounding?</p>
-                <p style="padding-left: 30px;">b. What questions are we asking?</p>
-                <p style="padding-left: 30px;">c. How often do you expect rounding?</p>
-                <p style="padding-left: 30px;">d. What about at night when sleeping</p>
-                <strong>Ask the staff</strong>
-                <p style="padding-left: 30px;">a. Why are we purposeful rounding?</p>
-                <p style="padding-left: 30px;">b. What are we checking on?</p>
-                <p style="padding-left: 60px;">Pain</p>
-                <p style="padding-left: 60px;">Potty</p>
-                <p style="padding-left: 60px;">Position</p>
-                <p style="padding-left: 60px;">Purposeful</p>
-                <strong>Verify hourly charting completed in Epic</strong>
-                <p style="padding-left: 30px;">Always try to include scheduled tasks in the rounding process</p>
+            <div class="col-sm-4 col-lg-4 col-md-4">
+              <div id="card{% if graded_card.grade %}-success{% elif graded_card.grade == False %}-fallout{% endif %}">
 
+                <h1 class="text-uppercase">{{ graded_card.card.title }}</h1>
+
+                <div id="content">
+
+                  {% for graded_section in graded_card.graded_sections %}
+                    {% if graded_section.section.title %}
+                      <strong class="card-section">{{ graded_section.section.title }}</strong>
+{#                      <span style="color: #339966;"><strong>✓&nbsp;Patient</strong></span>#}
+{#                      <span style="color: #ff0000;"><strong>✘ Alcohol-based rubs or soap and water</strong></span>#}
+                    {% endif %}
+                    {{ graded_section.section.contents|safe }}
+                  {% endfor %}
+
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="col-sm-4 col-lg-4 col-md-4">
-            <div id="card-success">
-              <h1>BEDSIDE HANDOFF</h1>
-              <div id="content">
-
-                Observe 2 bedside handoffs.
-                <br>Assess the following components:
-                <br><br>
-                <strong>Handoff</strong>
-                <br><br>
-                <span style="color: #339966;"><strong>✓&nbsp;Room</strong></span>
-                <p style="padding-left: 30px;">a. Always done in room</p>
-                <p style="padding-left: 30px;">b. Safety checks completed</p>
-                <p style="padding-left: 30px;">c. Whiteboard updated</p>
-                <span style="color: #339966;"><strong>✓&nbsp;Patient</strong></span>
-                <p style="padding-left: 30px;">a. Patient &amp;amp; family invited to participate</p>
-                <p style="padding-left: 30px;">b. Assessed &amp;amp; verified IV, tubes, drains &amp;amp; pumps</p>
-                <p style="padding-left: 30px;">c. Cover plan of care, orders and test</p>
-                <p style="padding-left: 30px;">d. Discuss pain management</p>
-                <p style="padding-left: 30px;">e. Addressed questions and concerns</p>
-                <p style="padding-left: 30px;">f. Reinforce the purposeful rounding process</p>
-                <span style="color: #339966;"><strong>✓ An hour prior to shift change</strong></span>
-                <p style="padding-left: 30px;">1. Do purposeful rounding to address needs and inform pt the unit is getting
-                  ready for handoff.</p>
-                <p style="padding-left: 30px;">2. Charge nurses will attempt to minimize the number of nurses the oncoming nurse
-                  will need to get handoff from.</p>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-4 col-lg-4 col-md-4">
-            <div id="card-fallout">
-              <h1>HAND HYGIENE</h1>
-              <div id="content">
-
-                Select 2 Staff Members
-                <br>Observe 5 opportunities for hand hygiene
-                <br><br>
-                <em>Hand hygiene is the most effective means of preventing transmission of healthcare associated pathogens</em>
-                <br><br>
-                <span style="color: #339966;"><strong> ✓&nbsp;Soap and water</strong></span>
-                <p style="padding-left: 30px;">a. When hands are visibly soiled</p>
-                <p style="padding-left: 30px;">b. After care of patient in enteric precautions</p>
-                <p style="padding-left: 60px;">Wash hands together vigorously for 15 seconds covering all surfaces of hands and fingers</p>
-                <span style="color: #ff0000;"><strong>✘ Alcohol-based rubs or soap and water</strong></span>
-                <p style="padding-left: 30px;">1. Before touching a patient</p>
-                <p style="padding-left: 30px;">2. Before clean/aseptic procedure</p>
-                <p style="padding-left: 30px;">3. After body fluid exposure risk</p>
-                <p style="padding-left: 30px;">4. After touching a patient</p>
-                <p style="padding-left: 30px;">5. After touching patient surroundings</p>
-                <p style="padding-left: 60px;">Rub hands together covering all surfaces of hands and fingers until hands are dry</p>
-
-              </div>
-            </div>
-          </div>
+          {% endfor %}
 
           <div class="col-sm-4 col-lg-4 col-md-4">
             <div id="assist">
@@ -169,7 +107,6 @@
     </div>
 
   </div>
-
 {% endblock content %}
 
 {% block js %}

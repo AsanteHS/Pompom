@@ -26,6 +26,39 @@ class CardSection(OrderedModel):
         return self.title or "(no title)"
 
 
+class GradedCardSection:
+
+    def __init__(self, card_section, observation):
+        self.section = card_section
+        self.grade = self.grade_section(observation)
+
+    def grade_section(self, observation):
+        if not observation:
+            return None
+        try:
+            answer = observation.answers.get(card_section=self.section)
+        except Answer.DoesNotExist:
+            return None
+        return answer.grade
+
+
+class GradedCard:
+
+    def __init__(self, card, board):
+        self.card = card
+        latest_observation = card.observations.filter(board=board).first()
+        self.graded_sections = [GradedCardSection(section, latest_observation) for section in card.sections.all()]
+        self.grade = self.grade_card()
+
+    def grade_card(self):
+        section_grades = {section.grade for section in self.graded_sections}
+        if False in section_grades:
+            return False
+        if True in section_grades:
+            return True
+        return None
+
+
 class Deck(TitleDescriptionModel):
     cards = models.ManyToManyField(Card, blank=True, related_name='decks', verbose_name=_('cards'))
 
@@ -64,9 +97,10 @@ class Board(TitleDescriptionModel):
             raise self.ShuffleException("Cannot perform shuffle; assigned deck has no cards.")
         self.draw_pile.set(cards_in_deck)
 
-    def latest_observations(self):
+    def latest_cards(self):
         amount = 3
-        return self.observations.all()[amount]
+        latest_observations = self.observations.all()[:amount]  # TODO: What if 2 or 3 of these are for the same card?
+        return [observation.card for observation in latest_observations]
 
 
 class Observation(TimeStampedModel):
