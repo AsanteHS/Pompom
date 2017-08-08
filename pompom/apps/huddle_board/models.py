@@ -99,8 +99,13 @@ class Board(TitleDescriptionModel):
 
     def latest_cards(self):
         amount = 3
-        latest_observations = self.observations.all()[:amount]  # TODO: What if 2 or 3 of these are for the same card?
-        return [observation.card for observation in latest_observations]
+        latest_cards = []
+        for observation in self.observations.iterator():
+            if observation.card not in latest_cards:
+                latest_cards.append(observation.card)
+            if len(latest_cards) == amount:
+                break
+        return latest_cards
 
 
 class Observation(TimeStampedModel):
