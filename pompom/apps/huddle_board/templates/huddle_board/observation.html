@@ -15,12 +15,12 @@
 
           {% for section in sections %}
 
-            {% if section.title %}<strong>{{ section.title }}</strong>{% endif %}
+            {% if section.title %}<p><strong>{{ section.title }}</strong></p>{% endif %}
 
             {{ section.contents|safe }}
 
             {% if section.is_gradable %}
-
+              <br>
               <div class="btn-group" data-toggle="buttons">
                 <label data-value="false" class="control-label btn btn-default" for="button-{{ section.id }}-false">
                   <input id="button-{{ section.id }}-false" name="observation_{{ section.id }}" value="False" type="radio"/>

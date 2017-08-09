@@ -70,34 +70,24 @@ class Deck(TitleDescriptionModel):
 
 class Board(TitleDescriptionModel):
     deck = models.ForeignKey(Deck, blank=True, null=True, verbose_name=_('deck'))
-    draw_pile = models.ManyToManyField(Card, blank=True, verbose_name=_('draw pile'))
 
     def __str__(self):
         return self.title
 
-    class ShuffleException(Exception):
+    class DeckException(Exception):
         pass
 
     def draw_card(self):
-        pile_count = self.draw_pile.count()
-        if not pile_count:
-            self.reshuffle()
-            pile_count = self.draw_pile.count()
-        drawn_card = self.pick_random_card(pile_count)
-        self.draw_pile.remove(drawn_card)
-        return drawn_card
+        self.validate_non_empty_deck()
+        deck_size = self.deck.cards.count()
+        random_index = random.randrange(deck_size)
+        return self.deck.cards.all()[random_index]
 
-    def pick_random_card(self, pile_count):
-        random_index = random.randrange(pile_count)
-        return self.draw_pile.all()[random_index]
-
-    def reshuffle(self):
+    def validate_non_empty_deck(self):
         if not self.deck:
-            raise self.ShuffleException("Cannot perform shuffle; board has no deck assigned.")
-        cards_in_deck = self.deck.cards.all()
-        if not cards_in_deck:
-            raise self.ShuffleException("Cannot perform shuffle; assigned deck has no cards.")
-        self.draw_pile.set(cards_in_deck)
+            raise self.DeckException("Cannot draw a card; board has no deck assigned.")
+        if not self.deck.cards.exists():
+            raise self.DeckException("Cannot draw a card; assigned deck has no cards.")
 
     def latest_cards(self):
         latest_cards = []
