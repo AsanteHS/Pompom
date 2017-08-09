@@ -43,12 +43,12 @@ class ObservationAdmin(admin.ModelAdmin):
     readonly_fields = ('created',)
     inlines = (AnswerInline, )
     list_display = ('id', 'card', 'board', 'created')
+    list_filter = ('card', 'board', 'created')
 
 
 @admin.register(Board)
 class BoardAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'deck')
-    exclude = ('draw_pile', )
 
 
 @admin.register(Deck)
@@ -59,6 +59,7 @@ class DeckAdmin(admin.ModelAdmin):
 @admin.register(CardNote)
 class CardNoteAdmin(admin.ModelAdmin):
     list_display = ('to_string', 'card', 'board', 'created')
+    list_filter = ('card', 'board', 'created')
 
     def to_string(self, obj):
         return str(obj)
