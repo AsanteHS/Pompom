@@ -6,6 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel, TitleDescriptionModel
 from ordered_model.models import OrderedModel
 
+from .utils import truncate_string
+
 
 class Card(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('title'))
@@ -112,3 +114,12 @@ class Answer(models.Model):
 
     def __str__(self):
         return ', '.join([str(self.observation), str(self.card_section), str(self.grade)])
+
+
+class CardNote(TimeStampedModel):
+    contents = models.TextField(verbose_name=_('contents'))
+    board = models.ForeignKey(Board, related_name='notes', verbose_name=_('board'))
+    card = models.ForeignKey(Card, related_name='notes', verbose_name=_('card'))
+
+    def __str__(self):
+        return truncate_string(self.contents)
