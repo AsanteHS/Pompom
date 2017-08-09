@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, DetailView, CreateView
 
-from pompom.apps.huddle_board.forms import ObservationForm
+from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm
 from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, GradedCard, CardNote
 
 
@@ -85,11 +85,15 @@ class PerformObservationView(FormView):
 
 class AddCardNoteView(CreateView):
     model = CardNote
-    fields = ('contents', 'card')
+    form_class = CardNoteForm
     template_name = "huddle_board/card_note.html"
 
     def get_success_url(self):
         return reverse_lazy('pompom:mobile_menu', args=[self.kwargs['pk']])
+
+    def get_context_data(self, **kwargs):
+        board = Board.objects.get(id=self.kwargs['pk'])
+        return super().get_context_data(board=board, **kwargs)
 
     def form_valid(self, form):
         form.instance.board_id = self.kwargs['pk']
