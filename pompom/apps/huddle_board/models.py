@@ -9,6 +9,9 @@ from ordered_model.models import OrderedModel
 from .utils import truncate_string
 
 
+MAX_CARDS_DISPLAYED = 3
+
+
 class Card(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('title'))
 
@@ -90,12 +93,11 @@ class Board(TitleDescriptionModel):
             raise self.DeckException("Cannot draw a card; assigned deck has no cards.")
 
     def latest_cards(self):
-        amount = 3
         latest_cards = []
         for observation in self.observations.iterator():
             if observation.card not in latest_cards:
                 latest_cards.append(observation.card)
-            if len(latest_cards) == amount:
+            if len(latest_cards) == MAX_CARDS_DISPLAYED:
                 break
         return latest_cards
 
