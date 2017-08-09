@@ -11,6 +11,8 @@ from .utils import truncate_string
 
 class Card(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('title'))
+    companion_image = models.ImageField(upload_to='companion_images/', blank=True, null=True,
+                                        verbose_name=_('companion image'))
 
     def __str__(self):
         return self.title
