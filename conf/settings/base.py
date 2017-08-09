@@ -201,5 +201,7 @@ CKEDITOR_CONFIGS = {
             }
         },
         "disallowedContent": '*[on*]',
+        'height': 200,
+        'width': 600,
     },
 }

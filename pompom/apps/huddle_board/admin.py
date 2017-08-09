@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from ordered_model.admin import OrderedTabularInline
 
@@ -6,10 +7,16 @@ from pompom.apps.huddle_board.models import Card, CardSection, Observation, Answ
 
 class CardSectionInline(OrderedTabularInline):
     model = CardSection
-    fields = ('contents', 'is_gradable', 'order', 'move_up_down_links',)
+    fields = ('title', 'contents', 'is_gradable', 'order', 'move_up_down_links',)
     readonly_fields = ('order', 'move_up_down_links',)
     extra = 1
     ordering = ('order',)
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name == 'title':
+            formfield.widget = forms.Textarea(attrs=formfield.widget.attrs)
+        return formfield
 
 
 @admin.register(Card)
@@ -32,10 +39,10 @@ class AnswerInline(admin.TabularInline):
 
 @admin.register(Observation)
 class ObservationAdmin(admin.ModelAdmin):
-    fields = ('created',)
+    fields = ('created', 'board', 'card')
     readonly_fields = ('created',)
     inlines = (AnswerInline, )
-    list_display = ('id', 'created',)
+    list_display = ('id', 'created', 'board', 'card')
 
 
 @admin.register(Board)
