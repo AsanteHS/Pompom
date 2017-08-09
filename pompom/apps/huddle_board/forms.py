@@ -1,5 +1,7 @@
 from django import forms
 
+from pompom.apps.huddle_board.models import CardNote
+
 
 class ObservationForm(forms.Form):
 
@@ -10,3 +12,10 @@ class ObservationForm(forms.Form):
             field_name = 'observation_{}'.format(section.id)
             self.fields[field_name] = forms.NullBooleanField()
             self.fields[field_name].section = section.id
+
+
+class CardNoteForm(forms.ModelForm):
+    class Meta:
+        model = CardNote
+        fields = ('contents', 'card')
+        widgets = {'card': forms.RadioSelect()}
