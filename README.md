@@ -11,7 +11,7 @@
   * add `source /usr/local/bin/virtualenvwrapper.sh` to your shell config (.bashrs or .zshrs)
   * restart your terminal
 
-## Local Setting's
+## Local Settings
 
 * copy settings/local_example.py to settings/local.py.
   * `cp conf/settings/local_example.py conf/settings/local.py`
