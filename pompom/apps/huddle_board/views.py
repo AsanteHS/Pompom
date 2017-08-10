@@ -18,7 +18,7 @@ class HuddleBoardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         board = Board.objects.get(id=self.kwargs['pk'])
-        graded_cards = [GradedCard(card, board) for card in board.latest_cards()]
+        graded_cards = board.latest_graded_cards()
         return super().get_context_data(board=board, graded_cards=graded_cards, **kwargs)
 
 
