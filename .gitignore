@@ -13,6 +13,7 @@ coverage.xml
 .cache/
 
 #Media
+media/*
 pompom/media/*
 
 #Autoenv files
