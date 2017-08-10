@@ -9,6 +9,9 @@ from ordered_model.models import OrderedModel
 from .utils import truncate_string
 
 
+MAX_CARDS_DISPLAYED = 3
+
+
 class Card(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('title'))
     companion_image = models.ImageField(upload_to='companion_images/', blank=True, null=True,
@@ -48,10 +51,9 @@ class GradedCardSection:
 
 class GradedCard:
 
-    def __init__(self, card, board):
-        self.card = card
-        latest_observation = card.observations.filter(board=board).first()
-        self.graded_sections = [GradedCardSection(section, latest_observation) for section in card.sections.all()]
+    def __init__(self, observation):
+        self.card = observation.card
+        self.graded_sections = [GradedCardSection(section, observation) for section in self.card.sections.all()]
         self.grade = self.grade_card()
 
     def grade_card(self):
@@ -91,15 +93,16 @@ class Board(TitleDescriptionModel):
         if not self.deck.cards.exists():
             raise self.DeckException("Cannot draw a card; assigned deck has no cards.")
 
+    def latest_observations(self):
+        return self.observations.all()[:MAX_CARDS_DISPLAYED]
+
     def latest_cards(self):
-        amount = 3
-        latest_cards = []
-        for observation in self.observations.iterator():
-            if observation.card not in latest_cards:
-                latest_cards.append(observation.card)
-            if len(latest_cards) == amount:
-                break
-        return latest_cards
+        observations = self.latest_observations()
+        return [observation.card for observation in observations]
+
+    def latest_graded_cards(self):
+        observations = self.latest_observations()
+        return [GradedCard(observation) for observation in observations]
 
 
 class Observation(TimeStampedModel):
