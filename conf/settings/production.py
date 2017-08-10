@@ -1,5 +1,6 @@
 #! coding: utf-8
 import os
+import dj_database_url
 # noinspection PyUnresolvedReferences
 from .base import *
 
@@ -12,37 +13,36 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': env('DATABASE_HOST'),
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASSWORD'),
-    }
-}
+# Parse database configuration from $DATABASE_URL
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config()
 
-MEDIA_ROOT = env('MEDIA_ROOT')
-STATIC_ROOT = env('STATIC_ROOT')
 SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['pompom-prod.herokuapp.com']
 
 RAVEN_CONFIG = {
-    'dsn': env('RAVEN_DSN', default=""),
+    'dsn': os.environ['RAVEN_DSN'],
 }
 
-INSTALLED_APPS += 'raven.contrib.django.raven_compat',
-# static file serving for heroku
-MIDDLEWARE += ('whitenoise.middleware.WhiteNoiseMiddleware',)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+INSTALLED_APPS = INSTALLED_APPS + \
+                 ('raven.contrib.django.raven_compat',
+                  'storages',)
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env('EMAIL_HOST', default="")
-EMAIL_HOST_USER = env('EMAIL_HOST_USER', default="")
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default="")
-EMAIL_USE_TLS = True
+AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'pompom.libs.custom_storages.StaticStorage'
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+
+MEDIAFILES_LOCATION = 'media'
+MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+DEFAULT_FILE_STORAGE = 'pompom.libs.custom_storages.MediaStorage'
