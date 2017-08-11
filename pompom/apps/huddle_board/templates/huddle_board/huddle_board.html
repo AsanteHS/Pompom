@@ -3,14 +3,8 @@
 
 {% block extra_title %}Huddle Board{% endblock extra_title %}
 
-{% block meta %}
-  <meta http-equiv="refresh" content="15">
-{% endblock meta %}
-
 {% block content %}
   <div class="container">
-
-    <div class="row">
 
       <div class="col-md-3">
         <div id="tips">
@@ -99,6 +93,8 @@
                 <div class="assist">
                   <img src="{{ graded_card.card.companion_image.url }}">
                 </div>
+              {% else %}
+                <div class="assist"><img src="/static/images/placeholder.png"/></div>
               {% endif %}
             </div>
           {% endfor %}
@@ -106,8 +102,6 @@
 
 
       </div>
-
-    </div>
 
   </div>
 {% endblock content %}
