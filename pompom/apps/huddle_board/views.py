@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView, DetailView, CreateView
+from django.views.generic import TemplateView, FormView, DetailView, CreateView, ListView
 
 from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm
-from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, GradedCard, CardNote
+from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote
 
 
 class HomeView(TemplateView):
@@ -25,6 +25,15 @@ class HuddleBoardView(TemplateView):
 class MobileMenuView(DetailView):
     model = Board
     template_name = 'huddle_board/mobile_menu.html'
+
+
+class ChooseCardView(TemplateView):
+    template_name = 'huddle_board/choose_card.html'
+
+    def get_context_data(self, **kwargs):
+        board = Board.objects.get(id=self.kwargs['pk'])
+        cards = board.deck.cards.order_by('title') if board.deck else []
+        return super().get_context_data(board=board, cards=cards, **kwargs)
 
 
 class PerformObservationView(FormView):

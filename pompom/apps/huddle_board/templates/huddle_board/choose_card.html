@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_title %}Select a card{% endblock extra_title %}
+
+{% block content %}
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+      Select a card to perform an observation
+      <br>{{ board.title }} Board
+    </div>
+
+    {% if not board.deck %}
+      <p class="text-danger">Warning: this board has no associated deck.</p>
+    {% elif not cards.exists %}
+      <p class="text-danger">Warning: this board's deck is empty.</p>
+    {% endif %}
+
+    <div class="panel-body">
+      <div id="content">
+          <div class="btn-group-vertical" data-toggle="buttons">
+            {% for card in cards %}
+              <a class="control-label btn btn-default" href="#">
+                {{ card.title }}
+              </a>
+            {% endfor %}
+          </div>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock content %}
