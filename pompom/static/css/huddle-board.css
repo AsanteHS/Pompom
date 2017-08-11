@@ -81,7 +81,7 @@ Click the help icon above to learn more.
 
 #card, #card-success, #card-fallout {
     border: black 2px solid;
-    padding: 0;
+    padding: 0px;
     border-radius:20px;
     overflow: hidden;
     height: 45vh;
@@ -103,6 +103,10 @@ background: green;
 
 #card-fallout h1 {
 background: red;
+}
+
+.companion-image {
+    margin-top: 10px;
 }
 
 /* Card Scrolling Accordion */
@@ -141,11 +145,6 @@ background: grey;
 
 #content {
 padding: 5px;
-}
-
-#assist img {
-border-radius: 18px;
-margin: 20px 0 0 0;
 }
 
 
