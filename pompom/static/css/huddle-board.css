@@ -55,7 +55,7 @@ background:white;
 }
 
 footer {
-    margin: 0 0;
+    margin: 20px 20px;
 }
 
 /*
@@ -84,7 +84,7 @@ Click the help icon above to learn more.
     padding: 0;
     border-radius:20px;
     overflow: hidden;
-    height: 50%;
+    height: 430px;
 }
 
 #card h1, #card-success h1, #card-fallout h1 {
