@@ -93,8 +93,8 @@ text-align:center;
 color:white;
 padding: 5px;
 border-radius:17px 17px 0 0;
--webkit-margin-before: 0!important;
--webkit-margin-after: 0!important;
+margin-top: 0;
+margin-bottom: 0;
 }
 
 #card-success h1 {
