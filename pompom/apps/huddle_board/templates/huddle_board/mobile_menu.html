@@ -25,6 +25,9 @@
             Choose a Random Card
           </a>
         {% endif %}
+          <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:choose_card" board.id %}" role="button">
+            Choose a Card by Name
+          </a>
         <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:add_card_note" board.id %}" role="button">
           Add Card Note
         </a>

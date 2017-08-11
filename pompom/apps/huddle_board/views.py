@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView, DetailView, CreateView
+from django.views.generic import TemplateView, FormView, DetailView, CreateView, ListView
 
 from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm
-from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, GradedCard, CardNote
+from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote
 
 
 class HomeView(TemplateView):
@@ -27,6 +27,15 @@ class MobileMenuView(DetailView):
     template_name = 'huddle_board/mobile_menu.html'
 
 
+class ChooseCardView(TemplateView):
+    template_name = 'huddle_board/choose_card.html'
+
+    def get_context_data(self, **kwargs):
+        board = Board.objects.get(id=self.kwargs['pk'])
+        cards = board.deck.cards.order_by('title') if board.deck else []
+        return super().get_context_data(board=board, cards=cards, **kwargs)
+
+
 class PerformObservationView(FormView):
     template_name = 'huddle_board/observation.html'
     form_class = ObservationForm
@@ -40,7 +49,7 @@ class PerformObservationView(FormView):
 
     def get(self, request, *args, **kwargs):
         self.get_board()
-        self.card = self.board.draw_card()
+        self.pick_card(request)
         self.parse_card()
         return super().get(request, *args, **kwargs)
 
@@ -52,6 +61,11 @@ class PerformObservationView(FormView):
 
     def get_board(self):
         self.board = Board.objects.get(id=self.kwargs['pk'])
+
+    def pick_card(self, request):
+        card_id = request.GET.get('card')
+        cherry_picked_card = Card.objects.get(id=card_id) if card_id is not None else None
+        self.card = cherry_picked_card or self.board.draw_card()
 
     def parse_card(self):
         self.sections = self.card.sections.all()
