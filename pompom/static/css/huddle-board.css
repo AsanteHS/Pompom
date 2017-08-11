@@ -84,7 +84,7 @@ Click the help icon above to learn more.
     padding: 0;
     border-radius:20px;
     overflow: hidden;
-    height: 430px;
+    height: 45vh;
 }
 
 #card h1, #card-success h1, #card-fallout h1 {
@@ -144,8 +144,6 @@ padding: 5px;
 }
 
 #assist img {
-height: 390px;
-width: 304px;
 border-radius: 18px;
 margin: 20px 0 0 0;
 }
