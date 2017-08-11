@@ -49,7 +49,7 @@ class PerformObservationView(FormView):
 
     def get(self, request, *args, **kwargs):
         self.get_board()
-        self.card = self.board.draw_card()
+        self.pick_card(request)
         self.parse_card()
         return super().get(request, *args, **kwargs)
 
@@ -61,6 +61,11 @@ class PerformObservationView(FormView):
 
     def get_board(self):
         self.board = Board.objects.get(id=self.kwargs['pk'])
+
+    def pick_card(self, request):
+        card_id = request.GET.get('card')
+        cherry_picked_card = Card.objects.get(id=card_id) if card_id is not None else None
+        self.card = cherry_picked_card or self.board.draw_card()
 
     def parse_card(self):
         self.sections = self.card.sections.all()

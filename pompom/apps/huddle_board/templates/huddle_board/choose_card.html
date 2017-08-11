@@ -20,9 +20,10 @@
 
     <div class="panel-body">
       <div id="content">
-          <div class="btn-group-vertical" data-toggle="buttons">
+          <div class="btn-group-vertical">
             {% for card in cards %}
-              <a class="control-label btn btn-default" href="#">
+              <a href="{% url "pompom:perform_observation" board.id %}?card={{ card.id }}"
+                 class="btn btn-default">
                 {{ card.title }}
               </a>
             {% endfor %}
