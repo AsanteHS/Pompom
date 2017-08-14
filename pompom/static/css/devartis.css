@@ -40,3 +40,10 @@ div.btn-group[data-toggle=buttons] > label {width:5em;}
 	margin: auto;
 	display: block;
 }
+
+/* card notes */
+
+.write-card-note {
+    width: 100%;
+    height: 35vh;
+}
