@@ -74,6 +74,7 @@
                       <p><strong class="
                           {% if graded_section.grade %}card-section-success
                           {% elif graded_section.grade == False %}card-section-fallout
+                          {% else %}card-section-n-a
                           {% endif %}
                       ">
                         {{ graded_section.section.title }}
