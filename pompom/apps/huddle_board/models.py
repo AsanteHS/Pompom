@@ -54,15 +54,7 @@ class GradedCard:
     def __init__(self, observation):
         self.card = observation.card
         self.graded_sections = [GradedCardSection(section, observation) for section in self.card.sections.all()]
-        self.grade = self.grade_card()
-
-    def grade_card(self):
-        section_grades = {section.grade for section in self.graded_sections}
-        if False in section_grades:
-            return False
-        if True in section_grades:
-            return True
-        return None
+        self.grade = observation.grade
 
 
 class Deck(TitleDescriptionModel):
@@ -108,6 +100,14 @@ class Board(TitleDescriptionModel):
 class Observation(TimeStampedModel):
     board = models.ForeignKey(Board, related_name='observations', verbose_name=_('board'))
     card = models.ForeignKey(Card, related_name='observations', verbose_name=_('card'))
+
+    def grade(self):
+        answer_grades = {answer.grade for answer in self.answers.all()}
+        if False in answer_grades:
+            return False
+        if True in answer_grades:
+            return True
+        return None
 
 
 class Answer(models.Model):
