@@ -18,8 +18,12 @@ class HuddleBoardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         board = Board.objects.get(id=self.kwargs['pk'])
-        graded_cards = board.latest_graded_cards()
-        return super().get_context_data(board=board, graded_cards=graded_cards, **kwargs)
+        return super().get_context_data(
+            board=board,
+            graded_cards=board.latest_graded_cards(),
+            result_history=board.result_history(),
+            **kwargs
+        )
 
 
 class MobileMenuView(DetailView):

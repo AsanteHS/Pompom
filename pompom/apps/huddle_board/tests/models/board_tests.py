@@ -19,3 +19,7 @@ class TestBoard:
     @pytest.fixture
     def a_board(self, a_deck):
         return Board.objects.create(title='a board', deck=a_deck)
+
+    @pytest.fixture
+    def a_different_board(self, a_deck):
+        return Board.objects.create(title='a different board', deck=a_deck)

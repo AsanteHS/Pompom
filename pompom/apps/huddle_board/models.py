@@ -1,7 +1,10 @@
 import random
+from datetime import timedelta
+from operator import itemgetter
 
 from ckeditor.fields import RichTextField
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel, TitleDescriptionModel
 from ordered_model.models import OrderedModel
@@ -10,6 +13,7 @@ from .utils import truncate_string
 
 
 MAX_CARDS_DISPLAYED = 3
+MAX_GRAPHS_DISPLAYED = 10
 
 
 class Card(models.Model):
@@ -95,6 +99,26 @@ class Board(TitleDescriptionModel):
     def latest_graded_cards(self):
         observations = self.latest_observations()
         return [GradedCard(observation) for observation in observations]
+
+    def result_history(self):
+        observed_cards = [(card, self.last_observation_time(card)) for card in self.deck.cards.all()]
+        observed_cards.sort(key=itemgetter(1), reverse=True)
+        shown_cards = observed_cards[MAX_GRAPHS_DISPLAYED]
+        return self.history_graph(shown_cards)
+
+    def last_observation_time(self, card):
+        last_observation = self.observations.filter(card=card).first()
+        if not last_observation:
+            return None
+        return last_observation.created
+
+    def history_graph(self, cards):
+        return [(card, self.card_graph(card)) for card in cards]
+
+    def card_graph(self, card):
+        thirty_days_ago = timezone.now() - timedelta(days=30)
+        card_observations = self.observations.filter(card=card, created__gte=thirty_days_ago)
+        return [observation.grade() for observation in card_observations]
 
 
 class Observation(TimeStampedModel):
