@@ -18,4 +18,7 @@ class CardNoteForm(forms.ModelForm):
     class Meta:
         model = CardNote
         fields = ('contents', 'card')
-        widgets = {'card': forms.RadioSelect()}
+        widgets = {
+            'card': forms.RadioSelect(),
+            'contents': forms.Textarea(attrs={'class': 'write-card-note'}),
+        }
