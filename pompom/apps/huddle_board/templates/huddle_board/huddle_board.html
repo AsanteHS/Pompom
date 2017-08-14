@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block meta %}
- <meta http-equiv="refresh" content="15">
+{# <meta http-equiv="refresh" content="15">#}
 {% endblock meta %}
 
 {% block extra_title %}Huddle Board{% endblock extra_title %}
@@ -93,13 +93,13 @@
         <div class="row">
           {% for graded_card in graded_cards %}
             <div class="col-sm-4 col-lg-4 col-md-4">
-                <div class="companion-image">
-              {% if graded_card.card.companion_image %}
+              <div class="companion-image">
+                {% if graded_card.card.companion_image %}
                   <img class="img-responsive" src="{{ graded_card.card.companion_image.url }}">
-              {% else %}
-                  <img class=img-responsive" src="/static/images/placeholder.png"/>
-              {% endif %}
-                </div>
+                {% else %}
+                  <img class=img-responsive" src="{% static "images/placeholder.png" %}"/>
+                {% endif %}
+              </div>
             </div>
           {% endfor %}
         </div>
