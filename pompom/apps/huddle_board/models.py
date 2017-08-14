@@ -55,6 +55,7 @@ class GradedCard:
         self.card = observation.card
         self.graded_sections = [GradedCardSection(section, observation) for section in self.card.sections.all()]
         self.grade = self.grade_card()
+        self.datetime = observation.created
 
     def grade_card(self):
         section_grades = {section.grade for section in self.graded_sections}
