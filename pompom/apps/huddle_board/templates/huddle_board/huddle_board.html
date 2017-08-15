@@ -17,11 +17,14 @@
         </div>
 
         <div id="bar-counter">
+          <h4>Past 30 days</h4>
           {% for card, history in result_history %}
             <h6>{{ card.title }}</h6>
             {% spaceless %}
               {% for grade in history %}
                 <span class="{% if grade == True %}pass{% elif grade == False %}fallout{% else %}n-a{% endif %}">l</span>
+              {% empty %}
+                <span>&nbsp;</span>
               {% endfor %}
             {% endspaceless %}
           {% endfor %}

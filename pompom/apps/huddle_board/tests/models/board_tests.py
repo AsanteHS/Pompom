@@ -1,4 +1,8 @@
+from datetime import timedelta
+from unittest import mock
+
 import pytest
+from django.utils import timezone
 
 from pompom.apps.huddle_board.models import Card, Board, Deck, Observation, CardSection, Answer
 
@@ -50,6 +54,14 @@ class TestBoard:
             Answer.objects.create(observation=observation, card_section=section, grade=grade)
         return observations
 
+    @pytest.fixture
+    def an_old_observation(self, a_board, a_card):
+        forty_days_ago = timezone.now() - timedelta(days=40)
+        with mock.patch('django.utils.timezone.now') as mock_now:
+            mock_now.return_value = forty_days_ago
+            observation = Observation.objects.create(board=a_board, card=a_card)
+        return observation
+
     def test_result_history_with_no_deck_returns_empty_list(self, a_board_with_no_deck):
         assert [] == a_board_with_no_deck.result_history()
 
@@ -76,5 +88,13 @@ class TestBoard:
 
         for observation in some_observations:
             assert a_different_board != observation.board
+        assert a_card == card_zero
+        assert [] == card_zero_results
+
+    @pytest.mark.usefixtures("an_old_observation")
+    def test_history_ignores_observations_older_than_thirty_days(self, a_board, a_card):
+        results = a_board.result_history()
+        card_zero, card_zero_results = results[0]
+
         assert a_card == card_zero
         assert [] == card_zero_results
