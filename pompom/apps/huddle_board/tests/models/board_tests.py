@@ -1,6 +1,6 @@
 import pytest
 
-from pompom.apps.huddle_board.models import Card, Board, Deck, Observation
+from pompom.apps.huddle_board.models import Card, Board, Deck, Observation, CardSection, Answer
 
 
 @pytest.mark.django_db
@@ -42,7 +42,13 @@ class TestBoard:
 
     @pytest.fixture
     def some_observations(self, a_board, a_card):
-        return [Observation.objects.create(board=a_board, card=a_card) for _ in range(3)]
+        section = CardSection.objects.create(card=a_card, is_gradable=True)
+        observations = []
+        for grade in [True, False, None]:
+            observation = Observation.objects.create(board=a_board, card=a_card)
+            observations.append(observation)
+            Answer.objects.create(observation=observation, card_section=section, grade=grade)
+        return observations
 
     def test_result_history_with_no_deck_returns_empty_list(self, a_board_with_no_deck):
         assert [] == a_board_with_no_deck.result_history()
@@ -59,8 +65,17 @@ class TestBoard:
     def test_result_history_shows_graded_observations_for_a_card(self, a_board, a_card, some_observations):
         results = a_board.result_history()
         card_zero, card_zero_results = results[0]
-        some_observations.reverse()
+        some_observations.reverse()  # sorting observations by descending datetime
+        observation_grades = [observation.grade() for observation in some_observations]
 
         assert a_card == card_zero
-        for result, observation in zip(card_zero_results, some_observations):
-            assert observation.grade() == result
+        assert observation_grades == card_zero_results
+
+    def test_history_ignores_observations_from_different_boards(self, a_different_board, a_card, some_observations):
+        results = a_different_board.result_history()
+        card_zero, card_zero_results = results[0]
+
+        for observation in some_observations:
+            assert a_different_board != observation.board
+        assert a_card == card_zero
+        assert [] == card_zero_results
