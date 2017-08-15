@@ -1,6 +1,5 @@
 import random
 from datetime import timedelta, datetime
-from operator import itemgetter
 
 from ckeditor.fields import RichTextField
 from django.db import models
@@ -59,6 +58,7 @@ class GradedCard:
         self.card = observation.card
         self.graded_sections = [GradedCardSection(section, observation) for section in self.card.sections.all()]
         self.grade = observation.grade
+        self.datetime = observation.created
 
 
 class Deck(TitleDescriptionModel):
