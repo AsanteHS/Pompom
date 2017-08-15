@@ -17,26 +17,14 @@
         </div>
 
         <div id="bar-counter">
-          <h6>Purposeful Rounding</h6>
-          <span style="color: #41a317;">lllll<span style="color: #990012;">ll</span>lll</span>
-          <h6>Pain</h6>
-          <span style="color: #41a317;">l<span style="color: #990012;">l</span>llll<span style="color: #990012;">l</span>l</span>
-          <h6>Bedside Handoff</h6>
-          <span style="color: #41a317;">lllllllllll</span>
-          <h6>Catheter Associated Urinary Tract Infection Prevention</h6>
-          <span style="color: #990012;">lllllllllll</span>
-          <h6>Central Line Associated Blood Stream Infection Prevention</h6>
-          <span style="color: #41a317;">llllllll</span>
-          <h6>Pre-Surgery</h6>
-          <span style="color: #41a317;">lllllllll</span>
-          <h6>Pain Management</h6>
-          <span style="color: #41a317;">llllll<span style="color: #990012;">lll</span></span>
-          <h6>Pain Management</h6>
-          <span style="color: #41a317;">lllllllllll</span>
-          <h6>Hypoglycemia Treatment</h6>
-          <span style="color: #41a317;">llllll<span style="color: #990012;">ll</span>lllllllll</span>
-          <h6>Should I test for C-diff</h6>
-          <span style="color: #41a317;">lllllll</span>
+          {% for card, history in result_history %}
+            <h6>{{ card.title }}</h6>
+            {% spaceless %}
+              {% for grade in history %}
+                <span class="{% if grade == True %}pass{% elif grade == False %}fallout{% else %}n-a{% endif %}">l</span>
+              {% endfor %}
+            {% endspaceless %}
+          {% endfor %}
         </div>
 
         <a href="{% url "pompom:mobile_menu" board.id %}">

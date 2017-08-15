@@ -120,7 +120,7 @@ class Board(TitleDescriptionModel):
 
     def card_graph(self, card):
         thirty_days_ago = timezone.now() - timedelta(days=30)
-        card_observations = self.observations.filter(card=card, created__gte=thirty_days_ago)
+        card_observations = self.observations.filter(card=card, created__gte=thirty_days_ago).order_by('created')
         return [observation.grade() for observation in card_observations]
 
     def get_observation_time(self, card_tuple):

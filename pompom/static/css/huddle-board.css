@@ -213,12 +213,24 @@ float: right;
 	padding: 20px 0 20px 0;
 }
 #bar-counter span {
-font-family: 'BoldKiller';
-letter-spacing:0px;
-padding: 0px 0px 0px 0px;
-line-height:0px;
-font-size: 20px;
-margin: 0 0 5px 0;
+    content: 'l';
+    font-family: 'BoldKiller';
+    letter-spacing:0;
+    padding: 0;
+    line-height:0;
+    font-size: 20px;
+    margin: 0 0 5px 0;
+}
+
+#bar-counter span.pass {
+    color: #41a317;
+}
+
+#bar-counter span.fallout {
+    color: #990012;
+}
+#bar-counter span.n-a {
+    color: #777777;
 }
 
 #bar-counter h6 {

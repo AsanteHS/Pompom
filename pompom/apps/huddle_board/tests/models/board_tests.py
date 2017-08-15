@@ -65,7 +65,6 @@ class TestBoard:
     def test_result_history_shows_graded_observations_for_a_card(self, a_board, a_card, some_observations):
         results = a_board.result_history()
         card_zero, card_zero_results = results[0]
-        some_observations.reverse()  # sorting observations by descending datetime
         observation_grades = [observation.grade() for observation in some_observations]
 
         assert a_card == card_zero
