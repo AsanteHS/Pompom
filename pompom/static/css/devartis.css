@@ -26,21 +26,6 @@ div.btn-group[data-toggle=buttons] > label {width:5em;}
     margin-right: 4px;
 }
 
-/* companion images */
-
-.assist {
-    margin: 20px 0 0 0;
-}
-.assist img {
-    max-width:304px;
-    max-height:390px;
-    width:auto;
-    height:auto;
-    border-radius: 18px;
-	margin: auto;
-	display: block;
-}
-
 /* card notes */
 
 .write-card-note {

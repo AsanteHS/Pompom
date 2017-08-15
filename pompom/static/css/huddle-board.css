@@ -18,7 +18,7 @@ background:white;
 }
 
 .carousel-holder {
-    margin-bottom: 30px;
+    margin-bottom: 2vh;
 }
 
 .carousel-control,
@@ -69,12 +69,16 @@ Click the help icon above to learn more.
 .title-bar h1, .title-bar h2 {
 	text-align:center;
 	line-height:1em;
-	-webkit-margin-before: 0.4em;
-    -webkit-margin-after: 0.1em;
-    }
+	-webkit-margin-before: 2vh;
+    -webkit-margin-after: 0.3vh;
+}
 
 .title-bar h1 {
-	Font-size:40px;
+	font-size:5vh;
+}
+
+.title-bar h2 {
+	font-size:3.75vh;
 }
 
 /* CARDS */
@@ -106,7 +110,16 @@ background: red;
 }
 
 .companion-image {
-    margin-top: 10px;
+    margin-top: 1vh;
+}
+
+.companion-image img {
+    max-height: 38vh;
+    width: auto;
+    height: auto;
+    border-radius: 18px;
+    margin: auto;
+    display: block;
 }
 
 /* Card Scrolling Accordion */
