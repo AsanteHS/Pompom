@@ -114,7 +114,7 @@ background: red;
 }
 
 .companion-image img {
-    max-height: 38vh;
+    max-height: 36vh;
     width: auto;
     height: auto;
     border-radius: 18px;
@@ -174,10 +174,10 @@ color: white;
 }
 
 #tips  {
-border: 2px black solid;
-border-radius: 20px;
-min-height: 250px;
-margin: 20px 0 20px 0;
+    border: 2px black solid;
+    border-radius: 20px;
+    height: 20vh;
+    margin: 1vh 0;
 }
 
 #tips p {
@@ -202,24 +202,22 @@ color: white;
 /* QR CODE */
 
 #qr-code img {
-height:200px;
-float: right;
+    height:21vh;
+    float: right;
 }
 
 
 /* BAR COUNTER */
 
 #bar-counter {
-	padding: 20px 0 20px 0;
+    padding: 0 0 1vh 0;
 }
 #bar-counter span {
-    content: 'l';
     font-family: 'BoldKiller';
     letter-spacing:0;
     padding: 0;
-    line-height:0;
-    font-size: 20px;
-    margin: 0 0 5px 0;
+    font-size: 2.5vh;
+    margin: 0 0 1vh 0;
 }
 
 #bar-counter span.pass {
@@ -233,10 +231,15 @@ float: right;
     color: #777777;
 }
 
+#bar-counter h4 {
+    font-size: 2.25vh;
+}
+
 #bar-counter h6 {
-padding:0;
-font-size:15px;
-line-height:0.5;
+    padding:0;
+    font-size:1.75vh;
+    margin: 1.25vh 0;
+    line-height:0.5;
 }
 
 /* equal width for grade buttons */
