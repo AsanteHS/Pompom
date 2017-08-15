@@ -1,5 +1,5 @@
 import random
-from datetime import timedelta
+from datetime import timedelta, datetime
 from operator import itemgetter
 
 from ckeditor.fields import RichTextField
@@ -101,9 +101,12 @@ class Board(TitleDescriptionModel):
         return [GradedCard(observation) for observation in observations]
 
     def result_history(self):
+        if not self.deck:
+            return []
         observed_cards = [(card, self.last_observation_time(card)) for card in self.deck.cards.all()]
-        observed_cards.sort(key=itemgetter(1), reverse=True)
-        shown_cards = observed_cards[MAX_GRAPHS_DISPLAYED]
+        observed_cards.sort(key=self.get_observation_time, reverse=True)
+        top_observed_cards = observed_cards[:MAX_GRAPHS_DISPLAYED]
+        shown_cards = [card_tuple[0] for card_tuple in top_observed_cards]
         return self.history_graph(shown_cards)
 
     def last_observation_time(self, card):
@@ -119,6 +122,10 @@ class Board(TitleDescriptionModel):
         thirty_days_ago = timezone.now() - timedelta(days=30)
         card_observations = self.observations.filter(card=card, created__gte=thirty_days_ago)
         return [observation.grade() for observation in card_observations]
+
+    def get_observation_time(self, card_tuple):
+        min_datetime = timezone.make_aware(datetime.min + timedelta(days=1), timezone.get_default_timezone())
+        return card_tuple[1] or min_datetime
 
 
 class Observation(TimeStampedModel):
