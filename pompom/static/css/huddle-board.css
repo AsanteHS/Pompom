@@ -234,9 +234,14 @@ float: right;
 }
 
 #bar-counter h6 {
-padding:0px;
+padding:0;
 font-size:15px;
 line-height:0.5;
+}
+
+/* equal width for grade buttons */
+.grade-buttons > label {
+    width:5em;
 }
 
 /* FIGHTING THE SET CSS */

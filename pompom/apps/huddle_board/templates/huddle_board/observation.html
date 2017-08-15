@@ -21,7 +21,7 @@
 
             {% if section.is_gradable %}
               <br>
-              <div class="btn-group" data-toggle="buttons">
+              <div class="btn-group grade-buttons" data-toggle="buttons">
                 <label data-value="false" class="control-label btn btn-default" for="button-{{ section.id }}-false">
                   <input id="button-{{ section.id }}-false" name="observation_{{ section.id }}" value="False" type="radio"/>
                   <span style="color: #ff0000;"><strong>✘</strong></span>

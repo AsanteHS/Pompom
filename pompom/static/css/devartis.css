@@ -1,6 +1,3 @@
-/* equal width for all the buttons */
-div.btn-group[data-toggle=buttons] > label {width:5em;}
-
 /* card section grades */
 .card-section-success {
     color: #339966;
