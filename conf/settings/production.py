@@ -22,7 +22,7 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
-ALLOWED_HOSTS = ['pompom-prod.herokuapp.com']
+ALLOWED_HOSTS = ['pompom-prod.herokuapp.com', 'pompomapp.net']
 
 RAVEN_CONFIG = {
     'dsn': os.environ['RAVEN_DSN'],
