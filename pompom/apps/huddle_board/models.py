@@ -1,7 +1,9 @@
 import random
+from datetime import timedelta, datetime
 
 from ckeditor.fields import RichTextField
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel, TitleDescriptionModel
 from ordered_model.models import OrderedModel
@@ -10,6 +12,7 @@ from .utils import truncate_string
 
 
 MAX_CARDS_DISPLAYED = 3
+MAX_GRAPHS_DISPLAYED = 10
 
 
 class Card(models.Model):
@@ -54,16 +57,8 @@ class GradedCard:
     def __init__(self, observation):
         self.card = observation.card
         self.graded_sections = [GradedCardSection(section, observation) for section in self.card.sections.all()]
-        self.grade = self.grade_card()
+        self.grade = observation.grade
         self.datetime = observation.created
-
-    def grade_card(self):
-        section_grades = {section.grade for section in self.graded_sections}
-        if False in section_grades:
-            return False
-        if True in section_grades:
-            return True
-        return None
 
 
 class Deck(TitleDescriptionModel):
@@ -105,10 +100,45 @@ class Board(TitleDescriptionModel):
         observations = self.latest_observations()
         return [GradedCard(observation) for observation in observations]
 
+    def result_history(self):
+        if not self.deck:
+            return []
+        observed_cards = [(card, self.last_observation_time(card)) for card in self.deck.cards.all()]
+        observed_cards.sort(key=self.get_observation_time, reverse=True)
+        top_observed_cards = observed_cards[:MAX_GRAPHS_DISPLAYED]
+        shown_cards = [card_tuple[0] for card_tuple in top_observed_cards]
+        return self.history_graph(shown_cards)
+
+    def last_observation_time(self, card):
+        last_observation = self.observations.filter(card=card).first()
+        if not last_observation:
+            return None
+        return last_observation.created
+
+    def history_graph(self, cards):
+        return [(card, self.card_graph(card)) for card in cards]
+
+    def card_graph(self, card):
+        thirty_days_ago = timezone.now() - timedelta(days=30)
+        card_observations = self.observations.filter(card=card, created__gte=thirty_days_ago).order_by('created')
+        return [observation.grade() for observation in card_observations]
+
+    def get_observation_time(self, card_tuple):
+        min_datetime = timezone.make_aware(datetime.min + timedelta(days=1), timezone.get_default_timezone())
+        return card_tuple[1] or min_datetime
+
 
 class Observation(TimeStampedModel):
     board = models.ForeignKey(Board, related_name='observations', verbose_name=_('board'))
     card = models.ForeignKey(Card, related_name='observations', verbose_name=_('card'))
+
+    def grade(self):
+        answer_grades = {answer.grade for answer in self.answers.all()}
+        if False in answer_grades:
+            return False
+        if True in answer_grades:
+            return True
+        return None
 
 
 class Answer(models.Model):
