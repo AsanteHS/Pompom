@@ -17,7 +17,7 @@
 
         <p>Choose one of the last observed cards:</p>
         <div class="btn-group-vertical" data-toggle="buttons">
-          {% for card in board.latest_cards %}
+          {% for card in board.latest_distinct_cards %}
             <label class="control-label btn btn-default" for="id_card_{{ card.id }}">
               <input type="radio" id="id_card_{{ card.id }}" name="card" value="{{ card.id }}" required/>
               {{ card.title }}

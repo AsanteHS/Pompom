@@ -89,12 +89,17 @@ class Board(TitleDescriptionModel):
         if not self.deck.cards.exists():
             raise self.DeckException("Cannot draw a card; assigned deck has no cards.")
 
+    def latest_distinct_cards(self):
+        latest_cards = []
+        for observation in self.observations.iterator():  # avoid fetching all observations at once
+            if observation.card not in latest_cards:
+                latest_cards.append(observation.card)
+            if len(latest_cards) == MAX_CARDS_DISPLAYED:
+                break
+        return latest_cards
+
     def latest_observations(self):
         return self.observations.all()[:MAX_CARDS_DISPLAYED]
-
-    def latest_cards(self):
-        observations = self.latest_observations()
-        return [observation.card for observation in observations]
 
     def latest_graded_cards(self):
         observations = self.latest_observations()
