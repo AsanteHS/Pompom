@@ -27,7 +27,8 @@ class HuddleBoardView(TemplateView):
 
 class TokenRequiredMixin(UserPassesTestMixin):
 
-    login_url = '/admin/login'
+    login_url = reverse_lazy('pompom:unauthorized')
+    redirect_field_name = None
 
     def test_func(self):
         token = MobileToken(self.kwargs['token'])
@@ -130,3 +131,7 @@ class AddCardNoteView(TokenRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.board_id = self.kwargs['pk']
         return super().form_valid(form)
+
+
+class UnauthorizedView(TemplateView):
+    template_name = 'huddle_board/unauthorized.html'
