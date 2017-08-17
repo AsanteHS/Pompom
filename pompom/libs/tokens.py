@@ -3,10 +3,10 @@ from datetime import timedelta, datetime
 
 import binascii
 from Crypto.Cipher import XOR
+from django.conf import settings
 from django.utils import timezone, dateformat
 
 HOURS_UNTIL_TOKEN_EXPIRY = 12
-QR_TOKEN_KEY = '12345'
 
 
 class MobileToken:
@@ -21,15 +21,15 @@ class MobileToken:
 
     def datetime_to_ciphertext(self):
         expiry_timestamp = dateformat.format(self.datetime, 'U')
-        byte_array = encrypt(QR_TOKEN_KEY, expiry_timestamp)
+        byte_array = encrypt(settings.MOBILE_TOKEN_KEY, expiry_timestamp)
         return byte_array.decode("utf-8")
 
     def ciphertext_to_datetime(self):
         byte_array = self.ciphertext.encode("utf-8")
         try:
-            token_timestamp = int(decrypt(QR_TOKEN_KEY, byte_array))
+            token_timestamp = int(decrypt(settings.MOBILE_TOKEN_KEY, byte_array))
         except (binascii.Error, ValueError):
-            min_datetime = timezone.make_aware(datetime.min + timedelta(days=1), timezone.get_default_timezone())
+            min_datetime = timezone.make_aware(datetime.min + timedelta(days=1), timezone.get_current_timezone())
             return min_datetime
         return datetime.fromtimestamp(token_timestamp, tz=timezone.get_current_timezone())
 
