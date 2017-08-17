@@ -1,8 +1,10 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, DetailView, CreateView, ListView
 
 from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm
 from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote
+from pompom.libs.tokens import MobileToken
 
 
 class HomeView(TemplateView):
@@ -19,15 +21,31 @@ class HuddleBoardView(TemplateView):
     def get_context_data(self, **kwargs):
         board = Board.objects.get(id=self.kwargs['pk'])
         graded_cards = board.latest_graded_cards()
-        return super().get_context_data(board=board, graded_cards=graded_cards, **kwargs)
+        token = MobileToken().ciphertext
+        return super().get_context_data(board=board, graded_cards=graded_cards, token=token, **kwargs)
 
 
-class MobileMenuView(DetailView):
+class TokenRequiredMixin(UserPassesTestMixin):
+
+    login_url = '/admin/login'
+
+    def test_func(self):
+        token = MobileToken(self.kwargs['token'])
+        return not token.expired()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'token' not in context:
+            context['token'] = self.kwargs['token']
+        return context
+
+
+class MobileMenuView(TokenRequiredMixin, DetailView):
     model = Board
     template_name = 'huddle_board/mobile_menu.html'
 
 
-class ChooseCardView(TemplateView):
+class ChooseCardView(TokenRequiredMixin, TemplateView):
     template_name = 'huddle_board/choose_card.html'
 
     def get_context_data(self, **kwargs):
@@ -36,7 +54,7 @@ class ChooseCardView(TemplateView):
         return super().get_context_data(board=board, cards=cards, **kwargs)
 
 
-class PerformObservationView(FormView):
+class PerformObservationView(TokenRequiredMixin, FormView):
     template_name = 'huddle_board/observation.html'
     form_class = ObservationForm
 
@@ -97,7 +115,7 @@ class PerformObservationView(FormView):
             )
 
 
-class AddCardNoteView(CreateView):
+class AddCardNoteView(TokenRequiredMixin, CreateView):
     model = CardNote
     form_class = CardNoteForm
     template_name = "huddle_board/card_note.html"

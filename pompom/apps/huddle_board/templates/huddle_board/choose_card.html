@@ -22,7 +22,7 @@
       <div id="content">
           <div class="btn-group-vertical">
             {% for card in cards %}
-              <a href="{% url "pompom:perform_observation" board.id %}?card={{ card.id }}"
+              <a href="{% url "pompom:perform_observation" board.id token %}?card={{ card.id }}"
                  class="btn btn-default">
                 {{ card.title }}
               </a>

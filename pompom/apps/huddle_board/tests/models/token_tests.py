@@ -48,6 +48,6 @@ class TestTokens:
         assert not token.expired()
 
     def test_token_from_random_string_is_invalid(self):
-        some_arbitrary_string = b'34563857683945836453453453'
+        some_arbitrary_string = 'AAADDwUCwQcNAA=='
         token = MobileToken(some_arbitrary_string)
         assert token.expired()
