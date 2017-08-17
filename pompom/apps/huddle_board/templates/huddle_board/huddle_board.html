@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block meta %}
-  <meta http-equiv="refresh" content="15">
+ <meta http-equiv="refresh" content="15">
 {% endblock meta %}
 
 {% block extra_title %}Huddle Board{% endblock extra_title %}
@@ -17,26 +17,19 @@
         </div>
 
         <div id="bar-counter">
-          <h6>Purposeful Rounding</h6>
-          <span style="color: #41a317;">lllll<span style="color: #990012;">ll</span>lll</span>
-          <h6>Pain</h6>
-          <span style="color: #41a317;">l<span style="color: #990012;">l</span>llll<span style="color: #990012;">l</span>l</span>
-          <h6>Bedside Handoff</h6>
-          <span style="color: #41a317;">lllllllllll</span>
-          <h6>Catheter Associated Urinary Tract Infection Prevention</h6>
-          <span style="color: #990012;">lllllllllll</span>
-          <h6>Central Line Associated Blood Stream Infection Prevention</h6>
-          <span style="color: #41a317;">llllllll</span>
-          <h6>Pre-Surgery</h6>
-          <span style="color: #41a317;">lllllllll</span>
-          <h6>Pain Management</h6>
-          <span style="color: #41a317;">llllll<span style="color: #990012;">lll</span></span>
-          <h6>Pain Management</h6>
-          <span style="color: #41a317;">lllllllllll</span>
-          <h6>Hypoglycemia Treatment</h6>
-          <span style="color: #41a317;">llllll<span style="color: #990012;">ll</span>lllllllll</span>
-          <h6>Should I test for C-diff</h6>
-          <span style="color: #41a317;">lllllll</span>
+          <h4>Past 30 days</h4>
+          {% for card, history in result_history %}
+            <h6>{{ card.title }}</h6>
+            {% spaceless %}
+              {% for grade in history %}
+                <span class="{% if grade == True %}pass{% elif grade == False %}fallout{% else %}n-a{% endif %}">l</span>
+              {% empty %}
+                <span>&nbsp;</span>
+              {% endfor %}
+            {% endspaceless %}
+          {% empty %}
+            <p>(no observations yet)</p>
+          {% endfor %}
         </div>
 
         <a href="{% url "pompom:mobile_menu" board.id %}">
@@ -69,11 +62,14 @@
 
                 <div id="content">
 
+                <p class="text-right">Observed {{ graded_card.datetime }}</p>
+
                   {% for graded_section in graded_card.graded_sections %}
                     {% if graded_section.section.title %}
                       <p><strong class="
                           {% if graded_section.grade %}card-section-success
                           {% elif graded_section.grade == False %}card-section-fallout
+                          {% else %}card-section-n-a
                           {% endif %}
                       ">
                         {{ graded_section.section.title }}
@@ -93,13 +89,13 @@
         <div class="row">
           {% for graded_card in graded_cards %}
             <div class="col-sm-4 col-lg-4 col-md-4">
-              {% if graded_card.card.companion_image %}
-                <div class="assist">
-                  <img src="{{ graded_card.card.companion_image.url }}">
-                </div>
-              {% else %}
-                <div class="assist"><img src="/static/images/placeholder.png"/></div>
-              {% endif %}
+              <div class="companion-image">
+                {% if graded_card.card.companion_image %}
+                  <img class="img-responsive" src="{{ graded_card.card.companion_image.url }}">
+                {% else %}
+                  <img class=img-responsive" src="{% static "images/placeholder.png" %}"/>
+                {% endif %}
+              </div>
             </div>
           {% endfor %}
         </div>
