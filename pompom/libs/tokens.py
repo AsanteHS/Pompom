@@ -1,6 +1,7 @@
 import base64
 from datetime import timedelta, datetime
 
+import binascii
 from Crypto.Cipher import XOR
 from django.utils import timezone, dateformat
 
@@ -23,7 +24,11 @@ class MobileToken:
         return encrypt(QR_TOKEN_KEY, expiry_timestamp)
 
     def ciphertext_to_datetime(self):
-        token_timestamp = int(decrypt(QR_TOKEN_KEY, self.ciphertext))
+        try:
+            token_timestamp = int(decrypt(QR_TOKEN_KEY, self.ciphertext))
+        except binascii.Error:
+            min_datetime = timezone.make_aware(datetime.min + timedelta(days=1), timezone.get_default_timezone())
+            return min_datetime
         return datetime.fromtimestamp(token_timestamp, tz=timezone.get_current_timezone())
 
     def expired(self):
@@ -32,9 +37,9 @@ class MobileToken:
 
 def encrypt(key, plaintext):
     cipher = XOR.new(key)
-    return base64.b64encode(cipher.encrypt(plaintext))
+    return base64.urlsafe_b64encode(cipher.encrypt(plaintext))
 
 
 def decrypt(key, ciphertext):
     cipher = XOR.new(key)
-    return cipher.decrypt(base64.b64decode(ciphertext))
+    return cipher.decrypt(base64.urlsafe_b64decode(ciphertext))
