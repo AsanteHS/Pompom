@@ -13,7 +13,7 @@
       <div class="col-md-3 sidebar">
         <div id="tips">
           <h3>Safety Message</h3>
-          <p>Placeholder for Messages</p>
+          {% if safety_message %}{{ safety_message.contents|safe }}{% endif %}
         </div>
 
         <div id="bar-counter">
