@@ -92,15 +92,19 @@ class Board(TitleDescriptionModel):
     def latest_distinct_cards(self, amount):
         """
         Return _amount_ cards from this board's deck, in descending order by datetime of last observation
-        (counting observations for this board only)
+        (counting observations for this board only). If there aren't enough observed cards,
+        expand using unobserved cards from the deck.
         """
+        if not self.deck:
+            return []
         latest_cards = []
         for observation in self.observations.iterator():  # avoid fetching all observations at once
             if observation.card not in latest_cards:
                 latest_cards.append(observation.card)
             if len(latest_cards) == amount:
-                break
-        return latest_cards
+                return latest_cards
+        latest_cards += [card for card in self.deck.cards.all() if card not in latest_cards]
+        return latest_cards[:amount]
 
     def latest_observations(self):
         return self.observations.all()[:MAX_CARDS_DISPLAYED]
@@ -110,16 +114,8 @@ class Board(TitleDescriptionModel):
         return [GradedCard(observation) for observation in observations]
 
     def result_history(self):
-        if not self.deck:
-            return []
         shown_cards = self.latest_distinct_cards(amount=MAX_GRAPHS_DISPLAYED)
         return self.history_graph(shown_cards)
-
-    def last_observation_time(self, card):
-        last_observation = self.observations.filter(card=card).first()
-        if not last_observation:
-            return None
-        return last_observation.created
 
     def history_graph(self, cards):
         return [(card, self.card_graph(card)) for card in cards]
