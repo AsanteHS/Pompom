@@ -195,14 +195,7 @@ EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.c
 
 CKEDITOR_CONFIGS = {
     'default': {
-        "allowedContent": {
-            "$1": {
-                # "elements": '*',
-                "attributes": True,
-                "styles": True,
-                "classes": True
-            }
-        },
+        'toolbar': 'full',
         "disallowedContent": '*[on*]',
         'height': 200,
         'width': 600,
