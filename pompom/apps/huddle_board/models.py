@@ -89,12 +89,16 @@ class Board(TitleDescriptionModel):
         if not self.deck.cards.exists():
             raise self.DeckException("Cannot draw a card; assigned deck has no cards.")
 
-    def latest_distinct_cards(self):
+    def latest_distinct_cards(self, amount):
+        """
+        Return _amount_ cards from this board's deck, in descending order by datetime of last observation
+        (counting observations for this board only)
+        """
         latest_cards = []
         for observation in self.observations.iterator():  # avoid fetching all observations at once
             if observation.card not in latest_cards:
                 latest_cards.append(observation.card)
-            if len(latest_cards) == MAX_CARDS_DISPLAYED:
+            if len(latest_cards) == amount:
                 break
         return latest_cards
 
@@ -108,10 +112,7 @@ class Board(TitleDescriptionModel):
     def result_history(self):
         if not self.deck:
             return []
-        observed_cards = [(card, self.last_observation_time(card)) for card in self.deck.cards.all()]
-        observed_cards.sort(key=self.get_observation_time, reverse=True)
-        top_observed_cards = observed_cards[:MAX_GRAPHS_DISPLAYED]
-        shown_cards = [card_tuple[0] for card_tuple in top_observed_cards]
+        shown_cards = self.latest_distinct_cards(amount=MAX_GRAPHS_DISPLAYED)
         return self.history_graph(shown_cards)
 
     def last_observation_time(self, card):
