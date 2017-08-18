@@ -7,3 +7,4 @@ django-full-url==0.1
 django-ordered-model==1.4.1
 django-storages==1.6.5
 Pillow==4.2.1
+pycrypto==2.6.1

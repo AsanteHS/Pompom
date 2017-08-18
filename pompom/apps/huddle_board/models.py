@@ -161,3 +161,10 @@ class CardNote(TimeStampedModel):
 
     def __str__(self):
         return truncate_string(self.contents)
+
+
+class SafetyMessage(TimeStampedModel):
+    contents = RichTextField(verbose_name=_('contents'))
+
+    def __str__(self):
+        return truncate_string(self.contents, max_length=100)

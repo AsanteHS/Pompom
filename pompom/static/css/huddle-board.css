@@ -186,6 +186,10 @@ padding: 5px;
 
 /* TIPS OR MESSAGES OF THE DAY */
 
+.sidebar {
+    height: 97vh;
+}
+
 #tips h3 {
 background:gray;
 border-radius: 18px 18px 0 0;
@@ -226,7 +230,9 @@ color: white;
 
 #qr-code img {
     height:21vh;
-    float: right;
+    right: 0;
+    bottom: 0;
+    position: absolute;
 }
 
 
