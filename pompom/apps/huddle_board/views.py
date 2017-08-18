@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, DetailView, CreateView, ListView
 
 from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm
-from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote
+from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote, SafetyMessage
 
 
 class HomeView(TemplateView):
@@ -18,10 +18,12 @@ class HuddleBoardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         board = Board.objects.get(id=self.kwargs['pk'])
+        safety_message = SafetyMessage.objects.first()
         return super().get_context_data(
             board=board,
             graded_cards=board.latest_graded_cards(),
             result_history=board.result_history(),
+            safety_message=safety_message,
             **kwargs
         )
 
