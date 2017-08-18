@@ -21,14 +21,14 @@
     <div class="panel-body">
       <div id="content">
         {% if object.deck and object.deck.cards.exists %}
-          <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:perform_observation" board.id %}" role="button">
+          <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:perform_observation" board.id token %}" role="button">
             Choose a Random Card
           </a>
         {% endif %}
-          <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:choose_card" board.id %}" role="button">
+          <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:choose_card" board.id token %}" role="button">
             Choose a Card by Name
           </a>
-        <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:add_card_note" board.id %}" role="button">
+        <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:add_card_note" board.id token %}" role="button">
           Add Card Note
         </a>
       </div>
