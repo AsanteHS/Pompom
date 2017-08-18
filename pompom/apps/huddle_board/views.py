@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, DetailView, CreateView
 
 from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm
-from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote
+from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote, SafetyMessage
 from pompom.libs.tokens import MobileToken
 
 
@@ -25,6 +25,7 @@ class HuddleBoardView(TemplateView):
             graded_cards=board.latest_graded_cards(),
             result_history=board.result_history(),
             token=MobileToken().ciphertext,
+            safety_message=SafetyMessage.objects.first(),
             **kwargs
         )
 

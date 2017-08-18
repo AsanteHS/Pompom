@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from ordered_model.admin import OrderedTabularInline
 
-from pompom.apps.huddle_board.models import Card, CardSection, Observation, Answer, Board, Deck, CardNote
+from pompom.apps.huddle_board.models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage
 
 
 class CardSectionInline(OrderedTabularInline):
@@ -61,6 +61,15 @@ class DeckAdmin(admin.ModelAdmin):
 class CardNoteAdmin(admin.ModelAdmin):
     list_display = ('to_string', 'card', 'board', 'created')
     list_filter = ('card', 'board', 'created')
+
+    def to_string(self, obj):
+        return str(obj)
+    to_string.short_description = 'Contents'
+
+
+@admin.register(SafetyMessage)
+class SafetyMessageAdmin(admin.ModelAdmin):
+    list_display = ('to_string', 'created', 'modified')
 
     def to_string(self, obj):
         return str(obj)
