@@ -34,6 +34,9 @@ RAVEN_CONFIG = {
 INSTALLED_APPS = INSTALLED_APPS + \
                  ('raven.contrib.django.raven_compat',
                   'storages',)
+MIDDLEWARE = MIDDLEWARE + \
+    ('django.middleware.security.SecurityMiddleware',)
+
 
 AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
