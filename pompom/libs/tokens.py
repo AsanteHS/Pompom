@@ -6,8 +6,6 @@ from Crypto.Cipher import XOR
 from django.conf import settings
 from django.utils import timezone, dateformat
 
-HOURS_UNTIL_TOKEN_EXPIRY = 12
-
 TOKEN_EXPIRY_HOURS = [7, 19]
 
 
