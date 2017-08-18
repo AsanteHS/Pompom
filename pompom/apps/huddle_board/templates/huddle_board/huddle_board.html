@@ -32,7 +32,7 @@
           {% endfor %}
         </div>
 
-        <a href="{% url "pompom:mobile_menu" board.id %}">
+        <a href="{% url "pompom:mobile_menu" board.id token %}">
           <div id="qr-code"></div>
         </a>
 
@@ -100,7 +100,6 @@
           {% endfor %}
         </div>
 
-
       </div>
 
   </div>
@@ -111,7 +110,7 @@
   <script type="text/javascript">
       new QRCode(
           document.getElementById("qr-code"),
-          "{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id %}"
+          "{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id token %}"
       );
   </script>
 {% endblock js %}

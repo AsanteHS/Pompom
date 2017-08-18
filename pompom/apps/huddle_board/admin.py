@@ -54,6 +54,7 @@ class BoardAdmin(admin.ModelAdmin):
 @admin.register(Deck)
 class DeckAdmin(admin.ModelAdmin):
     list_display = ('title', 'description',)
+    filter_horizontal = ('cards', )
 
 
 @admin.register(CardNote)

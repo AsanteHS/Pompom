@@ -1,8 +1,10 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView, DetailView, CreateView, ListView
+from django.views.generic import TemplateView, FormView, DetailView, CreateView
 
 from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm
 from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote, SafetyMessage
+from pompom.libs.tokens import MobileToken
 
 
 class HomeView(TemplateView):
@@ -18,22 +20,38 @@ class HuddleBoardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         board = Board.objects.get(id=self.kwargs['pk'])
-        safety_message = SafetyMessage.objects.first()
         return super().get_context_data(
             board=board,
             graded_cards=board.latest_graded_cards(),
             result_history=board.result_history(),
-            safety_message=safety_message,
+            token=MobileToken().ciphertext,
+            safety_message=SafetyMessage.objects.first(),
             **kwargs
         )
 
 
-class MobileMenuView(DetailView):
+class TokenRequiredMixin(UserPassesTestMixin):
+
+    login_url = reverse_lazy('pompom:unauthorized')
+    redirect_field_name = None
+
+    def test_func(self):
+        token = MobileToken(self.kwargs['token'])
+        return token.is_valid()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'token' not in context:
+            context['token'] = self.kwargs['token']
+        return context
+
+
+class MobileMenuView(TokenRequiredMixin, DetailView):
     model = Board
     template_name = 'huddle_board/mobile_menu.html'
 
 
-class ChooseCardView(TemplateView):
+class ChooseCardView(TokenRequiredMixin, TemplateView):
     template_name = 'huddle_board/choose_card.html'
 
     def get_context_data(self, **kwargs):
@@ -42,7 +60,7 @@ class ChooseCardView(TemplateView):
         return super().get_context_data(board=board, cards=cards, **kwargs)
 
 
-class PerformObservationView(FormView):
+class PerformObservationView(TokenRequiredMixin, FormView):
     template_name = 'huddle_board/observation.html'
     form_class = ObservationForm
 
@@ -78,7 +96,7 @@ class PerformObservationView(FormView):
         self.gradable_sections = self.sections.filter(is_gradable=True)
 
     def get_success_url(self):
-        return reverse_lazy('pompom:mobile_menu', args=[self.board.id])
+        return reverse_lazy('pompom:mobile_menu', args=[self.board.id, self.kwargs['token']])
 
     def get_form_kwargs(self):
         return {**super().get_form_kwargs(), 'sections': self.gradable_sections}
@@ -103,13 +121,13 @@ class PerformObservationView(FormView):
             )
 
 
-class AddCardNoteView(CreateView):
+class AddCardNoteView(TokenRequiredMixin, CreateView):
     model = CardNote
     form_class = CardNoteForm
     template_name = "huddle_board/card_note.html"
 
     def get_success_url(self):
-        return reverse_lazy('pompom:mobile_menu', args=[self.kwargs['pk']])
+        return reverse_lazy('pompom:mobile_menu', args=[self.kwargs['pk'], self.kwargs['token']])
 
     def get_context_data(self, **kwargs):
         board = Board.objects.get(id=self.kwargs['pk'])
@@ -118,3 +136,7 @@ class AddCardNoteView(CreateView):
     def form_valid(self, form):
         form.instance.board_id = self.kwargs['pk']
         return super().form_valid(form)
+
+
+class UnauthorizedView(TemplateView):
+    template_name = 'huddle_board/unauthorized.html'
