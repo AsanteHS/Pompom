@@ -88,3 +88,11 @@ Gitlab already has a configured pipeline to make deployment easy and secure. Onc
 * Deploy to heroku using `git push heroku master`
 * Add a superuser to the application in order to access the backend `heroku run python manage.py createsuperuser`
 
+### DNS setup
+
+Follow the Heroku instructions here:
+https://devcenter.heroku.com/articles/custom-domains#configuring-dns-for-root-domains
+
+For GoDaddy, the root domain needs to be 'forwarded' with GoDaddy's tools, rather than a specific record.
+
+In order to enable automatic ssl management, be sure to use the '.herokudns.com' domains when forwarding
