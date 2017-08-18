@@ -8,19 +8,29 @@ from django.utils import timezone, dateformat
 
 HOURS_UNTIL_TOKEN_EXPIRY = 12
 
+TOKEN_EXPIRY_HOURS = [7, 19]
+
 
 class MobileToken:
 
     def __init__(self, ciphertext=None):
         if ciphertext is None:
-            self.datetime = timezone.now() + timedelta(hours=HOURS_UNTIL_TOKEN_EXPIRY)
+            self.expiration = self.next_expiration_date()
             self.ciphertext = self.datetime_to_ciphertext()
         else:
             self.ciphertext = ciphertext
-            self.datetime = self.ciphertext_to_datetime()
+            self.expiration = self.ciphertext_to_datetime()
+
+    def next_expiration_date(self):
+        now = timezone.now()
+        for hour in TOKEN_EXPIRY_HOURS:
+            if now.hour < hour:
+                return now.replace(hour=hour, minute=0, second=0, microsecond=0)
+        expiration_date = now + timedelta(days=1)
+        return expiration_date.replace(hour=TOKEN_EXPIRY_HOURS[0], minute=0, second=0, microsecond=0)
 
     def datetime_to_ciphertext(self):
-        expiry_timestamp = dateformat.format(self.datetime, 'U')
+        expiry_timestamp = dateformat.format(self.expiration, 'U')
         byte_array = encrypt(settings.MOBILE_TOKEN_KEY, expiry_timestamp)
         return byte_array.decode("utf-8")
 
@@ -34,7 +44,7 @@ class MobileToken:
         return datetime.fromtimestamp(token_timestamp, tz=timezone.get_current_timezone())
 
     def expired(self):
-        return self.datetime < timezone.now()
+        return self.expiration < timezone.now()
 
 
 def encrypt(key, plaintext):

@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView, DetailView, CreateView, ListView
+from django.views.generic import TemplateView, FormView, DetailView, CreateView
 
 from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm
 from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote
@@ -91,7 +91,7 @@ class PerformObservationView(TokenRequiredMixin, FormView):
         self.gradable_sections = self.sections.filter(is_gradable=True)
 
     def get_success_url(self):
-        return reverse_lazy('pompom:mobile_menu', args=[self.board.id])
+        return reverse_lazy('pompom:mobile_menu', args=[self.board.id, self.kwargs['token']])
 
     def get_form_kwargs(self):
         return {**super().get_form_kwargs(), 'sections': self.gradable_sections}
@@ -122,7 +122,7 @@ class AddCardNoteView(TokenRequiredMixin, CreateView):
     template_name = "huddle_board/card_note.html"
 
     def get_success_url(self):
-        return reverse_lazy('pompom:mobile_menu', args=[self.kwargs['pk']])
+        return reverse_lazy('pompom:mobile_menu', args=[self.kwargs['pk'], self.kwargs['token']])
 
     def get_context_data(self, **kwargs):
         board = Board.objects.get(id=self.kwargs['pk'])
