@@ -6,8 +6,6 @@ from Crypto.Cipher import XOR
 from django.conf import settings
 from django.utils import timezone, dateformat
 
-TOKEN_EXPIRY_HOURS = [7, 19]
-
 
 class MobileToken:
 
@@ -21,11 +19,11 @@ class MobileToken:
 
     def next_expiration_date(self):
         now = timezone.now()
-        for hour in TOKEN_EXPIRY_HOURS:
+        for hour in settings.MOBILE_TOKEN_EXPIRY_HOURS:
             if now.hour < hour:
                 return now.replace(hour=hour, minute=0, second=0, microsecond=0)
         expiration_date = now + timedelta(days=1)
-        return expiration_date.replace(hour=TOKEN_EXPIRY_HOURS[0], minute=0, second=0, microsecond=0)
+        return expiration_date.replace(hour=settings.MOBILE_TOKEN_EXPIRY_HOURS[0], minute=0, second=0, microsecond=0)
 
     def datetime_to_ciphertext(self):
         expiry_timestamp = dateformat.format(self.expiration, 'U')
@@ -41,8 +39,15 @@ class MobileToken:
             return min_datetime
         return datetime.fromtimestamp(token_timestamp, tz=timezone.get_current_timezone())
 
-    def expired(self):
+    def is_valid(self):
+        return not self.expiration_date_passed() and not self.expiration_date_too_far_away()
+
+    def expiration_date_passed(self):
         return self.expiration < timezone.now()
+
+    def expiration_date_too_far_away(self):
+        a_week_from_now = timezone.now() + timedelta(days=7)
+        return self.expiration > a_week_from_now
 
 
 def encrypt(key, plaintext):

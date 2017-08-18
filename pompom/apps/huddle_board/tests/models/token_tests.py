@@ -53,25 +53,25 @@ class TestTokens:
         assert seven_a_m_tomorrow == a_token_created_today_at_ten_p_m.expiration
 
     def test_token_is_valid_after_generation(self, a_token):
-        assert not a_token.expired()
+        assert a_token.is_valid()
 
     def test_token_is_valid_before_expiration(self, a_token_created_today_at_five_a_m):
         today_at_six = timezone.now().replace(hour=6, minute=0, second=0, microsecond=0)
         with mock.patch('django.utils.timezone.now') as mock_now:
             mock_now.return_value = today_at_six
-            assert not a_token_created_today_at_five_a_m.expired()
+            assert a_token_created_today_at_five_a_m.is_valid()
 
     def test_token_is_invalid_after_expiration(self, a_token_created_today_at_five_a_m):
         today_at_eight = timezone.now().replace(hour=8, minute=0, second=0, microsecond=0)
         with mock.patch('django.utils.timezone.now') as mock_now:
             mock_now.return_value = today_at_eight
-            assert a_token_created_today_at_five_a_m.expired()
+            assert not a_token_created_today_at_five_a_m.is_valid()
 
     def test_token_built_from_received_string_is_valid(self, a_token_string):
         token = MobileToken(a_token_string)
-        assert not token.expired()
+        assert token.is_valid()
 
     def test_token_built_from_random_string_is_invalid(self):
         some_arbitrary_string = 'AAADDwUCwQcNAA=='
         token = MobileToken(some_arbitrary_string)
-        assert token.expired()
+        assert not token.is_valid()

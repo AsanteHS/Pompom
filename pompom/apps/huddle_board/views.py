@@ -32,7 +32,7 @@ class TokenRequiredMixin(UserPassesTestMixin):
 
     def test_func(self):
         token = MobileToken(self.kwargs['token'])
-        return not token.expired()
+        return token.is_valid()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
