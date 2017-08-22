@@ -98,3 +98,12 @@ class TestBoard:
 
         assert a_card == card_zero
         assert [] == card_zero_results
+
+    def test_result_history_shows_success_ratio_for_a_card(self, a_board, a_card, some_observations):
+        results = a_board.result_history()
+        card_zero, _, success_rate = results[0]
+        grades = [observation.grade() for observation in some_observations]
+        passing = grades.count(True)
+
+        assert a_card == card_zero
+        assert passing / float(len(grades)) == success_rate

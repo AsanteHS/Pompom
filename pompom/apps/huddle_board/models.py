@@ -121,7 +121,7 @@ class Board(TitleDescriptionModel):
         graph = []
         for card in cards:
             grades = self.historic_grades(card)
-            graph_row = (card, grades, self.success_percentage(grades))
+            graph_row = (card, grades, self.success_rate(grades))
             graph.append(graph_row)
         return graph
 
@@ -130,11 +130,10 @@ class Board(TitleDescriptionModel):
         card_observations = self.observations.filter(card=card, created__gte=thirty_days_ago).order_by('created')
         return [observation.grade() for observation in card_observations]
 
-    def success_percentage(self, grades):
+    def success_rate(self, grades):
         if not grades:
             return None
-        ratio = grades.count(True) / float(len(grades))
-        return format(ratio, ".0%")
+        return grades.count(True) / float(len(grades))
 
 
 class Observation(TimeStampedModel):
