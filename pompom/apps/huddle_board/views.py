@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, DetailView, CreateView
 
@@ -19,7 +20,7 @@ class HuddleBoardView(TemplateView):
     template_name = 'huddle_board/huddle_board.html'
 
     def get_context_data(self, **kwargs):
-        board = Board.objects.get(id=self.kwargs['pk'])
+        board = get_object_or_404(Board, id=self.kwargs['pk'])
         return super().get_context_data(
             board=board,
             graded_cards=board.latest_graded_cards(),
@@ -55,7 +56,7 @@ class ChooseCardView(TokenRequiredMixin, TemplateView):
     template_name = 'huddle_board/choose_card.html'
 
     def get_context_data(self, **kwargs):
-        board = Board.objects.get(id=self.kwargs['pk'])
+        board = get_object_or_404(Board, id=self.kwargs['pk'])
         cards = board.deck.cards.order_by('title') if board.deck else []
         return super().get_context_data(board=board, cards=cards, **kwargs)
 
@@ -74,22 +75,31 @@ class PerformObservationView(TokenRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         self.get_board()
         self.pick_card(request)
+        self.validate_card_exists_in_deck()
         self.parse_card()
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.get_board()
         self.card = Card.objects.get(id=request.POST['card'])
+        self.validate_card_exists_in_deck()
         self.parse_card()
         return super().post(request, *args, **kwargs)
 
     def get_board(self):
-        self.board = Board.objects.get(id=self.kwargs['pk'])
+        self.board = get_object_or_404(Board, id=self.kwargs['pk'])
 
     def pick_card(self, request):
         card_id = request.GET.get('card')
-        cherry_picked_card = Card.objects.get(id=card_id) if card_id is not None else None
-        self.card = cherry_picked_card or self.board.draw_card()
+        self.card = self.cherry_picked_card(card_id) or self.board.draw_card()
+
+    def cherry_picked_card(self, card_id):
+        if card_id is None:
+            return None
+        return get_object_or_404(Card, id=card_id)
+
+    def validate_card_exists_in_deck(self):
+        get_object_or_404(self.board.deck.cards, id=self.card.id)
 
     def parse_card(self):
         self.sections = self.card.sections.all()
@@ -130,7 +140,7 @@ class AddCardNoteView(TokenRequiredMixin, CreateView):
         return reverse_lazy('pompom:mobile_menu', args=[self.kwargs['pk'], self.kwargs['token']])
 
     def get_context_data(self, **kwargs):
-        board = Board.objects.get(id=self.kwargs['pk'])
+        board = get_object_or_404(Board, id=self.kwargs['pk'])
         latest_cards = board.latest_distinct_cards(amount=3)
         return super().get_context_data(board=board, latest_cards=latest_cards, **kwargs)
 
