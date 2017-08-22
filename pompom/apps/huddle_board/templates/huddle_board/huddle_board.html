@@ -66,14 +66,16 @@
 
                   {% for graded_section in graded_card.graded_sections %}
                     {% if graded_section.section.title %}
-                      <p><strong class="
+                      <p class="card-section {% spaceless %}
+                        {% if graded_section.section.is_gradable %}
                           {% if graded_section.grade %}card-section-success
                           {% elif graded_section.grade == False %}card-section-fallout
                           {% else %}card-section-n-a
                           {% endif %}
-                      ">
-                        {{ graded_section.section.title }}
-                      </strong></p>
+                        {% endif %}
+                        {% endspaceless %}">
+                        <strong>{{ graded_section.section.title }}</strong>
+                      </p>
                     {% endif %}
                     {{ graded_section.section.contents|safe }}
                     <br>
