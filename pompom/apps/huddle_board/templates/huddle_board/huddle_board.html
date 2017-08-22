@@ -62,7 +62,7 @@
 
                 <div id="content">
 
-                <p class="text-right">Observed {{ graded_card.datetime }}</p>
+                <p class="observed-date">{{ graded_card.datetime|date:"n/j G:i" }}</p>
 
                   {% for graded_section in graded_card.graded_sections %}
                     {% if graded_section.section.title %}
