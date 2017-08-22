@@ -109,7 +109,7 @@ background: green;
 background: red;
 }
 
-.card-section-n-a {
+.card-section {
     color: #606060;
 }
 .card-section-n-a:before {
@@ -130,6 +130,11 @@ background: red;
 .card-section-fallout:before {
     content: "✘";
     margin-right: 4px;
+}
+
+.observed-date {
+    text-align: right;
+    font-size: 8px;
 }
 
 .companion-image {
