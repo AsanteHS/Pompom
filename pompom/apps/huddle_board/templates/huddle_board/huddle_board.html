@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static huddle_board_tags %}
 
 {% block meta %}
  <meta http-equiv="refresh" content="15">
@@ -18,14 +18,18 @@
 
         <div id="bar-counter">
           <h4>Past 30 days</h4>
-          {% for card, history in result_history %}
+          {% for card, history, success_rate in result_history %}
             <h6>{{ card.title }}</h6>
             {% spaceless %}
+
+              {{ success_rate|percentage }}
+
               {% for grade in history %}
                 <span class="{% if grade == True %}pass{% elif grade == False %}fallout{% else %}n-a{% endif %}">l</span>
               {% empty %}
                 <span>&nbsp;</span>
               {% endfor %}
+
             {% endspaceless %}
           {% empty %}
             <p>(no observations yet)</p>
