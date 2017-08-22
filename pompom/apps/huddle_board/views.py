@@ -75,12 +75,14 @@ class PerformObservationView(TokenRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         self.get_board()
         self.pick_card(request)
+        self.validate_card_exists_in_deck()
         self.parse_card()
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.get_board()
         self.card = Card.objects.get(id=request.POST['card'])
+        self.validate_card_exists_in_deck()
         self.parse_card()
         return super().post(request, *args, **kwargs)
 
@@ -95,6 +97,9 @@ class PerformObservationView(TokenRequiredMixin, FormView):
         if card_id is None:
             return None
         return get_object_or_404(Card, id=card_id)
+
+    def validate_card_exists_in_deck(self):
+        get_object_or_404(self.board.deck.cards, id=self.card.id)
 
     def parse_card(self):
         self.sections = self.card.sections.all()
