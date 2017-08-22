@@ -118,16 +118,23 @@ class Board(TitleDescriptionModel):
         return self.history_graph(shown_cards)
 
     def history_graph(self, cards):
-        return [(card, self.card_graph(card)) for card in cards]
+        graph = []
+        for card in cards:
+            grades = self.historic_grades(card)
+            graph_row = (card, grades, self.success_percentage(grades))
+            graph.append(graph_row)
+        return graph
 
-    def card_graph(self, card):
+    def historic_grades(self, card):
         thirty_days_ago = timezone.now() - timedelta(days=30)
         card_observations = self.observations.filter(card=card, created__gte=thirty_days_ago).order_by('created')
         return [observation.grade() for observation in card_observations]
 
-    def get_observation_time(self, card_tuple):
-        min_datetime = timezone.make_aware(datetime.min + timedelta(days=1), timezone.get_default_timezone())
-        return card_tuple[1] or min_datetime
+    def success_percentage(self, grades):
+        if not grades:
+            return None
+        ratio = grades.count(True) / float(len(grades))
+        return format(ratio, ".0%")
 
 
 class Observation(TimeStampedModel):

@@ -70,13 +70,13 @@ class TestBoard:
 
     def test_result_history_with_cards_returns_tuple_for_each_card(self, a_board):
         results = a_board.result_history()
-        result_cards = set([card for card, _ in results])
+        result_cards = set([card for card, _, _ in results])
         cards_in_deck = set(a_board.deck.cards.all())
         assert cards_in_deck == result_cards
 
     def test_result_history_shows_graded_observations_for_a_card(self, a_board, a_card, some_observations):
         results = a_board.result_history()
-        card_zero, card_zero_results = results[0]
+        card_zero, card_zero_results, _ = results[0]
         observation_grades = [observation.grade() for observation in some_observations]
 
         assert a_card == card_zero
@@ -84,7 +84,7 @@ class TestBoard:
 
     def test_history_ignores_observations_from_different_boards(self, a_different_board, a_card, some_observations):
         results = a_different_board.result_history()
-        card_zero, card_zero_results = results[0]
+        card_zero, card_zero_results, _ = results[0]
 
         for observation in some_observations:
             assert a_different_board != observation.board
@@ -94,7 +94,7 @@ class TestBoard:
     @pytest.mark.usefixtures("an_old_observation")
     def test_history_ignores_observations_older_than_thirty_days(self, a_board, a_card):
         results = a_board.result_history()
-        card_zero, card_zero_results = results[0]
+        card_zero, card_zero_results, _ = results[0]
 
         assert a_card == card_zero
         assert [] == card_zero_results
