@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin
+from django.urls import reverse
 from ordered_model.admin import OrderedTabularInline
 
 from pompom.apps.huddle_board.models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage
@@ -62,7 +63,8 @@ class DeckAdmin(admin.ModelAdmin):
     boards_using_this_deck.allow_tags = True
 
     def board_url(self, board):
-        return '<a href="/admin/huddle_board/board/{id}">{title}</a>'.format(id=board.id, title=board.title)
+        board_admin_url = reverse('admin:huddle_board_board_change', args=[board.id])
+        return '<a href="{url}">{title}</a>'.format(url=board_admin_url, title=board.title)
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('board_set')
