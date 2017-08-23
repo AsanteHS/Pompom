@@ -246,23 +246,22 @@ color: white;
 #bar-counter {
     padding: 0 0 1vh 0;
 }
-#bar-counter span {
-    font-family: 'BoldKiller';
-    letter-spacing:0;
-    padding: 0;
-    font-size: 2.5vh;
-    margin: 0 0 1vh 0;
+#bar-counter .history-item {
+    font-size: 1.75vh;
+    padding-right: 1.30vh;
+    margin-right: 0.25vh;
+    margin-bottom: 1vh;
 }
 
-#bar-counter span.pass {
-    color: #41a317;
+#bar-counter .history-item.pass {
+    background-color: #41a317;
 }
 
-#bar-counter span.fallout {
-    color: #990012;
+#bar-counter .history-item.fallout {
+    background-color: #990012;
 }
-#bar-counter span.n-a {
-    color: #777777;
+#bar-counter .history-item.n-a {
+    background-color: #777777;
 }
 
 #bar-counter h4 {
