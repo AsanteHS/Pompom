@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib import admin
+from django.urls import reverse
 from ordered_model.admin import OrderedTabularInline
 
 from pompom.apps.huddle_board.models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage
@@ -53,8 +54,20 @@ class BoardAdmin(admin.ModelAdmin):
 
 @admin.register(Deck)
 class DeckAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description',)
+    list_display = ('title', 'description', 'boards_using_this_deck')
+    readonly_fields = ('boards_using_this_deck', )
     filter_horizontal = ('cards', )
+
+    def boards_using_this_deck(self, deck):
+        return ", ".join([self.board_url(board) for board in deck.board_set.all()]) or "-"
+    boards_using_this_deck.allow_tags = True
+
+    def board_url(self, board):
+        board_admin_url = reverse('admin:huddle_board_board_change', args=[board.id])
+        return '<a href="{url}">{title}</a>'.format(url=board_admin_url, title=board.title)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('board_set')
 
 
 @admin.register(CardNote)
