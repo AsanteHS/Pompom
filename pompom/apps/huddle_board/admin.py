@@ -54,12 +54,13 @@ class BoardAdmin(admin.ModelAdmin):
 @admin.register(Deck)
 class DeckAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'boards_using_this_deck')
+    readonly_fields = ('boards_using_this_deck', )
     filter_horizontal = ('cards', )
 
     def boards_using_this_deck(self, deck):
         return ", ".join([self.board_url(board) for board in deck.board_set.all()]) or "-"
     boards_using_this_deck.allow_tags = True
-    
+
     def board_url(self, board):
         return '<a href="/admin/huddle_board/board/{id}">{title}</a>'.format(id=board.id, title=board.title)
 
