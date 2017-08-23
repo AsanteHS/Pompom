@@ -98,3 +98,11 @@ https://devcenter.heroku.com/articles/custom-domains#configuring-dns-for-root-do
 For GoDaddy, the root domain needs to be 'forwarded' with GoDaddy's tools, rather than a specific record.
 
 In order to enable automatic ssl management, be sure to use the '.herokudns.com' domains when forwarding
+
+### Email setup
+The admin password recovery feature sends email, which is configured in Heroku to use mailgun.  https://elements.heroku.com/addons/mailgun
+`heroku addons:create mailgun:free`
+The free tier is good for up to 10,000 emails per month.
+Prod environments should override the DJANGO_EMAIL_BACKEND environment variable to enable sending real emails.
+
+Emails won't work generally for the dev account, unless you go to mailgun (via heroku) and add your account as an Authorized Recipient.
