@@ -25,7 +25,7 @@
               {{ success_rate|percentage }}
 
               {% for grade in history %}
-                <span class="{% if grade == True %}pass{% elif grade == False %}fallout{% else %}n-a{% endif %}">l</span>
+                <span class="history-item {% if grade == True %}pass{% elif grade == False %}fallout{% else %}n-a{% endif %}"></span>
               {% empty %}
                 <span>&nbsp;</span>
               {% endfor %}
