@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel, TitleDescriptionModel
 from ordered_model.models import OrderedModel
+from solo.models import SingletonModel
 
 from .utils import truncate_string
 
@@ -174,3 +175,10 @@ class SafetyMessage(TimeStampedModel):
 
     def __str__(self):
         return truncate_string(self.contents, max_length=100)
+
+
+class SiteConfiguration(SingletonModel):
+    board_password = models.CharField(max_length=128, blank=True, null=True, verbose_name=_('huddle board password'))
+
+    def __str__(self):
+        return "Site Configuration"

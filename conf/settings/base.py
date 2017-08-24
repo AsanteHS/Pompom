@@ -145,6 +145,7 @@ DJANGO_BASE_APPS = (
 VENDOR_APPS = (
     'ckeditor',
     'ordered_model',
+    'solo',
 )
 
 APPS = (
