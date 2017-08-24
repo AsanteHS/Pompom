@@ -1,9 +1,11 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.views import LoginView
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, DetailView, CreateView
 
-from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm
+from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm, BoardPasswordForm
 from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote, SafetyMessage
 from pompom.libs.tokens import MobileToken
 
@@ -151,3 +153,11 @@ class AddCardNoteView(TokenRequiredMixin, CreateView):
 
 class UnauthorizedView(TemplateView):
     template_name = 'huddle_board/unauthorized.html'
+
+
+class EnterPasswordView(LoginView):
+    form_class = BoardPasswordForm
+    template_name = 'huddle_board/password.html'
+
+    def form_valid(self, form):
+        return HttpResponseRedirect(self.get_success_url())

@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext as _
 
 from pompom.apps.huddle_board.models import CardNote
 
@@ -22,3 +23,17 @@ class CardNoteForm(forms.ModelForm):
             'card': forms.RadioSelect(),
             'contents': forms.Textarea(attrs={'class': 'write-card-note'}),
         }
+
+
+class BoardPasswordForm(forms.Form):
+
+    def __init__(self, request=None, *args, **kwargs):
+        self.request = request
+        self.user_cache = None
+        super().__init__(*args, **kwargs)
+
+    password = forms.CharField(
+        label=_("Password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autofocus': True}),
+    )

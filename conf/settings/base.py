@@ -202,3 +202,5 @@ CKEDITOR_CONFIGS = {
         'width': 600,
     },
 }
+
+LOGIN_REDIRECT_URL = 'pompom:home'
