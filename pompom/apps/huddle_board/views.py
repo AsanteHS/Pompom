@@ -5,12 +5,23 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView, DetailView, CreateView
 
-from pompom.apps.huddle_board.forms import ObservationForm, CardNoteForm, BoardPasswordForm
-from pompom.apps.huddle_board.models import Card, Observation, Answer, Board, CardNote, SafetyMessage
 from pompom.libs.tokens import MobileToken
+from .forms import ObservationForm, CardNoteForm, BoardPasswordForm
+from .models import Card, Observation, Answer, Board, CardNote, SafetyMessage, SiteConfiguration
 
 
-class HomeView(TemplateView):
+class PasswordRequiredMixin(UserPassesTestMixin):
+    login_url = reverse_lazy('pompom:enter_password')
+
+    def test_func(self):
+        config = SiteConfiguration.get_solo()
+        if not config.board_password:
+            return True
+        entered_password = self.request.session.get('board_password', '')
+        return entered_password == config.board_password
+
+
+class HomeView(PasswordRequiredMixin, TemplateView):
     template_name = 'huddle_board/home.html'
 
     def get_context_data(self, **kwargs):
@@ -18,7 +29,7 @@ class HomeView(TemplateView):
         return super().get_context_data(boards=boards, **kwargs)
 
 
-class HuddleBoardView(TemplateView):
+class HuddleBoardView(PasswordRequiredMixin, TemplateView):
     template_name = 'huddle_board/huddle_board.html'
 
     def get_context_data(self, **kwargs):
@@ -160,4 +171,5 @@ class EnterPasswordView(LoginView):
     template_name = 'huddle_board/password.html'
 
     def form_valid(self, form):
+        self.request.session['board_password'] = form.cleaned_data['password']
         return HttpResponseRedirect(self.get_success_url())
