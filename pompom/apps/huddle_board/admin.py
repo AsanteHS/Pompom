@@ -2,8 +2,9 @@ from django import forms
 from django.contrib import admin
 from django.urls import reverse
 from ordered_model.admin import OrderedTabularInline
+from solo.admin import SingletonModelAdmin
 
-from pompom.apps.huddle_board.models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage
+from .models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage, SiteConfiguration
 
 
 class CardSectionInline(OrderedTabularInline):
@@ -87,3 +88,8 @@ class SafetyMessageAdmin(admin.ModelAdmin):
     def to_string(self, obj):
         return str(obj)
     to_string.short_description = 'Contents'
+
+
+@admin.register(SiteConfiguration)
+class SiteConfigurationAdmin(SingletonModelAdmin):
+    pass
