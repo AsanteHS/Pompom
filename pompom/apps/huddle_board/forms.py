@@ -35,5 +35,6 @@ class BoardPasswordForm(forms.Form):
     password = forms.CharField(
         label=_("Password"),
         strip=False,
+        required=False,
         widget=forms.PasswordInput(attrs={'autofocus': True}),
     )

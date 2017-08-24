@@ -178,7 +178,11 @@ class SafetyMessage(TimeStampedModel):
 
 
 class SiteConfiguration(SingletonModel):
-    board_password = models.CharField(max_length=128, blank=True, null=True, verbose_name=_('huddle board password'))
+    board_passwords = models.TextField(
+        blank=True,
+        verbose_name=_('huddle board passwords'),
+        help_text=_('Multiple comma-separated values are allowed.'),
+    )
 
     def __str__(self):
         return "Site Configuration"
