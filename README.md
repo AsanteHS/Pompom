@@ -106,3 +106,10 @@ The free tier is good for up to 10,000 emails per month.
 Prod environments should override the DJANGO_EMAIL_BACKEND environment variable to enable sending real emails.
 
 Emails won't work generally for the dev account, unless you go to mailgun (via heroku) and add your account as an Authorized Recipient.
+
+To enable emails, set the heroku env variables like so:
+EMAIL_HOST=$MAILGUN_SMPT_SERVER
+EMAIL_PORT=$MAILGUN_SMTP_PORT
+EMAIL_HOST_USER=$MAILGUN_SMTP_LOGIN
+EMAIL_HOST_PASSWORD=$MAILGUN_SMTP_PASSWORD
+>>>>>>> Stashed changes
