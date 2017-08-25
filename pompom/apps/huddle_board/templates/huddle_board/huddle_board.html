@@ -111,12 +111,15 @@
   </div>
 {% endblock content %}
 
-{% block js %}
+{% block static_js %}
   <script type="text/javascript" src="{% static "js/qrcode-js/qrcode.min.js" %}"></script>
+{% endblock static_js %}
+
+{% block dynamic_js %}
   <script type="text/javascript">
       new QRCode(
           document.getElementById("qr-code"),
           "{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id token %}"
       );
   </script>
-{% endblock js %}
+{% endblock dynamic_js %}

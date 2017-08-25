@@ -47,9 +47,10 @@
 {% compress js %}
   <script src="{% static "js/jquery.js" %}"></script>
   <script src="{% static "js/bootstrap.min.js" %}"></script>
+  {% block static_js %}{% endblock static_js %}
 {% endcompress %}
 
-{% block js %}{% endblock js %}
+{% block dynamic_js %}{% endblock dynamic_js %}
 
 </body>
 

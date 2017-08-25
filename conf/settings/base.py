@@ -208,5 +208,7 @@ CKEDITOR_CONFIGS = {
 LOGIN_REDIRECT_URL = 'pompom:home'
 
 COMPRESS_ENABLED = False
-COMPRESS_OFFLINE = True
-COMPRESS_PARSER = 'compressor.parser.HtmlParser'
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.rCSSMinFilter',
+]
