@@ -16,6 +16,9 @@ coverage.xml
 media/*
 pompom/media/*
 
+#Static
+staticfiles/*
+
 #Autoenv files
 .autoenv.zsh
 .autoenv_leave.zsh
