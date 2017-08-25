@@ -85,6 +85,8 @@ Gitlab already has a configured pipeline to make deployment easy and secure. Onc
 * Locally run CI tasks. Including eslint, jscpd, tests and migrations.
 * Create a tag in git. `git tag v0.1.0`
 * Push it to gitlab's remote. `git push --tags`
+* Create a heroku remote if you haven't already:
+** `heroku git:remote -a pompom-prod`
 * Deploy to heroku using `git push heroku master`
 * Add a superuser to the application in order to access the backend `heroku run python manage.py createsuperuser`
 
