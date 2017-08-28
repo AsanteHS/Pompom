@@ -48,6 +48,17 @@ class HuddleBoardView(PasswordRequiredMixin, TemplateView):
         )
 
 
+class HuddleBoardCardsView(PasswordRequiredMixin, TemplateView):
+    template_name = 'huddle_board/board_elements/cards.html'
+
+    def get_context_data(self, **kwargs):
+        board = get_object_or_404(Board, id=self.kwargs['pk'])
+        return super().get_context_data(
+            graded_cards=board.latest_graded_cards(),
+            **kwargs
+        )
+
+
 class TokenRequiredMixin(UserPassesTestMixin):
 
     raise_exception = True
