@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% load static huddle_board_tags %}
+{% load static %}
 
 {% block meta %}
- <meta http-equiv="refresh" content="15">
+  <meta http-equiv="refresh" content="15">
 {% endblock meta %}
 
 {% block extra_title %}Huddle Board{% endblock extra_title %}
@@ -10,103 +10,36 @@
 {% block content %}
   <div class="container">
 
-      <div class="col-md-3 sidebar">
-        <div id="tips">
-          <h3>Safety Message</h3>
-          {% if safety_message %}{{ safety_message.contents|safe }}{% endif %}
-        </div>
-
-        <div id="bar-counter">
-          <h4>Past 30 days</h4>
-          {% for card, history, success_rate in result_history %}
-            <h6>{{ card.title }}</h6>
-            {% spaceless %}
-
-              {{ success_rate|percentage }}
-
-              {% for grade in history %}
-                <span class="history-item {% if grade == True %}pass{% elif grade == False %}fallout{% else %}n-a{% endif %}"></span>
-              {% empty %}
-                <span>&nbsp;</span>
-              {% endfor %}
-
-            {% endspaceless %}
-          {% empty %}
-            <p>(no observations yet)</p>
-          {% endfor %}
-        </div>
-
-        <a href="{% url "pompom:mobile_menu" board.id token %}">
-          <div id="qr-code"></div>
-        </a>
-
+    <div class="col-md-3 sidebar">
+      <div id="tips">
+        <h3>Safety Message</h3>
+        {% if safety_message %}{{ safety_message.contents|safe }}{% endif %}
       </div>
 
-      <div class="col-md-9">
+      {% include "huddle_board/board_elements/history.html" %}
 
-        <div class="row carousel-holder">
+      <a href="{% url "pompom:mobile_menu" board.id token %}">
+        <div id="qr-code"></div>
+      </a>
 
-          <div class="col-md-12">
-            <div class="title-bar">
-              <h1>Keeping Patients Safe</h1>
-              <h2>Acknowledge + Review + Learn</h2>
-            </div>
+    </div>
+
+    <div class="col-md-9">
+
+      <div class="row carousel-holder">
+
+        <div class="col-md-12">
+          <div class="title-bar">
+            <h1>Keeping Patients Safe</h1>
+            <h2>Acknowledge + Review + Learn</h2>
           </div>
-
-        </div>
-
-        <div class="row">
-
-          {% for graded_card in graded_cards %}
-
-            <div class="col-sm-4 col-lg-4 col-md-4">
-              <div id="card{% if graded_card.grade %}-success{% elif graded_card.grade == False %}-fallout{% endif %}">
-
-                <h1 class="text-uppercase">{{ graded_card.card.title }}</h1>
-
-                <div id="content">
-
-                <p class="observed-date">{{ graded_card.datetime|date:"n/j G:i" }}</p>
-
-                  {% for graded_section in graded_card.graded_sections %}
-                    {% if graded_section.section.title %}
-                      <p class="card-section {% spaceless %}
-                        {% if graded_section.section.is_gradable %}
-                          {% if graded_section.grade %}card-section-success
-                          {% elif graded_section.grade == False %}card-section-fallout
-                          {% else %}card-section-n-a
-                          {% endif %}
-                        {% endif %}
-                        {% endspaceless %}">
-                        <strong>{{ graded_section.section.title }}</strong>
-                      </p>
-                    {% endif %}
-                    {{ graded_section.section.contents|safe }}
-                    <br>
-                  {% endfor %}
-
-                </div>
-              </div>
-            </div>
-
-          {% endfor %}
-        </div>
-
-        <div class="row">
-          {% for graded_card in graded_cards %}
-            <div class="col-sm-4 col-lg-4 col-md-4">
-              <div class="companion-image">
-                {% if graded_card.card.companion_image %}
-                  <img class="img-responsive" src="{{ graded_card.card.companion_image.url }}">
-                {% else %}
-                  <img class=img-responsive" src="{% static "images/placeholder.png" %}"/>
-                {% endif %}
-              </div>
-            </div>
-          {% endfor %}
         </div>
 
       </div>
+
+      {% include "huddle_board/board_elements/cards.html" %}
+
+    </div>
 
   </div>
 {% endblock content %}

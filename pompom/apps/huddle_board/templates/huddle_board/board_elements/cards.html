@@ -1,0 +1,52 @@
+{% load static %}
+
+<div class="row">
+
+  {% for graded_card in graded_cards %}
+
+    <div class="col-sm-4 col-lg-4 col-md-4">
+      <div id="card{% if graded_card.grade %}-success{% elif graded_card.grade == False %}-fallout{% endif %}">
+
+        <h1 class="text-uppercase">{{ graded_card.card.title }}</h1>
+
+        <div id="content">
+
+          <p class="observed-date">{{ graded_card.datetime|date:"n/j G:i" }}</p>
+
+          {% for graded_section in graded_card.graded_sections %}
+            {% if graded_section.section.title %}
+              <p class="card-section {% spaceless %}
+                        {% if graded_section.section.is_gradable %}
+                          {% if graded_section.grade %}card-section-success
+                          {% elif graded_section.grade == False %}card-section-fallout
+                          {% else %}card-section-n-a
+                          {% endif %}
+                        {% endif %}
+                        {% endspaceless %}">
+                <strong>{{ graded_section.section.title }}</strong>
+              </p>
+            {% endif %}
+            {{ graded_section.section.contents|safe }}
+            <br>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+  {% endfor %}
+</div>
+
+<div class="row">
+  {% for graded_card in graded_cards %}
+    <div class="col-sm-4 col-lg-4 col-md-4">
+      <div class="companion-image">
+        {% if graded_card.card.companion_image %}
+          <img class="img-responsive" src="{{ graded_card.card.companion_image.url }}">
+        {% else %}
+          <img class=img-responsive" src="{% static "images/placeholder.png" %}"/>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
