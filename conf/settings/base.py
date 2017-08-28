@@ -148,6 +148,9 @@ VENDOR_APPS = (
     'compressor',
     'ordered_model',
     'solo',
+    'taggit',
+    'taggit_helpers',
+    'taggit_labels',
 )
 
 APPS = (

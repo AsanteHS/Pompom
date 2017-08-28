@@ -3,7 +3,9 @@ from django.contrib import admin
 from django.urls import reverse
 from ordered_model.admin import OrderedTabularInline
 from solo.admin import SingletonModelAdmin
+from taggit_helpers.admin import TaggitListFilter
 
+from pompom.apps.huddle_board.forms import CardForm, DeckForm
 from .models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage, SiteConfiguration
 
 
@@ -23,7 +25,13 @@ class CardSectionInline(OrderedTabularInline):
 
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
+    form = CardForm
     inlines = (CardSectionInline, )
+    list_display = ['title', 'tag_list']
+    list_filter = [TaggitListFilter]
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('tags')
 
     def get_urls(self):
         urls = super().get_urls()
@@ -55,6 +63,7 @@ class BoardAdmin(admin.ModelAdmin):
 
 @admin.register(Deck)
 class DeckAdmin(admin.ModelAdmin):
+    form = DeckForm
     list_display = ('title', 'description', 'boards_using_this_deck')
     readonly_fields = ('boards_using_this_deck', )
     filter_horizontal = ('cards', )
