@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
@@ -44,6 +45,7 @@ class HuddleBoardView(PasswordRequiredMixin, TemplateView):
             result_history=board.result_history(),
             token=MobileToken().ciphertext,
             safety_message=SafetyMessage.objects.first(),
+            refresh_timer=settings.HUDDLE_BOARD_REFRESH_TIMER,
             **kwargs
         )
 

@@ -1,16 +1,13 @@
-var secondsUntilRefresh = 15;
-
-function ElementRetriever(viewURL, element) {
+function ElementRetriever(viewURL, element, timer) {
     var apply = function(data) {
         refreshElementOnScreen(element, data);
     };
-    setInterval(retrieveElement, secondsUntilRefresh * 1000, viewURL, apply);
+    setInterval(retrieveElement, timer * 1000, viewURL, apply);
 }
 
 function retrieveElement(viewURL, apply) {
     $.ajax({
         url : viewURL,
-        type : "GET",
         success : function(data) {
             apply(data);
         }
@@ -21,14 +18,14 @@ function refreshElementOnScreen(element, data) {
     $(element).html(data);
 }
 
-function CardsRetriever(viewURL, element){
+function CardsRetriever(viewURL, element, timer){
     var apply = function(data) {
         preloadImages(
             getImagesFromHTML(data),
             function () {refreshElementOnScreen(element, data);}
         );
     };
-    setInterval(retrieveElement, secondsUntilRefresh * 1000, viewURL, apply);
+    setInterval(retrieveElement, timer * 1000, viewURL, apply);
 }
 
 function preloadImages(arrayOfImages, callback) {
@@ -58,12 +55,12 @@ function getImagesFromHTML(data) {
     return $('img', dummy).map(function() { return this.src; });
 }
 
-function QRRetriever(viewURL, element){
+function QRRetriever(viewURL, element, timer){
     var apply = function(data) {
         refreshElementOnScreen(element, data);
         displayQRCode();
     };
-    setInterval(retrieveElement, secondsUntilRefresh * 1000, viewURL, apply);
+    setInterval(retrieveElement, timer * 1000, viewURL, apply);
 }
 
 function displayQRCode() {

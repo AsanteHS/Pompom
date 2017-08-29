@@ -52,9 +52,9 @@
 {% block dynamic_js %}
   <script type="text/javascript">
       displayQRCode();
-      new ElementRetriever("{% url "pompom:huddle_board_history" board.id %}", "#history-container");
-      new ElementRetriever("{% url "pompom:huddle_board_safety" board.id %}", "#safety-message-container");
-      new CardsRetriever("{% url "pompom:huddle_board_cards" board.id %}", "#cards-container");
-      new QRRetriever("{% url "pompom:huddle_board_qr" board.id %}", "#qr-container");
+      new ElementRetriever("{% url "pompom:huddle_board_history" board.id %}", "#history-container", {{ refresh_timer }});
+      new ElementRetriever("{% url "pompom:huddle_board_safety" board.id %}", "#safety-message-container", {{ refresh_timer }});
+      new CardsRetriever("{% url "pompom:huddle_board_cards" board.id %}", "#cards-container", {{ refresh_timer }});
+      new QRRetriever("{% url "pompom:huddle_board_qr" board.id %}", "#qr-container", {{ refresh_timer }});
   </script>
 {% endblock dynamic_js %}

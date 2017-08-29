@@ -212,3 +212,5 @@ COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
     'compressor.filters.cssmin.rCSSMinFilter',
 ]
+
+HUDDLE_BOARD_REFRESH_TIMER = 15
