@@ -57,8 +57,8 @@
           "{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id token %}"
       );
 
-      new CardsRetriever(
-          "{% url "pompom:huddle_board_cards" board.id %}"
-      );
+      new CardsRetriever("{% url "pompom:huddle_board_cards" board.id %}", "#cards-container");
+      new ElementRetriever("{% url "pompom:huddle_board_history" board.id %}", "#history-container");
+      new ElementRetriever("{% url "pompom:huddle_board_safety" board.id %}", "#safety-message-container");
   </script>
 {% endblock dynamic_js %}

@@ -1,19 +1,34 @@
-function CardsRetriever(viewURL){
-    var seconds = 15;
-    setInterval(retrieveCards, seconds * 1000, viewURL);
+var secondsUntilRefresh = 15;
+
+function ElementRetriever(viewURL, element) {
+    var apply = function(data) {
+        refreshElementOnScreen(element, data);
+    };
+    setInterval(retrieveElement, secondsUntilRefresh * 1000, viewURL, apply);
 }
 
-function retrieveCards(viewURL){
+function retrieveElement(viewURL, apply) {
     $.ajax({
         url : viewURL,
         type : "GET",
         success : function(data) {
-            preloadImages(
-                getImagesFromHTML(data),
-                function(){refreshCardsOnScreen(data);}
-            );
+            apply(data);
         }
     });
+}
+
+function refreshElementOnScreen(element, data) {
+    $(element).html(data);
+}
+
+function CardsRetriever(viewURL, element){
+    var apply = function(data) {
+        preloadImages(
+            getImagesFromHTML(data),
+            function () {refreshElementOnScreen(element, data);}
+        );
+    };
+    setInterval(retrieveElement, secondsUntilRefresh * 1000, viewURL, apply);
 }
 
 function preloadImages(arrayOfImages, callback) {
@@ -41,8 +56,4 @@ function getImagesFromHTML(data) {
     var dummy = $('<div></div>');
     dummy.html(data);
     return $('img', dummy).map(function() { return this.src; });
-}
-
-function refreshCardsOnScreen(data) {
-    $('#cards-container').html(data);
 }
