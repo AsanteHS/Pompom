@@ -57,14 +57,24 @@ function getImagesFromHTML(data) {
 
 function QRRetriever(viewURL, element, timer){
     var apply = function(data) {
-        refreshElementOnScreen(element, data);
-        displayQRCode();
+        var qrTextOnPage = document.getElementById("qr-code").getAttribute("data-qr-text");
+        var qrTextReceived = getQRLinkFromHTML(data);
+        if (qrTextReceived !== qrTextOnPage) {
+            refreshElementOnScreen(element, data);
+            displayQRCode();
+        }
     };
     setInterval(retrieveElement, timer * 1000, viewURL, apply);
+}
+
+function getQRLinkFromHTML(data) {
+    var dummy = $('<div></div>');
+    dummy.html(data);
+    return $('#qr-code', dummy).data('qr-text');
 }
 
 function displayQRCode() {
     var qrElement = document.getElementById("qr-code");
     var qrText = qrElement.getAttribute("data-qr-text");
-    return new QRCode(qrElement, qrText);
+    new QRCode(qrElement, qrText);
 }
