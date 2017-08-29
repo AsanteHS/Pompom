@@ -21,17 +21,19 @@ function preloadImages(arrayOfImages, callback) {
     var arrayLength = arrayOfImages.length;
     var loaded = 0;
 
+    var loadImage = function (img, src) {
+        img.onload = function () {
+            if (++loaded === arrayLength && callback) {
+                callback();
+            }
+        };
+        img.onerror = function () {};
+        img.onabort = function () {};
+        img.src = src;
+    };
+
     for (i = 0; i < arrayLength; i++){
-        (function (img, src) {
-            img.onload = function () {
-                if (++loaded === arrayLength && callback) {
-                    callback();
-                }
-            };
-            img.onerror = function () {};
-            img.onabort = function () {};
-            img.src = src;
-        } (new Image(), arrayOfImages[i]));
+        loadImage(new Image(), arrayOfImages[i]);
     }
 }
 
