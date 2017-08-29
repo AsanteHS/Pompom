@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block meta %}
-  <meta http-equiv="refresh" content="15">
-{% endblock meta %}
-
 {% block extra_title %}Huddle Board{% endblock extra_title %}
 
 {% block content %}
@@ -37,7 +33,9 @@
 
       </div>
 
-      {% include "huddle_board/board_elements/cards.html" %}
+      <div id="cards-container">
+        {% include "huddle_board/board_elements/cards.html" %}
+      </div>
 
     </div>
 
@@ -46,6 +44,7 @@
 
 {% block static_js %}
   <script type="text/javascript" src="{% static "js/qrcode-js/qrcode.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/huddle_board_elements.js" %}"></script>
 {% endblock static_js %}
 
 {% block dynamic_js %}
@@ -53,6 +52,10 @@
       new QRCode(
           document.getElementById("qr-code"),
           "{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id token %}"
+      );
+
+      new CardsRetriever(
+          "{% url "pompom:huddle_board_cards" board.id %}"
       );
   </script>
 {% endblock dynamic_js %}
