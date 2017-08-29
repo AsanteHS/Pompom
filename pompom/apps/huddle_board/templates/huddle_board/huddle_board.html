@@ -20,7 +20,6 @@
         {% include "huddle_board/board_elements/qr_code.html" %}
       </div>
 
-
     </div>
 
     <div class="col-md-9">
@@ -52,13 +51,10 @@
 
 {% block dynamic_js %}
   <script type="text/javascript">
-      new QRCode(
-          document.getElementById("qr-code"),
-          "{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id token %}"
-      );
-
-      new CardsRetriever("{% url "pompom:huddle_board_cards" board.id %}", "#cards-container");
+      displayQRCode();
       new ElementRetriever("{% url "pompom:huddle_board_history" board.id %}", "#history-container");
       new ElementRetriever("{% url "pompom:huddle_board_safety" board.id %}", "#safety-message-container");
+      new CardsRetriever("{% url "pompom:huddle_board_cards" board.id %}", "#cards-container");
+      new QRRetriever("{% url "pompom:huddle_board_qr" board.id %}", "#qr-container");
   </script>
 {% endblock dynamic_js %}

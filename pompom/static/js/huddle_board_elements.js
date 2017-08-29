@@ -57,3 +57,17 @@ function getImagesFromHTML(data) {
     dummy.html(data);
     return $('img', dummy).map(function() { return this.src; });
 }
+
+function QRRetriever(viewURL, element){
+    var apply = function(data) {
+        refreshElementOnScreen(element, data);
+        displayQRCode();
+    };
+    setInterval(retrieveElement, secondsUntilRefresh * 1000, viewURL, apply);
+}
+
+function displayQRCode() {
+    var qrElement = document.getElementById("qr-code");
+    var qrText = qrElement.getAttribute("data-qr-text");
+    return new QRCode(qrElement, qrText);
+}

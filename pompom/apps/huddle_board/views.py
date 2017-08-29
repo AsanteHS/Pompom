@@ -80,6 +80,18 @@ class HuddleBoardSafetyView(PasswordRequiredMixin, TemplateView):
         )
 
 
+class HuddleBoardQRView(PasswordRequiredMixin, TemplateView):
+    template_name = 'huddle_board/board_elements/qr_code.html'
+
+    def get_context_data(self, **kwargs):
+        board = get_object_or_404(Board, id=self.kwargs['pk'])
+        return super().get_context_data(
+            board=board,
+            token=MobileToken().ciphertext,
+            **kwargs
+        )
+
+
 class TokenRequiredMixin(UserPassesTestMixin):
 
     raise_exception = True

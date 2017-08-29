@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from .views import HuddleBoardView, PerformObservationView, HomeView, MobileMenuView, AddCardNoteView, ChooseCardView, \
-    EnterPasswordView, HuddleBoardCardsView, HuddleBoardHistoryView, HuddleBoardSafetyView
+    EnterPasswordView, HuddleBoardCardsView, HuddleBoardHistoryView, HuddleBoardSafetyView, HuddleBoardQRView
 
 urlpatterns = [  # pylint: disable=invalid-name
     url(r'^$', HomeView.as_view(), name="home"),
@@ -9,6 +9,7 @@ urlpatterns = [  # pylint: disable=invalid-name
     url(r'^huddle_board/(?P<pk>\d+)/cards/$', HuddleBoardCardsView.as_view(), name="huddle_board_cards"),
     url(r'^huddle_board/(?P<pk>\d+)/history/$', HuddleBoardHistoryView.as_view(), name="huddle_board_history"),
     url(r'^huddle_board/(?P<pk>\d+)/safety/$', HuddleBoardSafetyView.as_view(), name="huddle_board_safety"),
+    url(r'^huddle_board/(?P<pk>\d+)/qr/$', HuddleBoardQRView.as_view(), name="huddle_board_qr"),
 
     url(r'^mobile_menu/(?P<pk>\d+)/(?P<token>[^/]+)/$', MobileMenuView.as_view(), name="mobile_menu"),
     url(r'^choose_card/(?P<pk>\d+)/(?P<token>[^/]+)/$', ChooseCardView.as_view(), name="choose_card"),
