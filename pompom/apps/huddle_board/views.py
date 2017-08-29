@@ -59,6 +59,27 @@ class HuddleBoardCardsView(PasswordRequiredMixin, TemplateView):
         )
 
 
+class HuddleBoardHistoryView(PasswordRequiredMixin, TemplateView):
+    template_name = 'huddle_board/board_elements/history.html'
+
+    def get_context_data(self, **kwargs):
+        board = get_object_or_404(Board, id=self.kwargs['pk'])
+        return super().get_context_data(
+            result_history=board.result_history(),
+            **kwargs
+        )
+
+
+class HuddleBoardSafetyView(PasswordRequiredMixin, TemplateView):
+    template_name = 'huddle_board/board_elements/safety_message.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            safety_message=SafetyMessage.objects.first(),
+            **kwargs
+        )
+
+
 class TokenRequiredMixin(UserPassesTestMixin):
 
     raise_exception = True

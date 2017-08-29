@@ -7,16 +7,19 @@
   <div class="container">
 
     <div class="col-md-3 sidebar">
-      <div id="tips">
-        <h3>Safety Message</h3>
-        {% if safety_message %}{{ safety_message.contents|safe }}{% endif %}
+
+      <div id="safety-message-container">
+        {% include "huddle_board/board_elements/safety_message.html" %}
       </div>
 
-      {% include "huddle_board/board_elements/history.html" %}
+      <div id="history-container">
+        {% include "huddle_board/board_elements/history.html" %}
+      </div>
 
-      <a href="{% url "pompom:mobile_menu" board.id token %}">
-        <div id="qr-code"></div>
-      </a>
+      <div id="qr-container">
+        {% include "huddle_board/board_elements/qr_code.html" %}
+      </div>
+
 
     </div>
 
