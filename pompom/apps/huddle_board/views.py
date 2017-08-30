@@ -14,15 +14,11 @@ class PasswordRequiredMixin(UserPassesTestMixin):
     login_url = reverse_lazy('pompom:enter_password')
 
     def test_func(self):
-        board_passwords = self.get_board_passwords()
+        board_passwords = SiteConfiguration.get_board_passwords()
         if not board_passwords:
             return True
         entered_password = self.request.session.get('board_password', '')
         return entered_password in board_passwords
-
-    def get_board_passwords(self):
-        config = SiteConfiguration.get_solo()
-        return {password.strip() for password in config.board_passwords.split(',') if password.strip()}
 
 
 class HomeView(PasswordRequiredMixin, TemplateView):
