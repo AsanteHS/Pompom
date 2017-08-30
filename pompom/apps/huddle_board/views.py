@@ -15,11 +15,7 @@ class PasswordRequiredMixin(UserPassesTestMixin):
     login_url = reverse_lazy('pompom:enter_password')
 
     def test_func(self):
-        board_passwords = SiteConfiguration.get_board_passwords()
-        if not board_passwords:
-            return True
-        entered_password = self.request.session.get('board_password', '')
-        return entered_password in board_passwords
+        return self.request.session.get('authenticated', False)
 
 
 class HomeView(PasswordRequiredMixin, TemplateView):
@@ -213,5 +209,5 @@ class EnterPasswordView(LoginView):
     template_name = 'huddle_board/password.html'
 
     def form_valid(self, form):
-        self.request.session['board_password'] = form.cleaned_data['password']
+        self.request.session['authenticated'] = True
         return HttpResponseRedirect(self.get_success_url())
