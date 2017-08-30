@@ -1,15 +1,19 @@
-function ElementRetriever(viewURL, element, timer) {
-    var apply = function(data) {
+function ElementRetriever(viewURL, element, timer, doAfterRetrieve) {
+    doAfterRetrieve = defaultFor(doAfterRetrieve, function(data) {
         refreshElementOnScreen(element, data);
-    };
-    setInterval(retrieveElement, timer * 1000, viewURL, apply);
+    });
+    setInterval(retrieveElement, timer * 1000, viewURL, doAfterRetrieve);
 }
 
-function retrieveElement(viewURL, apply) {
+function defaultFor(arg, val) {
+    return typeof arg === 'undefined' ? val : arg;
+}
+
+function retrieveElement(viewURL, doAfterRetrieve) {
     $.ajax({
         url : viewURL,
         success : function(data) {
-            apply(data);
+            doAfterRetrieve(data);
         }
     });
 }
@@ -19,13 +23,13 @@ function refreshElementOnScreen(element, data) {
 }
 
 function CardsRetriever(viewURL, element, timer){
-    var apply = function(data) {
+    var doAfterRetrieve = function(data) {
         preloadImages(
             getImagesFromHTML(data),
             function () {refreshElementOnScreen(element, data);}
         );
     };
-    setInterval(retrieveElement, timer * 1000, viewURL, apply);
+    ElementRetriever(viewURL, element, timer, doAfterRetrieve);
 }
 
 function preloadImages(arrayOfImages, callback) {
@@ -39,8 +43,6 @@ function preloadImages(arrayOfImages, callback) {
                 callback();
             }
         };
-        img.onerror = function () {};
-        img.onabort = function () {};
         img.src = src;
     };
 
@@ -56,15 +58,19 @@ function getImagesFromHTML(data) {
 }
 
 function QRRetriever(viewURL, element, timer){
-    var apply = function(data) {
-        var qrTextOnPage = document.getElementById("qr-code").getAttribute("data-qr-text");
-        var qrTextReceived = getQRLinkFromHTML(data);
-        if (qrTextReceived !== qrTextOnPage) {
+    var doAfterRetrieve = function(data) {
+        if (qrCodeHasChanged(data)) {
             refreshElementOnScreen(element, data);
             displayQRCode();
         }
     };
-    setInterval(retrieveElement, timer * 1000, viewURL, apply);
+    ElementRetriever(viewURL, element, timer, doAfterRetrieve);
+}
+
+function qrCodeHasChanged(data) {
+    var qrTextOnPage = document.getElementById("qr-code").getAttribute("data-qr-text");
+    var qrTextReceived = getQRLinkFromHTML(data);
+    return (qrTextReceived !== qrTextOnPage);
 }
 
 function getQRLinkFromHTML(data) {
