@@ -8,5 +8,8 @@ django-full-url==0.1
 django-ordered-model==1.4.1
 django-solo==1.1.2
 django-storages==1.6.5
+django-taggit==0.22.1
+django-taggit-helpers==0.1.4
+django-taggit-labels==0.5.1
 Pillow==4.2.1
 pycrypto==2.6.1

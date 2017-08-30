@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
@@ -40,6 +41,51 @@ class HuddleBoardView(PasswordRequiredMixin, TemplateView):
             result_history=board.result_history(),
             token=MobileToken().ciphertext,
             safety_message=SafetyMessage.objects.first(),
+            refresh_timer=settings.HUDDLE_BOARD_REFRESH_TIMER,
+            **kwargs
+        )
+
+
+class HuddleBoardCardsView(PasswordRequiredMixin, TemplateView):
+    template_name = 'huddle_board/board_elements/cards.html'
+
+    def get_context_data(self, **kwargs):
+        board = get_object_or_404(Board, id=self.kwargs['pk'])
+        return super().get_context_data(
+            graded_cards=board.latest_graded_cards(),
+            **kwargs
+        )
+
+
+class HuddleBoardHistoryView(PasswordRequiredMixin, TemplateView):
+    template_name = 'huddle_board/board_elements/history.html'
+
+    def get_context_data(self, **kwargs):
+        board = get_object_or_404(Board, id=self.kwargs['pk'])
+        return super().get_context_data(
+            result_history=board.result_history(),
+            **kwargs
+        )
+
+
+class HuddleBoardSafetyView(PasswordRequiredMixin, TemplateView):
+    template_name = 'huddle_board/board_elements/safety_message.html'
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            safety_message=SafetyMessage.objects.first(),
+            **kwargs
+        )
+
+
+class HuddleBoardQRView(PasswordRequiredMixin, TemplateView):
+    template_name = 'huddle_board/board_elements/qr_code.html'
+
+    def get_context_data(self, **kwargs):
+        board = get_object_or_404(Board, id=self.kwargs['pk'])
+        return super().get_context_data(
+            board=board,
+            token=MobileToken().ciphertext,
             **kwargs
         )
 

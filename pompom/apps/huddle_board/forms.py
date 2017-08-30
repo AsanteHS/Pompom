@@ -1,7 +1,9 @@
 from django import forms
 from django.utils.translation import ugettext as _
+from taggit.forms import TagField
+from taggit_labels.widgets import LabelWidget
 
-from pompom.apps.huddle_board.models import CardNote, SiteConfiguration
+from pompom.apps.huddle_board.models import CardNote, SiteConfiguration, Card, Deck
 
 
 class ObservationForm(forms.Form):
@@ -13,6 +15,26 @@ class ObservationForm(forms.Form):
             field_name = 'observation_{}'.format(section.id)
             self.fields[field_name] = forms.NullBooleanField()
             self.fields[field_name].section = section.id
+
+
+class CardForm(forms.ModelForm):
+    class Meta:
+        model = Card
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tags'] = TagField(required=False, widget=LabelWidget)
+
+
+class DeckForm(forms.ModelForm):
+    class Meta:
+        model = Deck
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cards'].label_from_instance = lambda card: card.title_and_tags()
 
 
 class CardNoteForm(forms.ModelForm):
