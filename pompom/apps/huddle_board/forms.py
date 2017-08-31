@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 from taggit.forms import TagField
 from taggit_labels.widgets import LabelWidget
 
-from pompom.apps.huddle_board.models import CardNote, Card, Deck
+from pompom.apps.huddle_board.models import CardNote, SiteConfiguration, Card, Deck
 
 
 class ObservationForm(forms.Form):
@@ -60,3 +60,11 @@ class BoardPasswordForm(forms.Form):
         required=False,
         widget=forms.PasswordInput(attrs={'autofocus': True}),
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        entered_password = cleaned_data.get("password")
+        board_passwords = SiteConfiguration.get_board_passwords()
+        if board_passwords and entered_password not in board_passwords:
+            raise forms.ValidationError("Enter a valid password.")
+        return cleaned_data

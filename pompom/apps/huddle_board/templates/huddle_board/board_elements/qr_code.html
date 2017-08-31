@@ -1,3 +1,5 @@
-<a href="{% url "pompom:mobile_menu" board.id token %}">
-  <div id="qr-code" data-qr-text="{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id token %}"></div>
-</a>
+<div id="qr-element">
+  <a href="{% url "pompom:mobile_menu" board.id token %}">
+    <div id="qr-code" data-qr-text="{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id token %}"></div>
+  </a>
+</div>
