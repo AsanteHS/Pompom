@@ -15,13 +15,15 @@
 
           {% for section in sections %}
 
-            {% if section.title %}<div class="text-left"><strong>{{ section.title }}</strong></div>{% endif %}
+            {% if section.title %}<p><strong>{{ section.title }}</strong></p>{% endif %}
 
-            {% if section.check_count > 1 %}<div class="pull-right">
-              {% for _ in section.check_count|get_range %}
-                <label class="checkbox-inline section-check"><input type="checkbox"></label>
-              {% endfor %}
-            </div>{% endif %}
+            {% if section.check_count > 1 %}
+              <div class="pull-right">
+                {% for _ in section.check_count|get_range %}
+                  <label class="checkbox-inline section-check"><input type="checkbox"></label>
+                {% endfor %}
+              </div>
+            {% endif %}
 
             {{ section.contents|safe }}
 
