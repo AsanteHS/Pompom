@@ -11,7 +11,7 @@ from .models import Card, CardSection, Observation, Answer, Board, Deck, CardNot
 
 class CardSectionInline(OrderedTabularInline):
     model = CardSection
-    fields = ('title', 'contents', 'is_gradable', 'order', 'move_up_down_links',)
+    fields = ('title', 'contents', 'is_gradable', 'check_count', 'order', 'move_up_down_links',)
     readonly_fields = ('order', 'move_up_down_links',)
     extra = 1
     ordering = ('order',)

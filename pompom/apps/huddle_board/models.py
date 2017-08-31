@@ -39,6 +39,7 @@ class CardSection(OrderedModel):
     contents = RichTextField(blank=True, null=True, verbose_name=_('contents'))
     card = models.ForeignKey(Card, related_name='sections', verbose_name=_('card'))
     is_gradable = models.BooleanField(verbose_name=_('is gradable'))
+    check_count = models.PositiveSmallIntegerField(default=1, verbose_name=_('check count'))
 
     order_with_respect_to = 'card'
 
