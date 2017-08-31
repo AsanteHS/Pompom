@@ -21,8 +21,10 @@ function retrieveElement(viewURL, element, doAfterRetrieve) {
 }
 
 function isExpectedElement(data, element) {
+    var $data = $(data);
     var expectedID = element + '-element';
-    var retrievedID = $(data).attr('id');
+    var retrievedID = $data.attr('id');
+    $data.remove();
     return expectedID === retrievedID;
 }
 
@@ -60,9 +62,10 @@ function preloadImages(arrayOfImages, callback) {
 }
 
 function getImagesFromHTML(data) {
-    var dummy = $('<div></div>');
-    dummy.html(data);
-    return $('img', dummy).map(function() { return this.src; });
+    var $data = $(data);
+    var imageArray = $('img', $data).map(function() { return this.src; });
+    $data.remove();
+    return imageArray;
 }
 
 function QRRetriever(viewURL, element, timer){
@@ -82,9 +85,11 @@ function qrCodeHasChanged(data) {
 }
 
 function getQRLinkFromHTML(data) {
-    var dummy = $('<div></div>');
-    dummy.html(data);
-    return $('#qr-code', dummy).data('qr-text');
+    var $data = $(data);
+    var qrLink = $('#qr-code', $data).data('qr-text');
+    $data.remove();
+    return qrLink;
+
 }
 
 function displayQRCode() {
