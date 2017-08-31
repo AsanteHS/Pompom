@@ -8,3 +8,8 @@ def percentage(value):
     if value is None:
         return ""
     return format(value, ".0%")
+
+
+@register.filter
+def get_range(value):
+    return range(value)

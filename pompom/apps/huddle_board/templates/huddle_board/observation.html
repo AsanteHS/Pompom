@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static huddle_board_tags %}
 
 {% block extra_title %}Observation{% endblock extra_title %}
 
@@ -16,6 +16,14 @@
           {% for section in sections %}
 
             {% if section.title %}<p><strong>{{ section.title }}</strong></p>{% endif %}
+
+            {% if section.check_count > 1 %}
+              <div class="pull-right">
+                {% for _ in section.check_count|get_range %}
+                  <label class="checkbox-inline section-check"><input type="checkbox"></label>
+                {% endfor %}
+              </div>
+            {% endif %}
 
             {{ section.contents|safe }}
 
