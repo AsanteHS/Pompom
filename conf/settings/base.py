@@ -148,6 +148,9 @@ VENDOR_APPS = (
     'compressor',
     'ordered_model',
     'solo',
+    'taggit',
+    'taggit_helpers',
+    'taggit_labels',
 )
 
 APPS = (
@@ -212,3 +215,5 @@ COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
     'compressor.filters.cssmin.rCSSMinFilter',
 ]
+
+HUDDLE_BOARD_REFRESH_TIMER = 15

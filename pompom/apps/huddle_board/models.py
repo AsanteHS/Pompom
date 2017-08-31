@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel, TitleDescriptionModel
 from ordered_model.models import OrderedModel
 from solo.models import SingletonModel
+from taggit.managers import TaggableManager
 
 from .utils import truncate_string
 
@@ -20,9 +21,17 @@ class Card(models.Model):
     title = models.CharField(max_length=200, verbose_name=_('title'))
     companion_image = models.ImageField(upload_to='companion_images/', blank=True, null=True,
                                         verbose_name=_('companion image'))
+    tags = TaggableManager()
 
     def __str__(self):
         return self.title
+
+    def tag_list(self):
+        return ", ".join(tag.name for tag in self.tags.all())
+
+    def title_and_tags(self):
+        tags = " ".join(['[{name}]'.format(name=tag.name) for tag in self.tags.all()])
+        return " ".join([self.title, tags])
 
 
 class CardSection(OrderedModel):
