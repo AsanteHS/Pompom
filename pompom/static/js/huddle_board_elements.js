@@ -2,24 +2,32 @@ function ElementRetriever(viewURL, element, timer, doAfterRetrieve) {
     doAfterRetrieve = defaultFor(doAfterRetrieve, function(data) {
         refreshElementOnScreen(element, data);
     });
-    setInterval(retrieveElement, timer * 1000, viewURL, doAfterRetrieve);
+    setInterval(retrieveElement, timer * 1000, viewURL, element, doAfterRetrieve);
 }
 
 function defaultFor(arg, val) {
     return typeof arg === 'undefined' ? val : arg;
 }
 
-function retrieveElement(viewURL, doAfterRetrieve) {
+function retrieveElement(viewURL, element, doAfterRetrieve) {
     $.ajax({
         url : viewURL,
         success : function(data) {
-            doAfterRetrieve(data);
+            if(isExpectedElement(data, element)){
+                doAfterRetrieve(data);
+            }
         }
     });
 }
 
+function isExpectedElement(data, element) {
+    var expectedID = element + '-element';
+    var retrievedID = $(data).attr('id');
+    return expectedID === retrievedID;
+}
+
 function refreshElementOnScreen(element, data) {
-    $(element).html(data);
+    $("#" + element + "-container").html(data);
 }
 
 function CardsRetriever(viewURL, element, timer){

@@ -17,7 +17,6 @@ class PasswordRequiredMixin(UserPassesTestMixin):
     def test_func(self):
         return self.request.session.get('authenticated', False)
 
-
 class HomeView(PasswordRequiredMixin, TemplateView):
     template_name = 'huddle_board/home.html'
 
