@@ -17,20 +17,36 @@
           {% endtimezone %}
 
           {% for graded_section in graded_card.graded_sections %}
-            {% if graded_section.section.title %}
-              <p class="card-section {% spaceless %}
-                        {% if graded_section.section.is_gradable %}
-                          {% if graded_section.grade %}card-section-success
-                          {% elif graded_section.grade == False %}card-section-fallout
+            {% with section=graded_section.section grade=graded_section.grade checks_done=graded_section.checks_done %}
+
+              {% if section.title %}
+                <div class="row">
+
+                  <div class="col-sm-3">
+                    {% if section.check_count > 1 %}
+                      <p>{{ checks_done }}/{{ section.check_count }}</p>
+                    {% endif %}
+                  </div>
+
+                  <div class="col-sm-9">
+                    <p class="card-section {% spaceless %}
+                        {% if section.is_gradable %}
+                          {% if grade %}card-section-success
+                          {% elif grade == False %}card-section-fallout
                           {% else %}card-section-n-a
                           {% endif %}
                         {% endif %}
                         {% endspaceless %}">
-                <strong>{{ graded_section.section.title }}</strong>
-              </p>
-            {% endif %}
-            {{ graded_section.section.contents|safe }}
-            <br>
+                      <strong>{{ section.title }}</strong>
+                    </p>
+                  </div>
+
+                </div>
+              {% endif %}
+
+              {{ section.contents|safe }}
+              <br>
+            {% endwith %}
           {% endfor %}
 
         </div>

@@ -12,9 +12,17 @@ class ObservationForm(forms.Form):
         sections = kwargs.pop('sections')
         super().__init__(*args, **kwargs)
         for section in sections:
-            field_name = 'observation_{}'.format(section.id)
-            self.fields[field_name] = forms.NullBooleanField()
-            self.fields[field_name].section = section.id
+            self.build_section_grade_field(section)
+            self.build_section_check_count_field(section)
+
+    def build_section_grade_field(self, section):
+        field_name = 'observation_{}'.format(section.id)
+        self.fields[field_name] = forms.NullBooleanField()
+        self.fields[field_name].section = section.id
+
+    def build_section_check_count_field(self, section):
+        field_name = 'check_count_{}'.format(section.id)
+        self.fields[field_name] = forms.IntegerField()
 
 
 class CardForm(forms.ModelForm):
