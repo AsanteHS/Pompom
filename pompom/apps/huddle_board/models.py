@@ -51,16 +51,18 @@ class GradedCardSection:
 
     def __init__(self, card_section, observation):
         self.section = card_section
-        self.grade = self.grade_section(observation)
+        answer = self.get_answer(observation)
+        self.grade = answer.grade if answer else None
+        self.checks_done = answer.checks_done if answer else None
 
-    def grade_section(self, observation):
+    def get_answer(self, observation):
         if not observation:
             return None
         try:
             answer = observation.answers.get(card_section=self.section)
         except Answer.DoesNotExist:
             return None
-        return answer.grade
+        return answer
 
 
 class GradedCard:
@@ -166,6 +168,7 @@ class Answer(models.Model):
     observation = models.ForeignKey(Observation, related_name='answers', verbose_name=_('observation'))
     card_section = models.ForeignKey(CardSection, related_name='answers', verbose_name=_('card section'))
     grade = models.NullBooleanField(choices=GRADES)
+    checks_done = models.PositiveSmallIntegerField(default=1, verbose_name=_('checks done'))
 
     def __str__(self):
         return ', '.join([str(self.observation), str(self.card_section), str(self.grade)])
