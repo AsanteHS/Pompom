@@ -112,4 +112,5 @@ EMAIL_HOST=$MAILGUN_SMPT_SERVER
 EMAIL_PORT=$MAILGUN_SMTP_PORT
 EMAIL_HOST_USER=$MAILGUN_SMTP_LOGIN
 EMAIL_HOST_PASSWORD=$MAILGUN_SMTP_PASSWORD
->>>>>>> Stashed changes
+
+When adding the txt/mx records described here https://app.mailgun.com/app/domains/mg.pompomapp.net/verify godaddy showed an error when saving, but saved the records anyway.
