@@ -1,3 +1,13 @@
+$(function () {
+    preloadGlyphiconsFont();
+});
+
+function preloadGlyphiconsFont() {
+    // If the offline message remains hidden until board is offline, browser never loads glyphicons font.
+    // Show message for a moment so font is loaded at the beginning.
+    $('#board-offline').removeClass('hidden').addClass('hidden');
+}
+
 function ElementRetriever(viewURL, element, timer, doAfterRetrieve) {
     doAfterRetrieve = defaultFor(doAfterRetrieve, function(data) {
         refreshElementOnScreen(element, data);
@@ -10,12 +20,19 @@ function defaultFor(arg, val) {
 }
 
 function retrieveElement(viewURL, element, doAfterRetrieve) {
+    var $offlineMessage = $('#board-offline');
     $.ajax({
         url : viewURL,
         success : function(data) {
             if(isExpectedElement(data, element)){
+                $offlineMessage.addClass('hidden');
                 doAfterRetrieve(data);
+            } else {
+                $offlineMessage.removeClass('hidden');
             }
+        },
+        error: function() {
+            $offlineMessage.removeClass('hidden');
         }
     });
 }
