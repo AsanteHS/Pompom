@@ -183,6 +183,7 @@ class PerformObservationView(TokenRequiredMixin, FormView):
                 observation=observation,
                 card_section=section,
                 grade=submission['observation_{}'.format(section.id)],
+                checks_done=submission['check_count_{}'.format(section.id)],
             )
 
 

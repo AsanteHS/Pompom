@@ -44,7 +44,7 @@ class CardAdmin(admin.ModelAdmin):
 
 class AnswerInline(admin.TabularInline):
     model = Answer
-    fields = ('card_section', 'grade', )
+    fields = ('card_section', 'grade', 'checks_done')
     extra = 0
 
 
