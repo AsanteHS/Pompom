@@ -26,7 +26,15 @@
 
       <div class="row carousel-holder">
 
-        <div class="col-md-12">
+        <div class="col-md-3">
+          <div class="alert alert-danger" role="alert" id="board-offline">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Board is offline: Unable to connect to server
+          </div>
+        </div>
+
+        <div class="col-md-6">
           <div class="title-bar">
             <h1>Keeping Patients Safe</h1>
             <h2>Acknowledge + Review + Learn</h2>
@@ -52,9 +60,9 @@
 {% block dynamic_js %}
   <script type="text/javascript">
       displayQRCode();
-      new ElementRetriever("{% url "pompom:huddle_board_history" board.id %}", "#history-container", {{ refresh_timer }});
-      new ElementRetriever("{% url "pompom:huddle_board_safety" board.id %}", "#safety-message-container", {{ refresh_timer }});
-      new CardsRetriever("{% url "pompom:huddle_board_cards" board.id %}", "#cards-container", {{ refresh_timer }});
-      new QRRetriever("{% url "pompom:huddle_board_qr" board.id %}", "#qr-container", {{ refresh_timer }});
+      new ElementRetriever("{% url "pompom:huddle_board_history" board.id %}", "history", {{ refresh_timer }});
+      new ElementRetriever("{% url "pompom:huddle_board_safety" board.id %}", "safety-message", {{ refresh_timer }});
+      new CardsRetriever("{% url "pompom:huddle_board_cards" board.id %}", "cards", {{ refresh_timer }});
+      new QRRetriever("{% url "pompom:huddle_board_qr" board.id %}", "qr", {{ refresh_timer }});
   </script>
 {% endblock dynamic_js %}

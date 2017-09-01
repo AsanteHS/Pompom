@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.urls import reverse
 from ordered_model.admin import OrderedTabularInline
 from solo.admin import SingletonModelAdmin
+from taggit.models import Tag
 from taggit_helpers.admin import TaggitListFilter
 
 from pompom.apps.huddle_board.forms import CardForm, DeckForm
@@ -11,7 +12,7 @@ from .models import Card, CardSection, Observation, Answer, Board, Deck, CardNot
 
 class CardSectionInline(OrderedTabularInline):
     model = CardSection
-    fields = ('title', 'contents', 'is_gradable', 'order', 'move_up_down_links',)
+    fields = ('title', 'contents', 'is_gradable', 'check_count', 'order', 'move_up_down_links',)
     readonly_fields = ('order', 'move_up_down_links',)
     extra = 1
     ordering = ('order',)
@@ -102,3 +103,20 @@ class SafetyMessageAdmin(admin.ModelAdmin):
 @admin.register(SiteConfiguration)
 class SiteConfigurationAdmin(SingletonModelAdmin):
     pass
+
+
+admin.site.unregister(Tag)
+
+
+class ProxyTag(Tag):
+    class Meta:
+        proxy = True
+        verbose_name = 'tag'
+
+
+@admin.register(ProxyTag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ["name", "slug"]
+    ordering = ["name", "slug"]
+    search_fields = ["name"]
+    prepopulated_fields = {"slug": ["name"]}

@@ -1,21 +1,23 @@
 {% load huddle_board_tags %}
 
-<div id="bar-counter">
-  <h4>Past 30 days</h4>
-  {% for card, history, success_rate in result_history %}
-    <h6>{{ card.title }}</h6>
-    {% spaceless %}
+<div id="history-element">
+  <div id="bar-counter">
+    <h4>Past 30 days</h4>
+    {% for card, history, success_rate in result_history %}
+      <h6>{{ card.title }}</h6>
+      {% spaceless %}
 
-      {{ success_rate|percentage }}
+        {{ success_rate|percentage }}
 
-      {% for grade in history %}
-        <span class="history-item {% if grade == True %}pass{% elif grade == False %}fallout{% else %}n-a{% endif %}"></span>
-      {% empty %}
-        <span>&nbsp;</span>
-      {% endfor %}
+        {% for grade in history %}
+          <span class="history-item {% if grade == True %}pass{% elif grade == False %}fallout{% else %}n-a{% endif %}"></span>
+        {% empty %}
+          <span>&nbsp;</span>
+        {% endfor %}
 
-    {% endspaceless %}
-  {% empty %}
-    <p>(no observations yet)</p>
-  {% endfor %}
+      {% endspaceless %}
+    {% empty %}
+      <p>(no observations yet)</p>
+    {% endfor %}
+  </div>
 </div>

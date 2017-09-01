@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="row">
+<div class="row" id="cards-element">
 
   {% for graded_card in graded_cards %}
 
@@ -11,7 +11,10 @@
 
         <div id="content">
 
+          {% load tz %}
+          {% timezone "America/Los_Angeles" %}
           <p class="observed-date">{{ graded_card.datetime|date:"n/j G:i" }}</p>
+          {% endtimezone %}
 
           {% for graded_section in graded_card.graded_sections %}
             {% if graded_section.section.title %}

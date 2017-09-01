@@ -1,25 +1,52 @@
+$(function () {
+    preloadGlyphiconsFont();
+});
+
+function preloadGlyphiconsFont() {
+    // If the offline message remains hidden until board is offline, browser never loads glyphicons font.
+    // Show message for a moment so font is loaded at the beginning.
+    $('#board-offline').removeClass('hidden').addClass('hidden');
+}
+
 function ElementRetriever(viewURL, element, timer, doAfterRetrieve) {
     doAfterRetrieve = defaultFor(doAfterRetrieve, function(data) {
         refreshElementOnScreen(element, data);
     });
-    setInterval(retrieveElement, timer * 1000, viewURL, doAfterRetrieve);
+    setInterval(retrieveElement, timer * 1000, viewURL, element, doAfterRetrieve);
 }
 
 function defaultFor(arg, val) {
     return typeof arg === 'undefined' ? val : arg;
 }
 
-function retrieveElement(viewURL, doAfterRetrieve) {
+function retrieveElement(viewURL, element, doAfterRetrieve) {
+    var $offlineMessage = $('#board-offline');
     $.ajax({
         url : viewURL,
         success : function(data) {
-            doAfterRetrieve(data);
+            if(isExpectedElement(data, element)){
+                $offlineMessage.addClass('hidden');
+                doAfterRetrieve(data);
+            } else {
+                $offlineMessage.removeClass('hidden');
+            }
+        },
+        error: function() {
+            $offlineMessage.removeClass('hidden');
         }
     });
 }
 
+function isExpectedElement(data, element) {
+    var $data = $(data);
+    var expectedID = element + '-element';
+    var retrievedID = $data.attr('id');
+    $data.remove();
+    return expectedID === retrievedID;
+}
+
 function refreshElementOnScreen(element, data) {
-    $(element).html(data);
+    $("#" + element + "-container").html(data);
 }
 
 function CardsRetriever(viewURL, element, timer){
@@ -52,9 +79,10 @@ function preloadImages(arrayOfImages, callback) {
 }
 
 function getImagesFromHTML(data) {
-    var dummy = $('<div></div>');
-    dummy.html(data);
-    return $('img', dummy).map(function() { return this.src; });
+    var $data = $(data);
+    var imageArray = $('img', $data).map(function() { return this.src; });
+    $data.remove();
+    return imageArray;
 }
 
 function QRRetriever(viewURL, element, timer){
@@ -74,9 +102,11 @@ function qrCodeHasChanged(data) {
 }
 
 function getQRLinkFromHTML(data) {
-    var dummy = $('<div></div>');
-    dummy.html(data);
-    return $('#qr-code', dummy).data('qr-text');
+    var $data = $(data);
+    var qrLink = $('#qr-code', $data).data('qr-text');
+    $data.remove();
+    return qrLink;
+
 }
 
 function displayQRCode() {
