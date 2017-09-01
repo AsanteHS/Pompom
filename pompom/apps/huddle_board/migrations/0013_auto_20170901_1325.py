@@ -27,6 +27,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='answer',
             name='checks_done',
-            field=models.PositiveSmallIntegerField(default=1, verbose_name='checks done'),
+            field=models.PositiveSmallIntegerField(default=0, verbose_name='checks done'),
         ),
     ]
