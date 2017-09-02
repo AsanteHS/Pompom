@@ -20,15 +20,6 @@
             {% with section=graded_section.section grade=graded_section.grade checks_done=graded_section.checks_done %}
 
               {% if section.title %}
-                <div class="row">
-
-                  <div class="col-sm-3">
-                    {% if section.check_count > 1 %}
-                      <p>{{ checks_done }}/{{ section.check_count }}</p>
-                    {% endif %}
-                  </div>
-
-                  <div class="col-sm-9">
                     <p class="card-section {% spaceless %}
                         {% if section.is_gradable %}
                           {% if grade %}card-section-success
@@ -37,11 +28,9 @@
                           {% endif %}
                         {% endif %}
                         {% endspaceless %}">
+                    {% if section.check_count > 1 %}{{ checks_done|default_if_none:0 }}/{{ section.check_count }}{% endif %}
                       <strong>{{ section.title }}</strong>
                     </p>
-                  </div>
-
-                </div>
               {% endif %}
 
               {{ section.contents|safe }}
