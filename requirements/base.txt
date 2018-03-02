@@ -13,3 +13,4 @@ django-taggit-helpers==0.1.4
 django-taggit-labels==0.5.1
 Pillow==4.2.1
 pycrypto==2.6.1
+django-import-export==1.0.0
