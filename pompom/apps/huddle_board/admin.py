@@ -13,32 +13,6 @@ from pompom.apps.huddle_board.forms import CardForm, DeckForm
 from .models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage, SiteConfiguration
 
 
-class ObservationResource(resources.ModelResource):
-
-    class Meta:
-        model = Observation
-        fields = ('created', 'board', 'card')
-
-
-class CardResource(resources.ModelResource):
-    decks = fields.Field(column_name='Contained in decks')
-    sections = fields.Field(column_name='Sections')
-    title = fields.Field(column_name='Title')
-
-    class Meta:
-        model = Card
-        fields = ('tags')
-
-    def dehydrate_title(self, card):
-        return card.title
-
-    def dehydrate_sections(self, card):
-        return ', '.join(section.title or '(no title)' for section in card.sections.all())
-
-    def dehydrate_decks(self, card):
-        return ', '.join(deck.title for deck in card.decks.all())
-
-
 class AnswerResource(resources.ModelResource):
     observation = fields.Field(column_name='Observation')
     card_section = fields.Field(column_name='Card section')
@@ -73,13 +47,6 @@ class AnswerResource(resources.ModelResource):
 
     def dehydrate_card(self, answer):
         return answer.observation.card.title
-
-
-class SafetyMessageResource(resources.ModelResource):
-
-    class Meta:
-        model = SafetyMessage
-        fields = ('created', 'modified', 'contents')
 
 
 class CardSectionInline(OrderedTabularInline):
