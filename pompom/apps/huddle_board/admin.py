@@ -84,7 +84,7 @@ class CardSectionInline(OrderedTabularInline):
 
 
 @admin.register(Card)
-class CardAdmin(ExportActionModelAdmin, admin.ModelAdmin):
+class CardAdmin(admin.ModelAdmin):
     form = CardForm
     inlines = (CardSectionInline, )
     list_display = ['title', 'tag_list']
@@ -108,7 +108,7 @@ class AnswerInline(admin.TabularInline):
 
 
 @admin.register(Observation)
-class ObservationAdmin(ExportActionModelAdmin, admin.ModelAdmin):
+class ObservationAdmin(admin.ModelAdmin):
     fields = ('created', 'board', 'card')
     readonly_fields = ('created',)
     inlines = (AnswerInline, )
@@ -151,7 +151,7 @@ class CardNoteAdmin(admin.ModelAdmin):
 
 
 @admin.register(SafetyMessage)
-class SafetyMessageAdmin(ExportActionModelAdmin, admin.ModelAdmin):
+class SafetyMessageAdmin(admin.ModelAdmin):
     list_display = ('to_string', 'created', 'modified')
 
     def to_string(self, obj):
