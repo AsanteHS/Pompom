@@ -88,14 +88,15 @@ Gitlab already has a configured pipeline to make deployment easy and secure. Onc
 * Create a heroku remote if you haven't already:
 ** `heroku git:remote -a pompom-prod`
 * Deploy to heroku using `git push heroku master`
-* Add a superuser to the application in order to access the backend `heroku run python manage.py createsuperuser`
+* If deploying for the first time, add a superuser to the application in order to access the backend `heroku run python manage.py createsuperuser`
 
 ### DNS setup
 
 Follow the Heroku instructions here:
 https://devcenter.heroku.com/articles/custom-domains#configuring-dns-for-root-domains
 
-For GoDaddy, the root domain needs to be 'forwarded' with GoDaddy's tools, rather than a specific record.
+For GoDaddy, we tried having root domain 'forwarded' with GoDaddy's tools, but Heroku was never able to verify.
+What we're trying now is to ahve GoDaddy forward the naked domain to www. and then have heroku handle it from there.  (eg http://pompomapp.net forwards to http://www.pompomapp.net/ which has its records that point to heroku's nameservers)
 
 In order to enable automatic ssl management, be sure to use the '.herokudns.com' domains when forwarding
 
@@ -103,7 +104,7 @@ In order to enable automatic ssl management, be sure to use the '.herokudns.com'
 The admin password recovery feature sends email, which is configured in Heroku to use mailgun.  https://elements.heroku.com/addons/mailgun
 `heroku addons:create mailgun:free`
 The free tier is good for up to 10,000 emails per month.
-Prod environments should override the DJANGO_EMAIL_BACKEND environment variable to enable sending real emails.
+Prod environments should override the DJANGO_EMAIL_BACKEND environment variable to 'django.core.mail.backends.smtp.EmailBackend' to enable sending real emails.
 
 Emails won't work generally for the dev account, unless you go to mailgun (via heroku) and add your account as an Authorized Recipient.
 
@@ -113,4 +114,5 @@ EMAIL_PORT=$MAILGUN_SMTP_PORT
 EMAIL_HOST_USER=$MAILGUN_SMTP_LOGIN
 EMAIL_HOST_PASSWORD=$MAILGUN_SMTP_PASSWORD
 
-When adding the txt/mx records described here https://app.mailgun.com/app/domains/mg.pompomapp.net/verify godaddy showed an error when saving, but saved the records anyway.
+When adding the txt/mx records described here https://app.mailgun.com/app/domains/mg.pompomapp.net/verify
+Note: godaddy showed an error when saving, but saved the records anyway.
