@@ -42,7 +42,7 @@ class AnswerResource(resources.ModelResource):
     checks_done = fields.Field(column_name = 'Checks done')
     board = fields.Field(column_name = 'Board')
     card = fields.Field(column_name = 'Card')
-    #export_order = ('id', 'price', 'author', 'name')
+
     class Meta:
         model = Answer
         fields = ('')
@@ -157,7 +157,6 @@ class SafetyMessageAdmin(admin.ModelAdmin):
     def to_string(self, obj):
         return str(obj)
     to_string.short_description = 'Contents'
-
 
 
 @admin.register(SiteConfiguration)
