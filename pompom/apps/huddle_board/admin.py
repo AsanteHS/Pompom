@@ -18,6 +18,7 @@ class ObservationResource(resources.ModelResource):
         model = Observation
         fields = ('created', 'board', 'card')
 
+
 class CardResource(resources.ModelResource):
     decks = fields.Field(column_name = 'Contained in decks')
     sections = fields.Field(column_name = 'Sections')
@@ -33,6 +34,7 @@ class CardResource(resources.ModelResource):
         return ', '.join(section.title or '(no title)' for section in card.sections.all())
     def dehydrate_decks(self, card):
         return ', '.join(deck.title for deck in card.decks.all())
+
 
 class AnswerResource(resources.ModelResource):
     observation = fields.Field(column_name = 'Observation')
@@ -68,6 +70,7 @@ class SafetyMessageResource(resources.ModelResource):
     class Meta:
         model = SafetyMessage
         fields = ('created','modified','contents')
+
 
 class CardSectionInline(OrderedTabularInline):
     model = CardSection
@@ -179,6 +182,7 @@ class TagAdmin(admin.ModelAdmin):
     ordering = ["name", "slug"]
     search_fields = ["name"]
     prepopulated_fields = {"slug": ["name"]}
+
 
 @admin.register(Answer)
 class AnswerAdmin(ExportActionModelAdmin, admin.ModelAdmin):
