@@ -30,21 +30,16 @@
             </ul>
             {% endif %}
     </div>
-</div>		
+</div>
 {% endif %}
 {% endblock %}
 
 {% block content %}
 
 <div id="content-main">
-
 {% if app_list %}
- {% if not request.user.is_superuser %}
- {{ app_list.pop.2 }}
- {% endif %}
     {% for app in app_list %}
-
-
+      {% if request.user.is_superuser or app.name != "Sites" %}
         <div class="app-{{ app.app_label }} module">
         <table>
         <caption>
@@ -73,6 +68,7 @@
         {% endfor %}
         </table>
         </div>
+        {% endif %}
     {% endfor %}
 {% else %}
     <p>{% trans "You don't have permission to edit anything." %}</p>
@@ -80,4 +76,3 @@
 </div>
 
 {% endblock %}
-
