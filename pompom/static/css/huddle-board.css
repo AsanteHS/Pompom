@@ -236,7 +236,7 @@ color: white;
 #qr-code img {
     height:21vh;
     right: 0;
-    bottom: 0;
+    bottom: 51000 px;
     position: absolute;
 }
 
@@ -292,4 +292,3 @@ color: white;
 }
 
 /* FIGHTING THE SET CSS */
-

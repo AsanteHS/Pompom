@@ -6,22 +6,6 @@
 {% block content %}
   <div class="container">
 
-    <div class="col-md-3 sidebar">
-
-      <div id="safety-message-container">
-        {% include "huddle_board/board_elements/safety_message.html" %}
-      </div>
-
-      <div id="history-container">
-        {% include "huddle_board/board_elements/history.html" %}
-      </div>
-
-      <div id="qr-container">
-        {% include "huddle_board/board_elements/qr_code.html" %}
-      </div>
-
-    </div>
-
     <div class="col-md-9">
 
       <div class="row carousel-holder">
@@ -48,6 +32,22 @@
       </div>
 
     </div>
+    <div class="col-md-3">
+
+  <!--    <div id="safety-message-container">
+        {% include "huddle_board/board_elements/safety_message.html" %}
+      </div>
+
+      <div id="history-container">
+        {% include "huddle_board/board_elements/history.html" %}
+      </div>
+
+      <div id="qr-container">
+        {% include "huddle_board/board_elements/qr_code.html" %}
+      </div> -->
+
+    </div>
+
 
   </div>
 {% endblock content %}
