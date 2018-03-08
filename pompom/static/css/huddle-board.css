@@ -3,15 +3,68 @@
  * Copyright 2013-2016 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
+html{
+  height: 100vh;
+  width: 100vw;
+}
+body, .container {
+background:#00121e;
+width: 100vw;
+height: 100vh;
+overflow: hidden;
+}
 
-body {
-background:white;
+.no-float{
+  height: 100%;
+}
+
+.main-col{
+  background:#163f5d;
+  padding: 8px;
+  margin: 15px;
+  margin-left: 0px;
+  margin-right: 0px;
+  height: 100%;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+#header{
+    background: #0b3066
+}
+
+.second-col{
+  background:#435c85;
+  padding: 8px;
+  margin: 15px;
+  height: 100%;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 3px 3px black;
+  }
+
+.main-col-md{
+  position: relative;
+}
+
+[class*="col-"] {
+  height: 100%;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .container {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    margin: auto;
+    overflow: auto;
 }
+
 
 .slide-image {
     width: 100%;
@@ -23,13 +76,14 @@ background:white;
 
 .carousel-control,
 .item {
-    border-radius: 4px;
 }
 
 .caption {
     height: 130px;
     overflow: hidden;
 }
+
+
 
 .caption h4 {
     white-space: nowrap;
@@ -86,17 +140,21 @@ Click the help icon above to learn more.
 #card, #card-success, #card-fallout {
     border: black 2px solid;
     padding: 0px;
-    border-radius:20px;
     overflow: hidden;
-    height: 45vh;
+    width: 17vw;
+    height: calc(17vw*1.43);
+    margin-top: 1vh;
+    box-shadow: 2px 2px black;
+    margin-left: 2.5vw;
+
 }
 
 #card h1, #card-success h1, #card-fallout h1 {
 border-bottom: black 2px solid;
+padding-top: 0.1vh;
 text-align:center;
 color:white;
-padding: 5px;
-border-radius:17px 17px 0 0;
+height : 5vh;
 margin-top: 0;
 margin-bottom: 0;
 }
@@ -105,31 +163,46 @@ margin-bottom: 0;
 background: green;
 }
 
+.card {
+  background:#435c85;
+}
+
+.img-col{
+}
+
+.card-col:first-child{
+}
+
+.card-col:last-child{
+}
+
+.card {
+  margin: 0px;
+  background:#435c85;
+}
+
 #card-fallout h1 {
 background: red;
 }
 
 .card-section {
-    color: #606060;
+    color: #000000;
 }
 .card-section-n-a:before {
     content: "ⁿ/ₐ";
-    margin-right: 4px;
-    color: #808080;
+    color: #000000;
 }
 .card-section-success {
     color: #339966;
 }
 .card-section-success:before {
     content: "✓";
-    margin-right: 4px;
 }
 .card-section-fallout {
     color: #ff0000;
 }
 .card-section-fallout:before {
     content: "✘";
-    margin-right: 4px;
 }
 
 .observed-date {
@@ -138,14 +211,22 @@ background: red;
 }
 
 .companion-image {
-    margin-top: 1vh;
+    margin-top: 3.6vh;
+    margin-left: 2.5vw;
+    padding: 0px;
+    overflow: hidden;
+    width: 17vw;
+    height: calc(16vw*1.43);
+    border: black 2px solid;
+    box-shadow: 2px 2px black;
 }
 
 .companion-image img {
-    max-height: 36vh;
+    color: #435c85;
+    padding: 0px;
+    max-width: 16vw;
+    max-height: calc(16vw*1.43);
     width: auto;
-    height: auto;
-    border-radius: 18px;
     margin: auto;
     display: block;
 }
@@ -159,7 +240,6 @@ padding: 20px;
 }
 
 .et_pb_accordion.et_pb_accordion .et_pb_toggle {
-border-radius: 18px;
 }
 
 /* Deck List */
@@ -181,7 +261,7 @@ padding: 5px;
 }
 
 #mobile-card h1, #card h1 {
-background: grey;
+background: black;
 }
 
 #content {
@@ -191,23 +271,33 @@ padding: 5px;
 
 /* TIPS OR MESSAGES OF THE DAY */
 
+#safety-message-element{
+    margin: 0;
+}
+
 .sidebar {
     height: 97vh;
 }
 
-#tips h3 {
-background:gray;
-border-radius: 18px 18px 0 0;
-padding: 10px;
-color: white;
+p, h1, h2, h3, h4, h5, h6{
+  color: #FFFFFF;
+}
+
+#tips{
+background: #0b3066;
+border-bottom: black 2px solid;
+padding-top: 0.1vh;
+text-align:center;
+color:white;
+height : 5vh;
+margin-top: 0;
+margin-bottom: 0;
 	-webkit-margin-before: 0!important;
     -webkit-margin-after: 0!important;
 
 }
 
-#tips  {
-    border: 2px black solid;
-    border-radius: 20px;
+#tsips  {
     height: 20vh;
     margin: 1vh 0;
 }
@@ -222,7 +312,6 @@ min-height: 100px;
 
 #table {
 border: 2px solid black;
-border-radius: 20px;
 min-height: 100px;
 }
 
@@ -234,10 +323,11 @@ color: white;
 /* QR CODE */
 
 #qr-code img {
-    height:21vh;
-    right: 0;
-    bottom: 51000 px;
+    height: 50px;
+    width: 50px;
     position: absolute;
+    bottom: auto;
+    display: block;
 }
 
 
@@ -248,9 +338,11 @@ color: white;
 }
 #bar-counter .history-item {
     font-size: 1.75vh;
-    padding-right: 1.30vh;
+    padding: 0.5vh;
+    padding-top: 1vh;
     margin-right: 0.25vh;
     margin-bottom: 1vh;
+    display: inline-block;
 }
 
 #bar-counter .history-item.pass {
