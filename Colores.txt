@@ -1,0 +1,8 @@
+Fondo
+#00121e
+Fondo Tablas
+#435c85
+Fondo Columnas
+#163f5d
+Header Tablas
+#0b3066
