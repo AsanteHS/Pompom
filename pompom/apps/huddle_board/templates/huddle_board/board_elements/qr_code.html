@@ -1,4 +1,5 @@
 <div id="qr-element">
+  <!--<h4>Card Access: </h4>-->
   <a href="{% url "pompom:mobile_menu" board.id token %}">
     <div id="qr-code" data-qr-text="{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id token %}"></div>
   </a>

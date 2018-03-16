@@ -4,39 +4,30 @@
 {% block extra_title %}Huddle Board{% endblock extra_title %}
 
 {% block content %}
+<div class="alert-div alert alert-danger" role="alert" id="board-offline">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Error:</span>
+  Board is offline: Unable to connect to server
+</div>
       <div class="col-md-9 no-float main-col-md">
           <div class="main-col">
-        <div class="row ">
-
-          <div class="col-md-3">
-            <div class="alert alert-danger" role="alert" id="board-offline">
-              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-              <span class="sr-only">Error:</span>
-              Board is offline: Unable to connect to server
+            <div id="cards-container">
+              {% include "huddle_board/board_elements/cards.html" %}
             </div>
           </div>
-
-          <!--<div class="col-md-6">
-            <div class="title-bar">
-              <h1>Keeping Patients Safe</h1>
-              <h2>Acknowledge + Review + Learn</h2>
-            </div>
-          </div>-->
-
-        </div>
-
-        <div id="cards-container">
-          {% include "huddle_board/board_elements/cards.html" %}
-        </div>
-      </div>
       </div>
       <div class="col-md-3 no-float main-col-md">
         <div class="main-col">
           <div class="row">
             <div class="col-md-12">
               <div class="second-col title-bar" id="header">
-                <h3>Keeping Patients Safe</h3>
-                <h4>Acknowledge + Review + Learn</h4>
+                <div id="logo-container">
+                  <img id="logo" src="{% static 'images/pompomlogo.png' %}">
+                  <div id="logo-text">
+                    <h4 class="thicker">Keeping Patients Safe</h4>
+                    <h5 id="logo-text-small" >Acknowledge + Review + Learn</h5>
+                  </div>
+                </div>
               </div>
           </div>
         </div>
@@ -54,7 +45,7 @@
             </div>
           </div>
         </div>
-      <!--  <div class="row">
+       <div class="row">
           <div class="col-md-12">
             <div class="second-col" id="qr-container">
               {% include "huddle_board/board_elements/qr_code.html" %}

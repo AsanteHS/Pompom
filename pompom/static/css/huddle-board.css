@@ -3,14 +3,14 @@
  * Copyright 2013-2016 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
-html{
-  height: 100vh;
-  width: 100vw;
+
+ @-ms-viewport{
+  width: device-width;
 }
+
+
 body, .container {
 background:#00121e;
-width: 100vw;
-height: 100vh;
 overflow: hidden;
 }
 
@@ -24,7 +24,7 @@ overflow: hidden;
   margin: 15px;
   margin-left: 0px;
   margin-right: 0px;
-  height: 100%;
+  height: 95vh;
   bottom: 0;
   top: 0;
   left: 0;
@@ -36,16 +36,44 @@ overflow: hidden;
 }
 
 .second-col{
-  background:#435c85;
-  padding: 8px;
-  margin: 15px;
-  height: 100%;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  margin: 1vw;
+  margin-bottom: 0.5vh;
+  margin-top: 0vh;
   bottom: 0;
   top: 0;
   left: 0;
   right: 0;
-  box-shadow: 3px 3px black;
   }
+
+#header{
+  height: 23vh;
+}
+
+#safety-message-container{
+  height: 20vh;
+}
+
+#message-container, #history-element, #qr-container{
+  background:#435c85;
+  box-shadow: 0.3vw 0.6vh black;
+  height: 100%;
+}
+
+#qr-container{
+  padding: 0.1vh;
+}
+
+#history-element{
+  height: 40vh;
+}
+
+ .title-bar{
+   box-shadow: 0.3vw 0.6vh black;
+   padding-top: 0;
+ }
+
 
 .main-col-md{
   position: relative;
@@ -144,24 +172,40 @@ Click the help icon above to learn more.
     width: 17vw;
     height: calc(17vw*1.43);
     margin-top: 1vh;
-    box-shadow: 2px 2px black;
+    box-shadow: 0.3vw 0.6vh black;
     margin-left: 2.5vw;
 
 }
 
-#card h1, #card-success h1, #card-fallout h1 {
-border-bottom: black 2px solid;
+#card h3, #card-success h3, #card-fallout h3 {
 padding-top: 0.1vh;
 text-align:center;
 color:white;
-height : 5vh;
 margin-top: 0;
 margin-bottom: 0;
+background: #0b3066;
 }
 
-#card-success h1 {
-background: green;
+.card span {
+  position: absolute;
+  left: 3.55vw;
 }
+
+#card span h3:before {
+    content: "ⁿ/ₐ";
+    color: black;
+}
+.card span img{
+    height: 3.5vh;
+    width: 2vw;
+}
+
+#card-fallout span h3:before {
+    content: "✘";
+    color: red;
+}
+
+
 
 .card {
   background:#435c85;
@@ -181,9 +225,6 @@ background: green;
   background:#435c85;
 }
 
-#card-fallout h1 {
-background: red;
-}
 
 .card-section {
     color: #000000;
@@ -218,7 +259,7 @@ background: red;
     width: 17vw;
     height: calc(16vw*1.43);
     border: black 2px solid;
-    box-shadow: 2px 2px black;
+    box-shadow: 0.5vw 0.5vh black;
 }
 
 .companion-image img {
@@ -260,7 +301,7 @@ margin:0px!important;
 padding: 5px;
 }
 
-#mobile-card h1, #card h1 {
+#mobile-card h1 {
 background: black;
 }
 
@@ -272,7 +313,10 @@ padding: 5px;
 /* TIPS OR MESSAGES OF THE DAY */
 
 #safety-message-element{
-    margin: 0;
+  padding: 0.8vw;
+  padding-top: 0.8vh;
+  padding-bottom: 0.5vh;
+  margin: 0;
 }
 
 .sidebar {
@@ -283,13 +327,12 @@ p, h1, h2, h3, h4, h5, h6{
   color: #FFFFFF;
 }
 
-#tips{
+#tips, #history-element h3{
 background: #0b3066;
-border-bottom: black 2px solid;
-padding-top: 0.1vh;
+padding-top: 0.3vh;
+padding-bottom: 0.3vh;
 text-align:center;
 color:white;
-height : 5vh;
 margin-top: 0;
 margin-bottom: 0;
 	-webkit-margin-before: 0!important;
@@ -321,27 +364,35 @@ color: white;
 }
 
 /* QR CODE */
-
-#qr-code img {
-    height: 50px;
-    width: 50px;
-    position: absolute;
-    bottom: auto;
-    display: block;
+#qr-element{
+  padding: 0.7vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+}
+#qr-code img, #qr-code{
+    height: 5vh;
+    width: 5vh;
+    display: inline-block;
 }
 
+#qr-code{
+}
+
+#qr-element h4{
+  display: inline-block;
+}
 
 /* BAR COUNTER */
 
 #bar-counter {
     padding: 0 0 1vh 0;
+    margin-left: 1vw;
 }
 #bar-counter .history-item {
     font-size: 1.75vh;
-    padding: 0.5vh;
+    padding: 0.7vh;
     padding-top: 1vh;
-    margin-right: 0.25vh;
-    margin-bottom: 1vh;
+    margin-right: 0.3vh;
     display: inline-block;
 }
 
@@ -364,7 +415,8 @@ color: white;
     padding:0;
     font-size:1.75vh;
     margin: 1.25vh 0;
-    line-height:0.5;
+    margin-left: -0.3vw;
+    line-height:0.7;
 }
 
 /* equal width for grade buttons */
@@ -384,3 +436,44 @@ color: white;
 }
 
 /* FIGHTING THE SET CSS */
+
+div.alert-div {
+   position: -webkit-sticky; /* Safari */
+   position: absolute;
+   top: 0;
+   border: 2px solid;
+   z-index: 999;
+}
+
+#logo{
+  height: 16vh;
+  width: 20vh;
+  display: block;
+  padding-top: 1vh;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+#logo-text{
+  text-align: center;
+  position: relative;
+  top: -0.6vh;
+}
+
+#logo-text-small{
+  position: relative;
+  top: -1vh;
+}
+
+.normal {
+    font-weight: normal;
+}
+
+.thick {
+    font-weight: bold;
+}
+
+.thicker {
+    font-weight: 900;
+}

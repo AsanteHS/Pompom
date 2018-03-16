@@ -6,8 +6,11 @@
 
     <div class="card-col col-sm-4 col-lg-4 col-md-4">
       <div class="card" id="card{% if graded_card.grade %}-success{% elif graded_card.grade == False %}-fallout{% endif %}">
-
-        <h1 class="text-uppercase">{{ graded_card.card.title }}</h1>
+        <span>
+          <img {% if graded_card.grade %} src="{% static 'images/CardSuccess.png' %}{% elif graded_card.grade == False %}src="{% static 'images/CardFail.png' %}{% endif %} ">
+        </span>
+        <h3 class="text-uppercase">
+          {{ graded_card.card.title }}</h3>
 
         <div id="content">
 
