@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from django.contrib import admin
 from django.urls import reverse
@@ -8,9 +9,35 @@ from taggit_helpers.admin import TaggitListFilter
 from import_export import resources, fields
 from import_export.admin import ExportActionModelAdmin
 from import_export.fields import Field
+from import_export.formats import base_formats
 
 from pompom.apps.huddle_board.forms import CardForm, DeckForm
 from .models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage, SiteConfiguration
+from django.contrib.admin import SimpleListFilter
+
+class DateFilter(SimpleListFilter):
+    title = 'date' # or use _('country') for translated title
+    parameter_name = 'dates'
+
+    def lookups(self, request, model_admin):
+        return [('today', 'Today'),
+                ('this_month', 'This month'),
+                ('last_month', 'Last month'),
+                ('month_date', 'Month to date'),
+                ('this_year', 'This year')
+                ]
+
+    def queryset(self, request, queryset):
+        if self.value() == 'this_year':
+            return queryset.filter(modified__year=datetime.date.today().year)
+        if self.value() == 'today':
+            return queryset.filter(modified__day=datetime.date.today().day)
+        if self.value() == 'last_month':
+            return queryset.filter(modified__month=datetime.date.today().month-1)
+        if self.value() == 'this_month':
+            return queryset.filter(modified__month=datetime.date.today().month)
+        if self.value():
+            return queryset
 
 
 class ObservationResource(resources.ModelResource):
@@ -40,20 +67,26 @@ class CardResource(resources.ModelResource):
 
 
 class AnswerResource(resources.ModelResource):
-    observation = fields.Field(column_name='Observation')
-    card_section = fields.Field(column_name='Card section')
-    card_section_contents = fields.Field(column_name='Contents')
-    grade = fields.Field(column_name='Grade')
-    checks_done = fields.Field(column_name='Checks done')
+    observation = fields.Field(column_name='Date')
     board = fields.Field(column_name='Board')
+    card_id = fields.Field(column_name='Card ID    ')
     card = fields.Field(column_name='Card')
+    card_section_id = fields.Field(column_name='Element ID  ')
+    card_section = fields.Field(column_name='Element Title ')
+    grade = fields.Field(column_name='Results')
 
     class Meta:
         model = Answer
         fields = ('')
 
-    def dehydrate_card_section_contents(self, answer):
-        return answer.card_section.contents
+    def get_queryset(self):
+        return self._meta.model.objects.order_by('observation__board')
+
+    def dehydrate_card_id(self, answer):
+        return answer.card_section.card.id
+
+    def dehydrate_card_section_id(self, answer):
+        return answer.card_section.id
 
     def dehydrate_board(self, answer):
         return answer.observation.board
@@ -68,18 +101,38 @@ class AnswerResource(resources.ModelResource):
         grade = {True: 'Pass', False: 'Fallout', None: 'N/A'}
         return grade[answer.grade]
 
-    def dehydrate_checks_done(self, answer):
-        return answer.checks_done
-
     def dehydrate_card(self, answer):
-        return answer.observation.card.title
+        return answer.card_section.card.title
 
 
-class SafetyMessageResource(resources.ModelResource):
+class CardNoteResource(resources.ModelResource):
+    date = fields.Field(column_name='Date')
+    board = fields.Field(column_name='Board')
+    card_id = fields.Field(column_name='Card ID    ')
+    card = fields.Field(column_name='Card')
+    notes = fields.Field(column_name='Notes')
 
     class Meta:
-        model = SafetyMessage
-        fields = ('created', 'modified', 'contents')
+        model = CardNote
+        fields = ('date','board', 'card_id', 'card', 'notes')
+
+    def get_queryset(self):
+        return self._meta.model.objects.order_by('board')
+
+    def dehydrate_card_id(self, cardnote):
+        return cardnote.card.id
+
+    def dehydrate_board(self, cardnote):
+        return cardnote.board
+
+    def dehydrate_card(self, cardnote):
+        return cardnote.card.title
+
+    def dehydrate_notes(self, cardnote):
+        return cardnote
+
+    def dehydrate_date(self, cardnote):
+        return cardnote.get_modified()
 
 
 class CardSectionInline(OrderedTabularInline):
@@ -126,7 +179,7 @@ class ObservationAdmin(admin.ModelAdmin):
     readonly_fields = ('created',)
     inlines = (AnswerInline, )
     list_display = ('id', 'card', 'board', 'created')
-    list_filter = ('card', 'board', 'created')
+    list_filter = ('card', 'board', DateFilter)
 
 
 @admin.register(Board)
@@ -154,9 +207,16 @@ class DeckAdmin(admin.ModelAdmin):
 
 
 @admin.register(CardNote)
-class CardNoteAdmin(admin.ModelAdmin):
+class CardNoteAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     list_display = ('to_string', 'card', 'board', 'created')
-    list_filter = ('card', 'board', 'created')
+    list_filter = ('board', 'card', DateFilter)
+    resource_class = CardNoteResource
+
+    def get_export_formats(self):
+        formats = (
+              base_formats.CSV,
+        )
+        return [f for f in formats if f().can_export()]
 
     def to_string(self, obj):
         return str(obj)
@@ -198,3 +258,9 @@ class TagAdmin(admin.ModelAdmin):
 class AnswerAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     list_display = ('__str__', 'card_section')
     resource_class = AnswerResource
+
+    def get_export_formats(self):
+        formats = (
+              base_formats.CSV,
+        )
+        return [f for f in formats if f().can_export()]

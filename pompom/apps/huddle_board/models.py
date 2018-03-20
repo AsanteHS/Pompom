@@ -161,6 +161,9 @@ class Observation(TimeStampedModel):
             return True
         return None
 
+    def __str__(self):
+        return str(self.modified.strftime('%d/%m/%Y %H:%M'))
+
 
 class Answer(models.Model):
     GRADES = ((True, 'Pass'), (False, 'Fallout'), (None, 'N/A'))
@@ -181,6 +184,9 @@ class CardNote(TimeStampedModel):
 
     def __str__(self):
         return truncate_string(self.contents)
+
+    def get_modified(self):
+        return str(self.modified.strftime('%d/%m/%Y %H:%M'))
 
 
 class SafetyMessage(TimeStampedModel):
