@@ -8,10 +8,13 @@
   width: device-width;
 }
 
+html, body {
+  margin: 0;
+  overflow: hidden
+}
 
 body, .container {
-background:#00121e;
-overflow: hidden;
+background:#001220;
 }
 
 .no-float{
@@ -32,7 +35,13 @@ overflow: hidden;
 }
 
 #header{
-    background: #0b3066
+    background: #0b3042
+}
+
+.shadow {
+  -moz-box-shadow:    2px 4px 3px 1px black;
+  -webkit-box-shadow: 2px 4px 3px 1px black;
+  box-shadow:         2px 4px 3px 1px black;
 }
 
 .second-col{
@@ -57,7 +66,6 @@ overflow: hidden;
 
 #message-container, #history-element, #qr-container{
   background:#435c85;
-  box-shadow: 0.3vw 0.6vh black;
   height: 100%;
 }
 
@@ -70,7 +78,6 @@ overflow: hidden;
 }
 
  .title-bar{
-   box-shadow: 0.3vw 0.6vh black;
    padding-top: 0;
  }
 
@@ -90,7 +97,6 @@ overflow: hidden;
 .container {
     position: absolute;
     margin: auto;
-    overflow: auto;
 }
 
 
@@ -166,13 +172,11 @@ Click the help icon above to learn more.
 /* CARDS */
 
 #card, #card-success, #card-fallout {
-    border: black 2px solid;
     padding: 0px;
     overflow: hidden;
-    width: 17vw;
-    height: calc(17vw*1.43);
+    width: 15vw;
+    height: calc(15vw*1.43);
     margin-top: 1vh;
-    box-shadow: 0.3vw 0.6vh black;
     margin-left: 2.5vw;
 
 }
@@ -183,7 +187,7 @@ text-align:center;
 color:white;
 margin-top: 0;
 margin-bottom: 0;
-background: #0b3066;
+background: #0b3042;
 }
 
 .card span {
@@ -256,17 +260,16 @@ background: #0b3066;
     margin-left: 2.5vw;
     padding: 0px;
     overflow: hidden;
-    width: 17vw;
-    height: calc(16vw*1.43);
+    width: 15vw;
+    height: calc(15vw*1.43);
     border: black 2px solid;
-    box-shadow: 0.5vw 0.5vh black;
 }
 
 .companion-image img {
     color: #435c85;
     padding: 0px;
-    max-width: 16vw;
-    max-height: calc(16vw*1.43);
+    width: 15vw;
+    height: calc(15vw*1.43);
     width: auto;
     margin: auto;
     display: block;
@@ -328,7 +331,7 @@ p, h1, h2, h3, h4, h5, h6{
 }
 
 #tips, #history-element h3{
-background: #0b3066;
+background: #0b3042;
 padding-top: 0.3vh;
 padding-bottom: 0.3vh;
 text-align:center;
