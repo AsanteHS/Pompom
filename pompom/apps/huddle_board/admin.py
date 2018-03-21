@@ -26,7 +26,6 @@ class DateFilter(SimpleListFilter):
             ('today', 'Today'),
             ('this_month', 'This month'),
             ('last_month', 'Last month'),
-            ('month_date', 'Month to date'),
             ('this_year', 'This year'),
             ('last_year', 'Last year')
             ]
@@ -59,29 +58,31 @@ class DateFilter(SimpleListFilter):
 
 
 class ObservationResource(resources.ModelResource):
+    date = fields.Field(column_name='Date')
+    board = fields.Field(column_name='Board')
+    card_id = fields.Field(column_name='Card ID ')
+    title = fields.Field(column_name='Card')
+    result = fields.Field(column_name='Result')
 
     class Meta:
         model = Observation
-        fields = ('created', 'board', 'card')
+        fields = ('board',)
 
+    def dehydrate_date(self, observation):
+        return observation.__str__()
 
-class CardResource(resources.ModelResource):
-    decks = fields.Field(column_name='Contained in decks')
-    sections = fields.Field(column_name='Sections')
-    title = fields.Field(column_name='Title')
+    def dehydrate_title(self, observation):
+        return observation.card
 
-    class Meta:
-        model = Card
-        fields = ('tags')
+    def dehydrate_card_id(self, observation):
+        return observation.card.id
 
-    def dehydrate_title(self, card):
-        return card.title
+    def dehydrate_result(self, observation):
+        grade = {True: 'Pass', False: 'Fallout', None: 'N/A'}
+        return grade[observation.grade()]
 
-    def dehydrate_sections(self, card):
-        return ', '.join(section.title or '(no title)' for section in card.sections.all())
-
-    def dehydrate_decks(self, card):
-        return ', '.join(deck.title for deck in card.decks.all())
+    def dehydrate_board(self, observation):
+        return observation.board
 
 
 class AnswerResource(resources.ModelResource):
@@ -95,7 +96,6 @@ class AnswerResource(resources.ModelResource):
 
     class Meta:
         model = Answer
-        fields = ('')
 
     def get_queryset(self):
         return self._meta.model.objects.order_by('observation__board')
@@ -172,7 +172,13 @@ class CardAdmin(admin.ModelAdmin):
     form = CardForm
     inlines = (CardSectionInline, )
     list_display = ['title', 'tag_list']
-    list_filter = [TaggitListFilter]
+    list_filter = [TaggitListFilter, DateFilter]
+
+    def get_export_formats(self):
+        formats = (
+            base_formats.CSV,
+        )
+        return [f for f in formats if f().can_export()]
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('tags')
@@ -192,12 +198,19 @@ class AnswerInline(admin.TabularInline):
 
 
 @admin.register(Observation)
-class ObservationAdmin(admin.ModelAdmin):
+class ObservationAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     fields = ('created', 'board', 'card')
     readonly_fields = ('created',)
     inlines = (AnswerInline, )
     list_display = ('id', 'card', 'board', 'created')
     list_filter = ('card', 'board', DateFilter)
+    resource_class = ObservationResource
+
+    def get_export_formats(self):
+        formats = (
+            base_formats.CSV,
+        )
+        return [f for f in formats if f().can_export()]
 
 
 @admin.register(Board)

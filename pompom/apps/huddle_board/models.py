@@ -162,7 +162,7 @@ class Observation(TimeStampedModel):
         return None
 
     def __str__(self):
-        return str(self.modified.strftime('%d/%m/%Y %H:%M'))
+        return str(self.created.strftime('%d/%m/%Y %H:%M'))
 
 
 class Answer(models.Model):
