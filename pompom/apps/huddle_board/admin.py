@@ -15,27 +15,41 @@ from pompom.apps.huddle_board.forms import CardForm, DeckForm
 from .models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage, SiteConfiguration
 from django.contrib.admin import SimpleListFilter
 
+
 class DateFilter(SimpleListFilter):
-    title = 'date' # or use _('country') for translated title
+    title = 'date'
     parameter_name = 'dates'
 
     def lookups(self, request, model_admin):
-        return [('today', 'Today'),
-                ('this_month', 'This month'),
-                ('last_month', 'Last month'),
-                ('month_date', 'Month to date'),
-                ('this_year', 'This year')
-                ]
+        return [
+            ('today', 'Today'),
+            ('this_month', 'This month'),
+            ('last_month', 'Last month'),
+            ('month_date', 'Month to date'),
+            ('this_year', 'This year')
+            ]
 
     def queryset(self, request, queryset):
         if self.value() == 'this_year':
-            return queryset.filter(modified__year=datetime.date.today().year)
+            try:
+                return queryset.filter(modified__year=datetime.date.today().year)
+            except Exception:
+                return queryset.filter(observation__modified__year=datetime.date.today().year)
         if self.value() == 'today':
-            return queryset.filter(modified__day=datetime.date.today().day)
+            try:
+                return queryset.filter(modified__day=datetime.date.today().day)
+            except Exception:
+                return queryset.filter(observation__modified__day=datetime.date.today().day)
         if self.value() == 'last_month':
-            return queryset.filter(modified__month=datetime.date.today().month-1)
+            try:
+                return queryset.filter(modified__month=datetime.date.today().month-1)
+            except Exception:
+                return queryset.filter(observation__modified__month=datetime.date.today().month-1)
         if self.value() == 'this_month':
-            return queryset.filter(modified__month=datetime.date.today().month)
+            try:
+                return queryset.filter(modified__month=datetime.date.today().month)
+            except Exception:
+                return queryset.filter(observation__modified__month=datetime.date.today().month)
         if self.value():
             return queryset
 
@@ -114,7 +128,7 @@ class CardNoteResource(resources.ModelResource):
 
     class Meta:
         model = CardNote
-        fields = ('date','board', 'card_id', 'card', 'notes')
+        fields = ('date', 'board', 'card_id', 'card', 'notes')
 
     def get_queryset(self):
         return self._meta.model.objects.order_by('board')
@@ -214,7 +228,7 @@ class CardNoteAdmin(ExportActionModelAdmin, admin.ModelAdmin):
 
     def get_export_formats(self):
         formats = (
-              base_formats.CSV,
+            base_formats.CSV,
         )
         return [f for f in formats if f().can_export()]
 
@@ -257,10 +271,11 @@ class TagAdmin(admin.ModelAdmin):
 @admin.register(Answer)
 class AnswerAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     list_display = ('__str__', 'card_section')
+    list_filter = (DateFilter,)
     resource_class = AnswerResource
 
     def get_export_formats(self):
         formats = (
-              base_formats.CSV,
+            base_formats.CSV,
         )
         return [f for f in formats if f().can_export()]
