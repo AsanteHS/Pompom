@@ -8,8 +8,9 @@ $(function () {
 
     $('#observation-form').submit(function(event) {
         event.preventDefault();
+        var el = $(this);
         $('.check-count-group').each(countCheckboxes);
-        $(this).unbind('submit').submit();
+        el.children('button').prop('disabled', true);
+        el.unbind('submit').submit();
     });
 });
-
