@@ -34,26 +34,26 @@ class DateFilter(SimpleListFilter):
     def queryset(self, request, queryset):
         if self.value() == 'this_year':
             try:
-                qs = queryset.filter(modified__year=datetime.date.today().year)
+                query = queryset.filter(modified__year=datetime.date.today().year)
             except Exception:
-                qs = queryset.filter(observation__modified__year=datetime.date.today().year)
+                query = queryset.filter(observation__modified__year=datetime.date.today().year)
         if self.value() == 'today':
             try:
-                qs = queryset.filter(modified__day=datetime.date.today().day)
+                query = queryset.filter(modified__day=datetime.date.today().day)
             except Exception:
-                qs = queryset.filter(observation__modified__day=datetime.date.today().day)
+                query = queryset.filter(observation__modified__day=datetime.date.today().day)
         if self.value() == 'last_month':
             try:
-                qs = queryset.filter(modified__month=datetime.date.today().month-1)
+                query = queryset.filter(modified__month=datetime.date.today().month-1)
             except Exception:
-                qs = queryset.filter(observation__modified__month=datetime.date.today().month-1)
+                query = queryset.filter(observation__modified__month=datetime.date.today().month-1)
         if self.value() == 'this_month':
             try:
-                qs = queryset.filter(modified__month=datetime.date.today().month)
+                query = queryset.filter(modified__month=datetime.date.today().month)
             except Exception:
-                qs = queryset.filter(observation__modified__month=datetime.date.today().month)
+                query = queryset.filter(observation__modified__month=datetime.date.today().month)
         try:
-            return qs
+            return query
         except Exception:
             return queryset
 
