@@ -1,6 +1,7 @@
 import datetime
 from django import forms
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
 from django.urls import reverse
 from ordered_model.admin import OrderedTabularInline
 from solo.admin import SingletonModelAdmin
@@ -12,8 +13,8 @@ from import_export.fields import Field
 from import_export.formats import base_formats
 
 from pompom.apps.huddle_board.forms import CardForm, DeckForm
-from .models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage, SiteConfiguration
-from django.contrib.admin import SimpleListFilter
+from .models import Card, CardSection, Observation, Answer, Board, Deck, \
+    CardNote, SafetyMessage, SiteConfiguration
 
 
 class DateFilter(SimpleListFilter):
@@ -26,31 +27,34 @@ class DateFilter(SimpleListFilter):
             ('this_month', 'This month'),
             ('last_month', 'Last month'),
             ('month_date', 'Month to date'),
-            ('this_year', 'This year')
+            ('this_year', 'This year'),
+            ('last_year', 'Last year')
             ]
 
     def queryset(self, request, queryset):
         if self.value() == 'this_year':
             try:
-                return queryset.filter(modified__year=datetime.date.today().year)
+                qs = queryset.filter(modified__year=datetime.date.today().year)
             except Exception:
-                return queryset.filter(observation__modified__year=datetime.date.today().year)
+                qs = queryset.filter(observation__modified__year=datetime.date.today().year)
         if self.value() == 'today':
             try:
-                return queryset.filter(modified__day=datetime.date.today().day)
+                qs = queryset.filter(modified__day=datetime.date.today().day)
             except Exception:
-                return queryset.filter(observation__modified__day=datetime.date.today().day)
+                qs = queryset.filter(observation__modified__day=datetime.date.today().day)
         if self.value() == 'last_month':
             try:
-                return queryset.filter(modified__month=datetime.date.today().month-1)
+                qs = queryset.filter(modified__month=datetime.date.today().month-1)
             except Exception:
-                return queryset.filter(observation__modified__month=datetime.date.today().month-1)
+                qs = queryset.filter(observation__modified__month=datetime.date.today().month-1)
         if self.value() == 'this_month':
             try:
-                return queryset.filter(modified__month=datetime.date.today().month)
+                qs = queryset.filter(modified__month=datetime.date.today().month)
             except Exception:
-                return queryset.filter(observation__modified__month=datetime.date.today().month)
-        if self.value():
+                qs = queryset.filter(observation__modified__month=datetime.date.today().month)
+        try:
+            return qs
+        except Exception:
             return queryset
 
 
@@ -270,7 +274,7 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Answer)
 class AnswerAdmin(ExportActionModelAdmin, admin.ModelAdmin):
-    list_display = ('__str__', 'card_section')
+    list_display = ('__str__', 'card_section', 'observation')
     list_filter = (DateFilter,)
     resource_class = AnswerResource
 
