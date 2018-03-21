@@ -10,7 +10,7 @@
 
 html, body {
   margin: 0;
-  overflow: hidden
+  overflow: hidden;
 }
 
 body, .container {
@@ -46,7 +46,6 @@ background:#001220;
 
 .second-col{
   padding-top: 1vh;
-  padding-bottom: 1vh;
   margin: 1vw;
   margin-bottom: 0.5vh;
   margin-top: 0vh;
@@ -60,21 +59,34 @@ background:#001220;
   height: 23vh;
 }
 
-#safety-message-container{
-  height: 20vh;
+.bottom{
+  bottom: 0;
+  margin-bottom: 20px;
+  right: 10%;
 }
 
-#message-container, #history-element, #qr-container{
+#message-container{
+  min-height: 20vh;
+  max-height: 25vh;
+  height: 25vh;
+}
+
+#message-container, #history-element{
   background:#435c85;
   height: 100%;
 }
 
 #qr-container{
   padding: 0.1vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 #history-element{
   height: 40vh;
+  min-height: 25vh;
+  max-height: 40vh;
 }
 
  .title-bar{
@@ -173,11 +185,14 @@ Click the help icon above to learn more.
 
 #card, #card-success, #card-fallout {
     padding: 0px;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
-    width: 15vw;
-    height: calc(15vw*1.43);
+    width: calc(43vh*0.7);
+    height: 43vh;
     margin-top: 1vh;
-    margin-left: 2.5vw;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw
 
 }
 
@@ -192,7 +207,6 @@ background: #0b3042;
 
 .card span {
   position: absolute;
-  left: 3.55vw;
 }
 
 #card span h3:before {
@@ -200,8 +214,7 @@ background: #0b3042;
     color: black;
 }
 .card span img{
-    height: 3.5vh;
-    width: 2vw;
+    height: calc(26px + 0.2vh);
 }
 
 #card-fallout span h3:before {
@@ -215,7 +228,10 @@ background: #0b3042;
   background:#435c85;
 }
 
-.img-col{
+.img-col, .card-col{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .card-col:first-child{
@@ -257,11 +273,10 @@ background: #0b3042;
 
 .companion-image {
     margin-top: 3.6vh;
-    margin-left: 2.5vw;
     padding: 0px;
     overflow: hidden;
-    width: 15vw;
-    height: calc(15vw*1.43);
+    width: calc(43vh*0.7);
+    height: 43vh;
     border: black 2px solid;
 }
 
@@ -371,18 +386,21 @@ color: white;
   padding: 0.7vw;
   padding-top: 1vh;
   padding-bottom: 1vh;
+  position: static;
+  right: 0;
 }
 #qr-code img, #qr-code{
-    height: 5vh;
-    width: 5vh;
+    height: 6vh;
+    width: 6vh;
     display: inline-block;
 }
 
 #qr-code{
 }
 
-#qr-element h4{
+#qr-container h4{
   display: inline-block;
+  float: left;
 }
 
 /* BAR COUNTER */
