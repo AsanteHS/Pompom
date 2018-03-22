@@ -193,7 +193,6 @@ Click the help icon above to learn more.
     margin-top: 1vh;
     margin-left: 1.5vw;
     margin-right: 1.5vw
-
 }
 
 #card h3, #card-success h3, #card-fallout h3 {
@@ -283,8 +282,8 @@ background: #0b3042;
 .companion-image img {
     color: #435c85;
     padding: 0px;
-    width: 15vw;
-    height: calc(15vw*1.43);
+    width: 43vh;
+    height: calc(43vh*0.7);
     width: auto;
     margin: auto;
     display: block;
