@@ -8,6 +8,10 @@
   width: device-width;
 }
 
+input, label{
+    color: #333;
+ }
+
 html, body {
   margin: 0;
   overflow: hidden;
@@ -191,8 +195,6 @@ Click the help icon above to learn more.
     width: calc(43vh*0.7);
     height: 43vh;
     margin-top: 1vh;
-    margin-left: 1.5vw;
-    margin-right: 1.5vw
 }
 
 #card h3, #card-success h3, #card-fallout h3 {
@@ -273,20 +275,17 @@ background: #0b3042;
 .companion-image {
     margin-top: 3.6vh;
     padding: 0px;
-    overflow: hidden;
-    width: calc(43vh*0.7);
     height: 43vh;
-    border: black 2px solid;
+    width: calc(43vh*0.7);
 }
 
 .companion-image img {
     color: #435c85;
     padding: 0px;
-    width: 43vh;
-    height: calc(43vh*0.7);
-    width: auto;
-    margin: auto;
+    max-height: 43vh;
+    max-width: calc(43vh*0.7);
     display: block;
+
 }
 
 /* Card Scrolling Accordion */
