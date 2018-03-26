@@ -185,8 +185,8 @@ class CardNote(TimeStampedModel):
     def __str__(self):
         return truncate_string(self.contents)
 
-    def get_modified(self):
-        return str(self.modified.strftime('%d/%m/%Y %H:%M'))
+    def get_created(self):
+        return str(self.created.strftime('%d/%m/%Y %H:%M'))
 
 
 class SafetyMessage(TimeStampedModel):

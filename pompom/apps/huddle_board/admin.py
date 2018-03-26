@@ -24,7 +24,7 @@ class DateFilter(SimpleListFilter):
     def lookups(self, request, model_admin):
         return [
             ('today', 'Today'),
-            ('this_month', 'This month'),
+            ('this_month', 'Month to date'),
             ('last_month', 'Last month'),
             ('this_year', 'This year'),
             ('last_year', 'Last year')
@@ -33,24 +33,24 @@ class DateFilter(SimpleListFilter):
     def queryset(self, request, queryset):
         if self.value() == 'this_year':
             try:
-                query = queryset.filter(modified__year=datetime.date.today().year)
+                query = queryset.filter(created__year=datetime.date.today().year)
             except Exception:
-                query = queryset.filter(observation__modified__year=datetime.date.today().year)
+                query = queryset.filter(observation__created__year=datetime.date.today().year)
         if self.value() == 'today':
             try:
-                query = queryset.filter(modified__day=datetime.date.today().day)
+                query = queryset.filter(created__day=datetime.date.today().day)
             except Exception:
-                query = queryset.filter(observation__modified__day=datetime.date.today().day)
+                query = queryset.filter(observation__created__day=datetime.date.today().day)
         if self.value() == 'last_month':
             try:
-                query = queryset.filter(modified__month=datetime.date.today().month-1)
+                query = queryset.filter(created__month=datetime.date.today().month-1)
             except Exception:
-                query = queryset.filter(observation__modified__month=datetime.date.today().month-1)
+                query = queryset.filter(observation__created__month=datetime.date.today().month-1)
         if self.value() == 'this_month':
             try:
-                query = queryset.filter(modified__month=datetime.date.today().month)
+                query = queryset.filter(created__month=datetime.date.today().month)
             except Exception:
-                query = queryset.filter(observation__modified__month=datetime.date.today().month)
+                query = queryset.filter(observation__created__month=datetime.date.today().month)
         try:
             return query
         except Exception:
@@ -92,10 +92,11 @@ class AnswerResource(resources.ModelResource):
     card = fields.Field(column_name='Card')
     card_section_id = fields.Field(column_name='Element ID  ')
     card_section = fields.Field(column_name='Element Title ')
-    grade = fields.Field(column_name='Results')
+    grade = fields.Field(column_name='Result')
 
     class Meta:
         model = Answer
+        fields = ()
 
     def get_queryset(self):
         return self._meta.model.objects.order_by('observation__board')
@@ -150,7 +151,7 @@ class CardNoteResource(resources.ModelResource):
         return cardnote
 
     def dehydrate_date(self, cardnote):
-        return cardnote.get_modified()
+        return cardnote.get_created()
 
 
 class CardSectionInline(OrderedTabularInline):
