@@ -45,11 +45,11 @@ class TestTokens:
         assert five_p_m == a_token_created_today_at_five_a_m.expiration
 
     def test_token_generated_at_nine_will_expire_at_nine_p_m(self, a_token_created_today_at_nine_a_m):
-        nine_p_m = timezone.now().replace(hour=19, minute=0, second=0, microsecond=0)
+        nine_p_m = timezone.now().replace(hour=21, minute=0, second=0, microsecond=0)
         assert nine_p_m == a_token_created_today_at_nine_a_m.expiration
 
     def test_token_generated_at_night_will_expire_early_tomorrow(self, a_token_created_today_at_ten_p_m):
-        ten_a_m_tommorrow = timezone.now().replace(hour=10, minute=0, second=0, microsecond=0) + timedelta(days=1)
+        ten_a_m_tomorrow = timezone.now().replace(hour=10, minute=0, second=0, microsecond=0) + timedelta(days=1)
         assert ten_a_m_tomorrow == a_token_created_today_at_ten_p_m.expiration
 
     def test_token_is_valid_after_generation(self, a_token):
