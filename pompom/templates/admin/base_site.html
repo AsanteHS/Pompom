@@ -1,9 +1,13 @@
 {% extends "admin/base_site.html" %}
 {% load static %}
+{% block title %}
+pompom
+{% endblock %}
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">pompom</a></h1>
 {% endblock %}
 {% block extrahead %}
+<link rel="icon" href="{% static 'images/favicon.ico' %}" size="32x32" />
 <script>window.CKEDITOR_BASEPATH = '{% static "ckeditor/ckeditor/" %}';</script>
 {{ block.super }}
 {% endblock %}
