@@ -17,7 +17,7 @@ def fix(self, *args, **options):
             app_label=opts.app_label,
             model=opts.object_name.lower())
         for codename, name in _get_all_permissions(opts):
-            p, created = Permission.objects.get_or_create(
+            perm, created = Permission.objects.get_or_create(
                 codename=codename,
                 content_type=ctype,
                 defaults={'name': name})
