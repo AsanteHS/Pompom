@@ -10,7 +10,7 @@ from django.apps import apps
 from django.utils.encoding import smart_text
 
 
-def fix(self, *args, **options): #pylint: disable=unused-argument
+def fix(self, *args, **options):  # pylint: disable=unused-argument
     for model in apps.get_models():
         opts = model._meta
         ctype, created = ContentType.objects.get_or_create(
