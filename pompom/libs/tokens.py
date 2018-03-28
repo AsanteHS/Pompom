@@ -19,11 +19,8 @@ class MobileToken:
 
     def next_expiration_date(self):
         now = timezone.now()
-        for hour in settings.MOBILE_TOKEN_EXPIRY_HOURS:
-            if now.hour < hour:
-                return now.replace(hour=hour, minute=0, second=0, microsecond=0)
-        expiration_date = now + timedelta(days=1)
-        return expiration_date.replace(hour=settings.MOBILE_TOKEN_EXPIRY_HOURS[0], minute=0, second=0, microsecond=0)
+        expiration_date = now + timedelta(hours=12)
+        return expiration_date.replace(second=0, microsecond=0)
 
     def datetime_to_ciphertext(self):
         expiry_timestamp = dateformat.format(self.expiration, 'U')
