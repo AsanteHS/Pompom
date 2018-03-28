@@ -145,6 +145,7 @@ DJANGO_BASE_APPS = (
 VENDOR_APPS = (
     'ckeditor',
     'compressor',
+    'import_export',    
     'ordered_model',
     'solo',
     'taggit',
@@ -154,7 +155,6 @@ VENDOR_APPS = (
 
 APPS = (
     'pompom.apps.huddle_board',
-    'import_export',
 )
 
 INSTALLED_APPS = DJANGO_BASE_APPS + VENDOR_APPS + APPS
