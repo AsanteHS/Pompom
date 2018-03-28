@@ -22,4 +22,4 @@ def fix(self, *args, **options):
                 content_type=ctype,
                 defaults={'name': name})
             if created:
-                sys.stdout.write('Adding permission {}\n'.format(p))
+                sys.stdout.write('Adding permission {}\n'.format(perm))
