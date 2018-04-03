@@ -65,13 +65,13 @@ background:#001220;
   right: 10%;
 }
 
-#message-container{
+#safety-message-element{
   min-height: 20vh;
   max-height: 20vh;
   overflow: hidden;
 }
 
-#message-container, #history-element{
+#safety-message-element, #history-element{
   background:#435c85;
   height: 100%;
 }
@@ -327,7 +327,7 @@ padding: 5px;
 
 /* TIPS OR MESSAGES OF THE DAY */
 
-#safety-message-element{
+#message-container{
   padding: 0.8vw;
   padding-top: 0.8vh;
   padding-bottom: 0.5vh;
@@ -400,7 +400,7 @@ color: white;
   float: left;
   background: #0b3042;
   padding: 0.8vh;
-  padding-right: 1vh;
+  margin-right: -12px;
   font-size: 18px;
 }
 
@@ -502,4 +502,10 @@ div.alert-div {
 
 .vw{
   width: 1vw;
+}
+
+.glyphicon-play{
+  font-size: calc(47px + 1.6vh);
+  color: #0b3042;
+
 }

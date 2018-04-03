@@ -1,6 +1,6 @@
 <span class="vw" > </span>
-<h4 class="white-text label label-default" >   Card <br>  Access</h4>
-<span class="vw" > </span>
+<h4 class="white-text" >   Card <br>  Access</h4>
+<span class="glyphicon glyphicon-play" > </span>
 <div id="qr-element">
   <a href="{% url "pompom:mobile_menu" board.id token %}">
     <div id="qr-code" data-qr-text="{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id token %}"></div>
