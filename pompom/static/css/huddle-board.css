@@ -69,13 +69,13 @@ background:#001220;
   right: 10%;
 }
 
-#message-container{
+#safety-message-element{
   min-height: 20vh;
   max-height: 25vh;
   height: 25vh;
 }
 
-#message-container, #history-element{
+#safety-message-element, #history-element{
   background:#435c85;
   height: 100%;
 }
@@ -328,7 +328,7 @@ padding: 5px;
 
 /* TIPS OR MESSAGES OF THE DAY */
 
-#safety-message-element{
+#message-container{
   padding: 0.8vw;
   padding-top: 0.8vh;
   padding-bottom: 0.5vh;

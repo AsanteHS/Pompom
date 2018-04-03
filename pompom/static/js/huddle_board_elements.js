@@ -23,7 +23,7 @@ function retrieveElement(viewURL, element, doAfterRetrieve) {
     var $offlineMessage = $('#board-offline');
     $.ajax({
         url : viewURL,
-        success : function(data) {
+        success : function(data, textStatus, xhr) {
             if(isExpectedElement(data, element)){
                 $offlineMessage.addClass('hidden');
                 doAfterRetrieve(data);
