@@ -23,12 +23,12 @@ function retrieveElement(viewURL, element, doAfterRetrieve) {
     var $offlineMessage = $('#board-offline');
     $.ajax({
         url : viewURL,
-        success : function(data, textStatus, xhr) {
+        success : function(data) {
             if(isExpectedElement(data, element)){
                 $offlineMessage.addClass('hidden');
                 doAfterRetrieve(data);
             } else {
-                $offlineMessage.removeClass('hidden');
+                window.location.replace("/");
             }
         },
         error: function() {
@@ -42,6 +42,7 @@ function isExpectedElement(data, element) {
     var expectedID = element + '-element';
     var retrievedID = $data.attr('id');
     $data.remove();
+    console.log(expectedID, retrievedID);
     return expectedID === retrievedID;
 }
 
