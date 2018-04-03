@@ -4,7 +4,7 @@
 {% block extra_title %}Huddle Board{% endblock extra_title %}
 
 {% block content %}
-<div class="alert-div alert alert-danger" role="alert" id="board-offline">
+<div class="alert-div alert alert-danger hidden" role="alert" id="board-offline">
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
   <span class="sr-only">Error:</span>
   Board is offline: Unable to connect to server
@@ -24,8 +24,8 @@
                 <div id="logo-container">
                   <img id="logo" src="{% static 'images/logo.png' %}">
                   <div id="logo-text">
-                    <h4 class="thicker">Keeping Patients Safe</h4>
-                    <h5 id="logo-text-small" >Acknowledge + Review + Learn</h5>
+                    <h4 class="white-text thicker">Keeping Patients Safe</h4>
+                    <h5 class="white-text" id="logo-text-small" >Acknowledge + Review + Learn</h5>
                   </div>
                 </div>
               </div>
