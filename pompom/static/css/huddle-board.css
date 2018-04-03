@@ -379,7 +379,7 @@ color: white;
 }
 
 /* QR CODE */
-#qr-element{
+#qr-element-container{
   padding: 0.7vw;
   padding-top: 1vh;
   padding-bottom: 1vh;
