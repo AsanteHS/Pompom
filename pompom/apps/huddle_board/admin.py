@@ -175,13 +175,6 @@ class CardAdmin(admin.ModelAdmin):
     list_display = ['title', 'tag_list']
     list_filter = [TaggitListFilter, DateFilter]
 
-    def get_export_formats(self):
-        formats = (
-            base_formats.CSV,
-            base_formats.XLS,
-        )
-        return [f for f in formats if f().can_export()]
-
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('tags')
 
@@ -211,7 +204,7 @@ class ObservationAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     def get_export_formats(self):
         formats = (
             base_formats.CSV,
-            base_formats.XLS,
+            base_formats.XLSX,
         )
         return [f for f in formats if f().can_export()]
 
@@ -249,7 +242,7 @@ class CardNoteAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     def get_export_formats(self):
         formats = (
             base_formats.CSV,
-            base_formats.XLS,
+            base_formats.XLSX,
         )
         return [f for f in formats if f().can_export()]
 
@@ -298,6 +291,6 @@ class AnswerAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     def get_export_formats(self):
         formats = (
             base_formats.CSV,
-            base_formats.XLS,
+            base_formats.XLSX,
         )
         return [f for f in formats if f().can_export()]
