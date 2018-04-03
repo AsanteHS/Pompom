@@ -16,7 +16,7 @@
         <div class="panel-body">
           <div id="content">
             {% for board in boards %}
-              <a class="btn btn-lg btn-primary btn-block" href="{% url "pompom:huddle_board" board.id %}" role="button">
+              <a class="btn btn-lg btn-primary btn-block white-text" href="{% url "pompom:huddle_board" board.id %}" role="button">
                 {{ board.title }}
               </a>
             {% empty %}

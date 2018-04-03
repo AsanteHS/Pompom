@@ -4,7 +4,7 @@
   <h3>Past 30 days</h3>
   <div id="bar-counter">
     {% for card, history, success_rate in result_history %}
-      <h6>{{ card.title }} ({{ success_rate|percentage }})</h6>
+      <h6 class="white-text" >{{ card.title }} {% if success_rate|percentage %} ({{ success_rate|percentage }}) {% else %} {% endif %}</h6>
       {% spaceless %}
         {% for grade in history %}
           <span class="history-item {% if grade == True %}pass{% elif grade == False %}fallout{% else %}n-a{% endif %}"></span>

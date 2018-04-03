@@ -8,10 +8,6 @@
   width: device-width;
 }
 
-input, label{
-    color: #333;
- }
-
 html, body {
   margin: 0;
   overflow: hidden;
@@ -39,7 +35,7 @@ background:#001220;
 }
 
 #header{
-    background: #0b3042
+    background: #0b3042;
 }
 
 .shadow {
@@ -60,7 +56,7 @@ background:#001220;
   }
 
 #header{
-  height: 23vh;
+  height: 22vh;
 }
 
 .bottom{
@@ -69,13 +65,13 @@ background:#001220;
   right: 10%;
 }
 
-#message-container{
+#safety-message-element{
   min-height: 20vh;
-  max-height: 25vh;
-  height: 25vh;
+  max-height: 20vh;
+  overflow: hidden;
 }
 
-#message-container, #history-element{
+#safety-message-element, #history-element{
   background:#435c85;
   height: 100%;
 }
@@ -84,13 +80,13 @@ background:#001220;
   padding: 0.1vh;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 #history-element{
-  height: 40vh;
-  min-height: 25vh;
+  min-height: 40vh;
   max-height: 40vh;
+  overflow: hidden;
 }
 
  .title-bar{
@@ -192,7 +188,7 @@ Click the help icon above to learn more.
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    width: calc(43vh*0.7);
+    width: 100%;
     height: 43vh;
     margin-top: 1vh;
 }
@@ -276,14 +272,17 @@ background: #0b3042;
     margin-top: 3.6vh;
     padding: 0px;
     height: 43vh;
-    width: calc(43vh*0.7);
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .companion-image img {
     color: #435c85;
     padding: 0px;
     max-height: 43vh;
-    max-width: calc(43vh*0.7);
+    max-width: 100%;
     display: block;
 
 }
@@ -328,7 +327,7 @@ padding: 5px;
 
 /* TIPS OR MESSAGES OF THE DAY */
 
-#safety-message-element{
+#message-container{
   padding: 0.8vw;
   padding-top: 0.8vh;
   padding-bottom: 0.5vh;
@@ -339,7 +338,7 @@ padding: 5px;
     height: 97vh;
 }
 
-p, h1, h2, h3, h4, h5, h6{
+.white-text, .white-text-container:last-child{
   color: #FFFFFF;
 }
 
@@ -388,8 +387,8 @@ color: white;
   right: 0;
 }
 #qr-code img, #qr-code{
-    height: 6vh;
-    width: 6vh;
+    height: 7vh;
+    width: 7vh;
     display: inline-block;
 }
 
@@ -399,6 +398,10 @@ color: white;
 #qr-container h4{
   display: inline-block;
   float: left;
+  background: #0b3042;
+  padding: 0.8vh;
+  margin-right: -12px;
+  font-size: 18px;
 }
 
 /* BAR COUNTER */
@@ -495,4 +498,14 @@ div.alert-div {
 
 .thicker {
     font-weight: 900;
+}
+
+.vw{
+  width: 1vw;
+}
+
+.glyphicon-play{
+  font-size: calc(47px + 1.6vh);
+  color: #0b3042;
+
 }

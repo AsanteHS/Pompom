@@ -9,10 +9,10 @@
         <span>
           <img {% if graded_card.grade %} src="{% static 'images/CardSuccess.png' %}{% elif graded_card.grade == False %}src="{% static 'images/CardFail.png' %}{% endif %} ">
         </span>
-        <h3 class="text-uppercase">
+        <h3 class="text-uppercase white-text">
           {{ graded_card.card.title }}</h3>
 
-        <div id="content">
+        <div id="content" class="white-text-container">
 
           {% load tz %}
           {% timezone "America/Los_Angeles" %}
