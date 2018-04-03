@@ -178,6 +178,7 @@ class CardAdmin(admin.ModelAdmin):
     def get_export_formats(self):
         formats = (
             base_formats.CSV,
+            base_formats.XLS,
         )
         return [f for f in formats if f().can_export()]
 
@@ -210,6 +211,7 @@ class ObservationAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     def get_export_formats(self):
         formats = (
             base_formats.CSV,
+            base_formats.XLS,
         )
         return [f for f in formats if f().can_export()]
 
@@ -247,6 +249,7 @@ class CardNoteAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     def get_export_formats(self):
         formats = (
             base_formats.CSV,
+            base_formats.XLS,
         )
         return [f for f in formats if f().can_export()]
 
@@ -295,5 +298,6 @@ class AnswerAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     def get_export_formats(self):
         formats = (
             base_formats.CSV,
+            base_formats.XLS,
         )
         return [f for f in formats if f().can_export()]
