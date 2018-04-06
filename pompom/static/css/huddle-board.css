@@ -10,7 +10,6 @@
 
 html, body {
   margin: 0;
-  overflow: hidden;
 }
 
 body, .container {
@@ -395,17 +394,14 @@ color: white;
     display: inline-block;
 }
 
-#qr-code{
+#qr-container{
+  margin-top: 0.4vh;
 }
 
-#qr-container h4{
-  display: inline-block;
-  float: left;
-  background: #0b3042;
-  padding: 0.8vh;
-  margin-right: -12px;
-  font-size: 18px;
+#card-access{
+  width: 8vw;
 }
+
 
 /* BAR COUNTER */
 
@@ -488,9 +484,11 @@ div.alert-div {
 
 #logo-text-small{
   position: relative;
-  top: -1vh;
 }
 
+#logo-text h4{
+  line-height: 1vh;
+}
 .normal {
     font-weight: normal;
 }
@@ -510,5 +508,7 @@ div.alert-div {
 .glyphicon-play{
   font-size: calc(47px + 1.6vh);
   color: #0b3042;
+  top:0;
+  padding: 0.8vh;
 
 }
