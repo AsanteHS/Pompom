@@ -1,6 +1,6 @@
 <span id=qr-element > </span>
-<h4 class="white-text" >   Card <br>  Access</h4>
-<span class="glyphicon glyphicon-play" > </span>
+{% load static %}
+<img id=card-access src="{% static 'images/card-access.png' %}"
 <div id="qr-element-container">
   <a href="{% url "pompom:mobile_menu" board.id token %}">
     <div id="qr-code" data-qr-text="{{ url_parts.protocol }}{{ url_parts.domain }}{% url "pompom:mobile_menu" board.id token %}"></div>
