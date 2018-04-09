@@ -504,11 +504,3 @@ div.alert-div {
 .vw{
   width: 1vw;
 }
-
-.glyphicon-play{
-  font-size: calc(47px + 1.6vh);
-  color: #0b3042;
-  top:0;
-  padding: 0.8vh;
-
-}
