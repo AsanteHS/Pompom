@@ -112,5 +112,11 @@ function getQRLinkFromHTML(data) {
 function displayQRCode() {
     var qrElement = document.getElementById("qr-code");
     var qrText = qrElement.getAttribute("data-qr-text");
-    new QRCode(qrElement, qrText);
+    new QRCode(qrElement, {
+    text: qrText,
+    width: 70,
+    height: 70,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+  });
 }

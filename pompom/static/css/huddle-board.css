@@ -82,6 +82,9 @@ background:#001220;
   justify-content: flex-start;
 }
 
+#qr-background{
+  background: lightblue;
+}
 #history-element{
   min-height: 40vh;
   max-height: 40vh;
@@ -387,11 +390,6 @@ color: white;
   padding-bottom: 1vh;
   position: static;
   right: 0;
-}
-#qr-code img, #qr-code{
-    height: 7vh;
-    width: 7vh;
-    display: inline-block;
 }
 
 #qr-container{
