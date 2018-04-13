@@ -111,8 +111,8 @@ class Board(TitleDescriptionModel):
         if not self.deck:
             return []
         latest_cards = []
-        qs = self.observations.filter(created__gte=from_date) if from_date else self.observations
-        for observation in qs.iterator():
+        query = self.observations.filter(created__gte=from_date) if from_date else self.observations
+        for observation in query.iterator():
             if observation.card not in latest_cards:
                 latest_cards.append(observation.card)
             if len(latest_cards) == amount:
