@@ -80,14 +80,14 @@ background:#001220;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  height: 90px;
 }
 
 #qr-background{
   background: lightblue;
 }
 #history-element{
-  min-height: 40vh;
-  max-height: 40vh;
+  height: calc(48vh - 90px);
   overflow: hidden;
 }
 
