@@ -117,7 +117,6 @@ class Board(TitleDescriptionModel):
                 latest_cards.append(observation.card)
             if len(latest_cards) == amount:
                 return latest_cards
-        latest_cards += [card for card in self.deck.cards.all() if card not in latest_cards]
         return latest_cards[:amount]
 
     def latest_observations(self):
