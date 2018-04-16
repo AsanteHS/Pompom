@@ -68,7 +68,7 @@ class TestBoard:
     def test_result_history_with_empty_deck_returns_empty_list(self, a_board_with_empty_deck):
         assert [] == a_board_with_empty_deck.result_history()
 
-    def test_result_history_with_cards_returns_tuple_for_each_new_card(self, a_board):
+    def test_result_history_with_cards_returns_tuple_for_new_cards(self, a_board):
         thirty_days_ago = timezone.now() - timedelta(days=30)
         results = a_board.result_history()
         result_cards = set([card for card, _, _ in results])
@@ -84,7 +84,7 @@ class TestBoard:
         assert a_card == card_zero
         assert observation_grades == card_zero_results
 
-    def test_history_ignores_observations_from_different_boards(self, a_different_board, a_card, some_observations):
+    def test_history_ignores_observations_from_different_boards(self, a_different_board, some_observations):
         results = a_different_board.result_history()
 
         for observation in some_observations:
@@ -92,7 +92,7 @@ class TestBoard:
         assert results == []
 
     @pytest.mark.usefixtures("an_old_observation")
-    def test_history_ignores_observations_older_than_thirty_days(self, a_board, a_card):
+    def test_history_ignores_observations_older_than_thirty_days(self, a_board):
         results = a_board.result_history()
 
         assert [] == results
