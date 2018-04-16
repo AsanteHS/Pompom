@@ -60,10 +60,13 @@ function CardsRetriever(viewURL, element, timer){
 }
 
 function preloadImages(arrayOfImages, callback) {
-    var i;
-    var arrayLength = arrayOfImages.length;
-    var loaded = 0;
-
+    var i, filteredArray = [];;
+    arrayOfImages.each(function(index, image){
+      if(image !== ""){
+        filteredArray.push(image);
+      }
+    });
+    var loaded = 0, arrayLength = filteredArray.length;
     var loadImage = function (img, src) {
         img.onload = function () {
             if (++loaded === arrayLength && callback) {
@@ -74,7 +77,7 @@ function preloadImages(arrayOfImages, callback) {
     };
 
     for (i = 0; i < arrayLength; i++){
-        loadImage(new Image(), arrayOfImages[i]);
+        loadImage(new Image(), filteredArray[i]);
     }
 }
 
