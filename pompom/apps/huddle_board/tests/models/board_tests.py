@@ -68,13 +68,12 @@ class TestBoard:
     def test_result_history_with_empty_deck_returns_empty_list(self, a_board_with_empty_deck):
         assert [] == a_board_with_empty_deck.result_history()
 
-    def test_result_history_with_cards_returns_tuple_for_new_cards(self, a_board):
-        thirty_days_ago = timezone.now() - timedelta(days=30)
+    def test_result_history_with_cards_returns_tuple_for_new_cards(self, a_board, some_observations):
         results = a_board.result_history()
         result_cards = set([card for card, _, _ in results])
-        observations = Observation.objects.filter(created__gte=thirty_days_ago)
-        cards_in_deck = set(observation.cards.filter(board=a_board) for observation in observations)
-        assert cards_in_deck == result_cards
+        observation_cards = set([observation.card for observation in some_observations])
+
+        assert observation_cards == result_cards
 
     def test_result_history_shows_graded_observations_for_a_card(self, a_board, a_card, some_observations):
         results = a_board.result_history()
@@ -84,17 +83,21 @@ class TestBoard:
         assert a_card == card_zero
         assert observation_grades == card_zero_results
 
-    def test_history_ignores_observations_from_different_boards(self, a_different_board, some_observations):
-        results = a_different_board.result_history()
+    def test_history_ignores_observations_from_different_boards(self, a_board, a_different_board, some_observations):
+        results_a_different_board = a_different_board.result_history()
+        results_a_board = a_board.result_history()
+        results_a_board_cards = set([card for card, _, _ in results_a_board])
 
         for observation in some_observations:
             assert a_different_board != observation.board
-        assert results == []
+            assert observation.card in results_a_board_cards
+        assert results_a_different_board == []
 
     @pytest.mark.usefixtures("an_old_observation")
     def test_history_ignores_observations_older_than_thirty_days(self, a_board):
         results = a_board.result_history()
 
+        assert a_board.observations != []
         assert [] == results
 
     def test_result_history_shows_success_ratio_for_a_card(self, a_board, a_card, some_observations):
