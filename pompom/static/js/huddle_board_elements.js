@@ -117,8 +117,8 @@ function displayQRCode() {
     var qrText = qrElement.getAttribute("data-qr-text");
     new QRCode(qrElement, {
     text: qrText,
-    width: 70,
-    height: 70,
+    width: 85,
+    height: 85,
     colorDark : "#000000",
     colorLight : "#ffffff",
   });
