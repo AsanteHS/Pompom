@@ -1,13 +1,157 @@
+import datetime
 from django import forms
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
 from django.urls import reverse
 from ordered_model.admin import OrderedTabularInline
 from solo.admin import SingletonModelAdmin
 from taggit.models import Tag
 from taggit_helpers.admin import TaggitListFilter
+from import_export import resources, fields
+from import_export.admin import ExportActionModelAdmin
+from import_export.fields import Field
+from import_export.formats import base_formats
 
 from pompom.apps.huddle_board.forms import CardForm, DeckForm
-from .models import Card, CardSection, Observation, Answer, Board, Deck, CardNote, SafetyMessage, SiteConfiguration
+from .models import Card, CardSection, Observation, Answer, Board, Deck, \
+    CardNote, SafetyMessage, SiteConfiguration
+
+
+class DateFilter(SimpleListFilter):
+    title = 'date'
+    parameter_name = 'dates'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('today', 'Today'),
+            ('this_month', 'Month to date'),
+            ('last_month', 'Last month'),
+            ('this_year', 'This year'),
+            ('last_year', 'Last year')
+            ]
+
+    def queryset(self, request, queryset):
+        if self.value() == 'this_year':
+            try:
+                query = queryset.filter(created__year=datetime.date.today().year)
+            except Exception:
+                query = queryset.filter(observation__created__year=datetime.date.today().year)
+        if self.value() == 'today':
+            try:
+                query = queryset.filter(created__day=datetime.date.today().day)
+            except Exception:
+                query = queryset.filter(observation__created__day=datetime.date.today().day)
+        if self.value() == 'last_month':
+            try:
+                query = queryset.filter(created__month=datetime.date.today().month-1)
+            except Exception:
+                query = queryset.filter(observation__created__month=datetime.date.today().month-1)
+        if self.value() == 'this_month':
+            try:
+                query = queryset.filter(created__month=datetime.date.today().month)
+            except Exception:
+                query = queryset.filter(observation__created__month=datetime.date.today().month)
+        try:
+            return query
+        except Exception:
+            return queryset
+
+
+class ObservationResource(resources.ModelResource):
+    date = fields.Field(column_name='Date')
+    board = fields.Field(column_name='Board')
+    card_id = fields.Field(column_name='Card ID ')
+    title = fields.Field(column_name='Card')
+    result = fields.Field(column_name='Result')
+
+    class Meta:
+        model = Observation
+        fields = ('board',)
+
+    def dehydrate_date(self, observation):
+        return observation.__str__()
+
+    def dehydrate_title(self, observation):
+        return observation.card
+
+    def dehydrate_card_id(self, observation):
+        return observation.card.id
+
+    def dehydrate_result(self, observation):
+        grade = {True: 'Pass', False: 'Fallout', None: 'N/A'}
+        return grade[observation.grade()]
+
+    def dehydrate_board(self, observation):
+        return observation.board
+
+
+class AnswerResource(resources.ModelResource):
+    observation = fields.Field(column_name='Date')
+    board = fields.Field(column_name='Board')
+    card_id = fields.Field(column_name='Card ID    ')
+    card = fields.Field(column_name='Card')
+    card_section_id = fields.Field(column_name='Element ID  ')
+    card_section = fields.Field(column_name='Element Title ')
+    grade = fields.Field(column_name='Result')
+
+    class Meta:
+        model = Answer
+        fields = ()
+
+    def get_queryset(self):
+        return self._meta.model.objects.order_by('observation__board')
+
+    def dehydrate_card_id(self, answer):
+        return answer.card_section.card.id
+
+    def dehydrate_card_section_id(self, answer):
+        return answer.card_section.id
+
+    def dehydrate_board(self, answer):
+        return answer.observation.board
+
+    def dehydrate_observation(self, answer):
+        return answer.observation
+
+    def dehydrate_card_section(self, answer):
+        return answer.card_section
+
+    def dehydrate_grade(self, answer):
+        grade = {True: 'Pass', False: 'Fallout', None: 'N/A'}
+        return grade[answer.grade]
+
+    def dehydrate_card(self, answer):
+        return answer.card_section.card.title
+
+
+class CardNoteResource(resources.ModelResource):
+    date = fields.Field(column_name='Date')
+    board = fields.Field(column_name='Board')
+    card_id = fields.Field(column_name='Card ID    ')
+    card = fields.Field(column_name='Card')
+    notes = fields.Field(column_name='Notes')
+
+    class Meta:
+        model = CardNote
+        fields = ('date', 'board', 'card_id', 'card', 'notes')
+
+    def get_queryset(self):
+        return self._meta.model.objects.order_by('board')
+
+    def dehydrate_card_id(self, cardnote):
+        return cardnote.card.id
+
+    def dehydrate_board(self, cardnote):
+        return cardnote.board
+
+    def dehydrate_card(self, cardnote):
+        return cardnote.card.title
+
+    def dehydrate_notes(self, cardnote):
+        return cardnote
+
+    def dehydrate_date(self, cardnote):
+        return cardnote.get_created()
 
 
 class CardSectionInline(OrderedTabularInline):
@@ -29,7 +173,7 @@ class CardAdmin(admin.ModelAdmin):
     form = CardForm
     inlines = (CardSectionInline, )
     list_display = ['title', 'tag_list']
-    list_filter = [TaggitListFilter]
+    list_filter = [TaggitListFilter, DateFilter]
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('tags')
@@ -49,12 +193,20 @@ class AnswerInline(admin.TabularInline):
 
 
 @admin.register(Observation)
-class ObservationAdmin(admin.ModelAdmin):
+class ObservationAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     fields = ('created', 'board', 'card')
     readonly_fields = ('created',)
     inlines = (AnswerInline, )
     list_display = ('id', 'card', 'board', 'created')
-    list_filter = ('card', 'board', 'created')
+    list_filter = ('card', 'board', DateFilter)
+    resource_class = ObservationResource
+
+    def get_export_formats(self):
+        formats = (
+            base_formats.CSV,
+            base_formats.XLSX,
+        )
+        return [f for f in formats if f().can_export()]
 
 
 @admin.register(Board)
@@ -82,9 +234,17 @@ class DeckAdmin(admin.ModelAdmin):
 
 
 @admin.register(CardNote)
-class CardNoteAdmin(admin.ModelAdmin):
+class CardNoteAdmin(ExportActionModelAdmin, admin.ModelAdmin):
     list_display = ('to_string', 'card', 'board', 'created')
-    list_filter = ('card', 'board', 'created')
+    list_filter = ('board', 'card', DateFilter)
+    resource_class = CardNoteResource
+
+    def get_export_formats(self):
+        formats = (
+            base_formats.CSV,
+            base_formats.XLSX,
+        )
+        return [f for f in formats if f().can_export()]
 
     def to_string(self, obj):
         return str(obj)
@@ -120,3 +280,17 @@ class TagAdmin(admin.ModelAdmin):
     ordering = ["name", "slug"]
     search_fields = ["name"]
     prepopulated_fields = {"slug": ["name"]}
+
+
+@admin.register(Answer)
+class AnswerAdmin(ExportActionModelAdmin, admin.ModelAdmin):
+    list_display = ('__str__', 'card_section', 'observation')
+    list_filter = (DateFilter,)
+    resource_class = AnswerResource
+
+    def get_export_formats(self):
+        formats = (
+            base_formats.CSV,
+            base_formats.XLSX,
+        )
+        return [f for f in formats if f().can_export()]

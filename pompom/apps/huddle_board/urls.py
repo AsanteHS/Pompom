@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.views.defaults import server_error
 
 from .views import HuddleBoardView, PerformObservationView, HomeView, MobileMenuView, AddCardNoteView, ChooseCardView, \
     EnterPasswordView, HuddleBoardCardsView, HuddleBoardHistoryView, HuddleBoardSafetyView, HuddleBoardQRView
@@ -18,4 +19,5 @@ urlpatterns = [  # pylint: disable=invalid-name
     url(r'^card_note/(?P<pk>\d+)/(?P<token>[^/]+)/$', AddCardNoteView.as_view(), name="add_card_note"),
 
     url(r'^enter_password/$', EnterPasswordView.as_view(), name="enter_password"),
+    url(r'^500/$', server_error, name="500"),
 ]

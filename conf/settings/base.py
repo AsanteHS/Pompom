@@ -26,7 +26,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = 'America/Los_Angeles'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -81,7 +81,6 @@ STATICFILES_FINDERS = (
 SECRET_KEY = '9!n$10$pksr3j5dv*4bc21ke$%0$zs18+vse=al8dpfzi_9w4y'
 
 MOBILE_TOKEN_KEY = '00000000000000000000000000000000'
-MOBILE_TOKEN_EXPIRY_HOURS = [7, 19]
 
 MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -146,6 +145,7 @@ DJANGO_BASE_APPS = (
 VENDOR_APPS = (
     'ckeditor',
     'compressor',
+    'import_export',    
     'ordered_model',
     'solo',
     'taggit',
@@ -206,7 +206,12 @@ DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@mg.pompomapp.net
 
 CKEDITOR_CONFIGS = {
     'default': {
-        'toolbar': 'full',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo', '-', 'Replace', '-', 'SelectAll', '-', 'Scayt', '-', 'Link', 'Unlink'],
+            ['Bold', 'Italic', 'Underline', 'Strike', '-', 'CopyFormatting', 'RemoveFormat', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl'],
+            ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar'],
+        ],
         "disallowedContent": '*[on*]',
         'height': 200,
         'width': 600,

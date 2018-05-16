@@ -28,7 +28,7 @@ function retrieveElement(viewURL, element, doAfterRetrieve) {
                 $offlineMessage.addClass('hidden');
                 doAfterRetrieve(data);
             } else {
-                $offlineMessage.removeClass('hidden');
+                window.location.replace("/");
             }
         },
         error: function() {
@@ -60,10 +60,13 @@ function CardsRetriever(viewURL, element, timer){
 }
 
 function preloadImages(arrayOfImages, callback) {
-    var i;
-    var arrayLength = arrayOfImages.length;
-    var loaded = 0;
-
+    var i, filteredArray = [];;
+    arrayOfImages.each(function(index, image){
+      if(image !== ""){
+        filteredArray.push(image);
+      }
+    });
+    var loaded = 0, arrayLength = filteredArray.length;
     var loadImage = function (img, src) {
         img.onload = function () {
             if (++loaded === arrayLength && callback) {
@@ -74,7 +77,7 @@ function preloadImages(arrayOfImages, callback) {
     };
 
     for (i = 0; i < arrayLength; i++){
-        loadImage(new Image(), arrayOfImages[i]);
+        loadImage(new Image(), filteredArray[i]);
     }
 }
 
@@ -112,5 +115,11 @@ function getQRLinkFromHTML(data) {
 function displayQRCode() {
     var qrElement = document.getElementById("qr-code");
     var qrText = qrElement.getAttribute("data-qr-text");
-    new QRCode(qrElement, qrText);
+    new QRCode(qrElement, {
+    text: qrText,
+    width: 85,
+    height: 85,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+  });
 }

@@ -4,12 +4,15 @@
 
   {% for graded_card in graded_cards %}
 
-    <div class="col-sm-4 col-lg-4 col-md-4">
-      <div id="card{% if graded_card.grade %}-success{% elif graded_card.grade == False %}-fallout{% endif %}">
+    <div class="card-col col-sm-4 col-lg-4 col-md-4">
+      <div class="card shadow" id="card{% if graded_card.grade %}-success{% elif graded_card.grade == False %}-fallout{% endif %}">
+        <span>
+          <img {% if graded_card.grade %} src="{% static 'images/CardSuccess.png' %}{% elif graded_card.grade == False %}src="{% static 'images/CardFail.png' %}{% endif %} ">
+        </span>
+        <h3 class="text-uppercase white-text">
+          {{ graded_card.card.title }}</h3>
 
-        <h1 class="text-uppercase">{{ graded_card.card.title }}</h1>
-
-        <div id="content">
+        <div id="content" class="white-text-container">
 
           {% load tz %}
           {% timezone "America/Los_Angeles" %}
@@ -47,8 +50,8 @@
 
 <div class="row">
   {% for graded_card in graded_cards %}
-    <div class="col-sm-4 col-lg-4 col-md-4">
-      <div class="companion-image">
+    <div class="img-col col-sm-4 col-lg-4 col-md-4">
+      <div class=" shadow companion-image">
         {% if graded_card.card.companion_image %}
           <img class="img-responsive" src="{{ graded_card.card.companion_image.url }}">
         {% else %}

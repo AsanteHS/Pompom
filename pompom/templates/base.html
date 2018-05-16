@@ -13,6 +13,7 @@
   {% block meta %}{% endblock meta %}
 
   <title>{% block extra_title %}{% endblock extra_title %} - Pompom</title>
+  <link rel="icon" href="{% static 'images/favicon.ico' %}" size="32x32" />
 
   {% compress css %}
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
@@ -33,14 +34,16 @@
 
 <body>
 
+
 <div class="container">
   <!-- Brand and toggle get grouped for better mobile display -->
 
   {% block content %}{% endblock %}
-
+<!--
   <div class="container">
     <footer></footer>
   </div>
+-->
 
 </div>
 

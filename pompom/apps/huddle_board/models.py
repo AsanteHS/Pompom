@@ -102,7 +102,7 @@ class Board(TitleDescriptionModel):
         if not self.deck.cards.exists():
             raise self.DeckException("Cannot draw a card; assigned deck has no cards.")
 
-    def latest_distinct_cards(self, amount):
+    def latest_distinct_cards(self, amount, from_date=False):
         """
         Return _amount_ cards from this board's deck, in descending order by datetime of last observation
         (counting observations for this board only). If there aren't enough observed cards,
@@ -111,12 +111,12 @@ class Board(TitleDescriptionModel):
         if not self.deck:
             return []
         latest_cards = []
-        for observation in self.observations.iterator():  # avoid fetching all observations at once
+        query = self.observations.filter(created__gte=from_date) if from_date else self.observations
+        for observation in query.iterator():
             if observation.card not in latest_cards:
                 latest_cards.append(observation.card)
             if len(latest_cards) == amount:
                 return latest_cards
-        latest_cards += [card for card in self.deck.cards.all() if card not in latest_cards]
         return latest_cards[:amount]
 
     def latest_observations(self):
@@ -127,20 +127,20 @@ class Board(TitleDescriptionModel):
         return [GradedCard(observation) for observation in observations]
 
     def result_history(self):
-        shown_cards = self.latest_distinct_cards(amount=MAX_GRAPHS_DISPLAYED)
-        return self.history_graph(shown_cards)
+        thirty_days_ago = timezone.now() - timedelta(days=30)
+        shown_cards = self.latest_distinct_cards(amount=MAX_GRAPHS_DISPLAYED, from_date=thirty_days_ago)
+        return self.history_graph(shown_cards, thirty_days_ago)
 
-    def history_graph(self, cards):
+    def history_graph(self, cards, from_date):
         graph = []
         for card in cards:
-            grades = self.historic_grades(card)
+            grades = self.historic_grades(card, from_date)
             graph_row = (card, grades, self.success_rate(grades))
             graph.append(graph_row)
         return graph
 
-    def historic_grades(self, card):
-        thirty_days_ago = timezone.now() - timedelta(days=30)
-        card_observations = self.observations.filter(card=card, created__gte=thirty_days_ago).order_by('created')
+    def historic_grades(self, card, from_date):
+        card_observations = self.observations.filter(card=card, created__gte=from_date).order_by('created')
         return [observation.grade() for observation in card_observations]
 
     def success_rate(self, grades):
@@ -160,6 +160,9 @@ class Observation(TimeStampedModel):
         if True in answer_grades:
             return True
         return None
+
+    def __str__(self):
+        return str(self.created.strftime('%d/%m/%Y %H:%M'))
 
 
 class Answer(models.Model):
@@ -181,6 +184,9 @@ class CardNote(TimeStampedModel):
 
     def __str__(self):
         return truncate_string(self.contents)
+
+    def get_created(self):
+        return str(self.created.strftime('%d/%m/%Y %H:%M'))
 
 
 class SafetyMessage(TimeStampedModel):

@@ -57,7 +57,7 @@ class CardNoteForm(forms.ModelForm):
 
 class BoardPasswordForm(forms.Form):
 
-    def __init__(self, request=None, *args, **kwargs):
+    def __init__(self, *args, request=None, **kwargs):
         self.request = request
         self.user_cache = None
         super().__init__(*args, **kwargs)
