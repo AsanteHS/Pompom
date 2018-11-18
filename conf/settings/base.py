@@ -226,4 +226,5 @@ COMPRESS_CSS_FILTERS = [
     'compressor.filters.cssmin.rCSSMinFilter',
 ]
 
+SESSION_SAVE_EVERY_REQUEST = True
 HUDDLE_BOARD_REFRESH_TIMER = 15
