@@ -210,4 +210,3 @@ class SiteConfiguration(SingletonModel):
     def get_board_passwords(cls):
         config = cls.get_solo()
         return {password.strip() for password in config.board_passwords.split(',') if password.strip()}
-

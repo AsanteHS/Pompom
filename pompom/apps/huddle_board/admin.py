@@ -2,6 +2,7 @@ import datetime
 from django import forms
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
+from django.contrib.sessions.models import Session
 from django.urls import reverse
 from ordered_model.admin import OrderedTabularInline
 from solo.admin import SingletonModelAdmin
@@ -16,7 +17,6 @@ from pompom.apps.huddle_board.forms import CardForm, DeckForm
 from .models import Card, CardSection, Observation, Answer, Board, Deck, \
     CardNote, SafetyMessage, SiteConfiguration
 
-from django.contrib.sessions.models import Session
 
 @admin.register(Session)
 class SessionAdmin(admin.ModelAdmin):
