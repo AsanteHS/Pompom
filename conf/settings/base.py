@@ -210,7 +210,7 @@ CKEDITOR_CONFIGS = {
         'toolbar_Custom': [
             ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo', '-', 'Replace', '-', 'SelectAll', '-', 'Scayt', '-', 'Link', 'Unlink'],
             ['Bold', 'Italic', 'Underline', 'Strike', '-', 'CopyFormatting', 'RemoveFormat', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl'],
-            ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar'],
+            ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', '-', 'Font', 'FontSize'],
         ],
         "disallowedContent": '*[on*]',
         'height': 200,
