@@ -414,22 +414,18 @@ color: white;
     margin-right: 0.3vh;
     display: inline-block;
 }
-
 #bar-counter .history-item.pass {
     background-color: #41a317;
 }
-
 #bar-counter .history-item.fallout {
     background-color: #990012;
 }
 #bar-counter .history-item.n-a {
     background-color: #777777;
 }
-
 #bar-counter h4 {
     font-size: 2.25vh;
 }
-
 #bar-counter h6 {
     padding:0;
     font-size:1.4vh;
@@ -438,17 +434,14 @@ color: white;
     margin-left: -0.3vw;
     line-height:0.5;
 }
-
 /* equal width for grade buttons */
 .grade-buttons > label {
     width:5em;
 }
-
 .section-check {
     display: inline;
     padding-left: 5px;
 }
-
 /* card notes */
 .write-card-note {
     width: 100%;
