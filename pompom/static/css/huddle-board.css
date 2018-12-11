@@ -409,8 +409,8 @@ color: white;
 }
 #bar-counter .history-item {
     font-size: 1.2vh;
-    padding: 0.5vh;
-    padding-top: 0.5vh;
+    padding: 0.45vh;
+    padding-top: 0.3vh;
     margin-right: 0.3vh;
     display: inline-block;
 }
@@ -428,9 +428,9 @@ color: white;
 }
 #bar-counter h6 {
     padding:0;
-    font-size:1.4vh;
+    font-size:1.35vh;
     font-weight: lighter;
-    margin: 0.7vh 0;
+    margin: 0.5vh 0;
     margin-left: -0.3vw;
     line-height:0.5;
 }
